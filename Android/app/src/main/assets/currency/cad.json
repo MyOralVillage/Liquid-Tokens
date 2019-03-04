@@ -1,0 +1,21 @@
+{
+  "code": "CAD",
+  "denominations": [
+    {
+      "value": 5000,
+      "type": "bill"
+    },
+    {
+      "value": 2000,
+      "type": "bill"
+    },
+    {
+      "value": 1000,
+      "type": "bill"
+    },
+    {
+      "value": 200,
+      "type": "coin"
+    }
+  ]
+}
