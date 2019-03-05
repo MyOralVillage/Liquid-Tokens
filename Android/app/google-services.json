@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "185321566414",
+    "firebase_url": "https://my-oral-village-app.firebaseio.com",
+    "project_id": "my-oral-village-app",
+    "storage_bucket": "my-oral-village-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185321566414:android:7e595e725c7cf252",
+        "android_client_info": {
+          "package_name": "org.myoralvillage.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185321566414-9eifrf7h5d5kinebrapmqpg4ecionrr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6NOtgOE0pECqGF_x6coz7kZU-XEWbVCU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
