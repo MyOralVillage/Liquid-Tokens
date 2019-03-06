@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "org.myoralvillage.android"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -33,4 +33,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    // UI
+    implementation 'com.github.badoualy:stepper-indicator:1.0.7'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.firebaseui:firebase-ui-database:4.3.1'
+    implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
