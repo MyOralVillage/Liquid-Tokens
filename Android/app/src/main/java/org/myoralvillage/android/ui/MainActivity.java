@@ -14,11 +14,11 @@ import org.myoralvillage.android.ui.history.HistoryFragment;
 import org.myoralvillage.android.ui.request.RequestFragment;
 import org.myoralvillage.android.ui.scan.ScanFragment;
 import org.myoralvillage.android.ui.send.SendFragment;
+import org.myoralvillage.android.ui.transaction.TransactionsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final Fragment mFragmentSend = SendFragment.newInstance();
-    private final Fragment mFragmentRequest = RequestFragment.newInstance();
+    private final Fragment mFragmentTransactions = TransactionsFragment.newInstance();
     private final Fragment mFragmentScan = ScanFragment.newInstance();
     private final Fragment mFragmentHistory = HistoryFragment.newInstance();
 
@@ -28,11 +28,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_send:
-                    switchFragment(mFragmentSend);
-                    return true;
-                case R.id.navigation_request:
-                    switchFragment(mFragmentRequest);
+                case R.id.navigation_transactions:
+                    switchFragment(mFragmentTransactions);
                     return true;
                 case R.id.navigation_scan:
                     switchFragment(mFragmentScan);
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_send);
+        navigation.setSelectedItemId(R.id.navigation_transactions);
     }
 
     private void switchFragment(Fragment fragment) {

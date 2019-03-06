@@ -1,4 +1,4 @@
-package org.myoralvillage.android.ui.amountselection;
+package org.myoralvillage.android.ui.transaction.amountselection;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,7 +11,7 @@ import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AmountSelectionViewModel extends ViewModel {
+public class TransactionAmountSelectionViewModel extends ViewModel {
 
     private MutableLiveData<List<MOVCurrencyDenomination>> selectedCurrency = new MutableLiveData<>();
     ;
@@ -20,7 +20,7 @@ public class AmountSelectionViewModel extends ViewModel {
 
     private MutableLiveData<Integer> selectedCurrencyValue = new MutableLiveData<>();
 
-    public AmountSelectionViewModel() {
+    public TransactionAmountSelectionViewModel() {
         selectedCurrency.observeForever(new Observer<List<MOVCurrencyDenomination>>() {
             @Override
             public void onChanged(@Nullable List<MOVCurrencyDenomination> movCurrencyDenominations) {

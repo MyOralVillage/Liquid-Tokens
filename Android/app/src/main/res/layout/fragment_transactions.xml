@@ -8,7 +8,7 @@
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.request.RequestFragment">
+    tools:context=".ui.transaction.TransactionsFragment">
 
     <TextView
         android:id="@+id/transaction_header"
@@ -36,6 +36,7 @@
             android:id="@+id/transaction_vertical_layout">
 
             <FrameLayout
+                android:id="@+id/transactions_send_money"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
@@ -64,6 +65,7 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/transactions_request_money"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
