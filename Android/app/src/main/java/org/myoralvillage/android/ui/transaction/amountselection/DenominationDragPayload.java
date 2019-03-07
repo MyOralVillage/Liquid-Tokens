@@ -1,12 +1,12 @@
-package org.myoralvillage.android.ui.amountselection;
+package org.myoralvillage.android.ui.transaction.amountselection;
 
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 
-public class BillDragPayload {
+public class DenominationDragPayload {
     private MOVCurrencyDenomination denomination;
     private boolean selectedAmount;
 
-    public BillDragPayload(MOVCurrencyDenomination denomination, boolean selectedAmount) {
+    public DenominationDragPayload(MOVCurrencyDenomination denomination, boolean selectedAmount) {
         this.denomination = denomination;
         this.selectedAmount = selectedAmount;
     }

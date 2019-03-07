@@ -1,10 +1,11 @@
-package org.myoralvillage.android.ui.amountselection;
+package org.myoralvillage.android.ui.transaction.amountselection;
 
 import android.content.ClipData;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,12 +23,17 @@ import org.json.JSONException;
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
+import org.myoralvillage.android.ui.transaction.OnTransactionPageInteractionListener;
+import org.myoralvillage.android.ui.transaction.TransactionPage;
+import org.myoralvillage.android.ui.transaction.TransactionViewModel;
 
 import java.io.IOException;
 import java.util.List;
 
 
-public class AmountSelectionFragment extends Fragment {
+public class TransactionAmountSelectionFragment extends Fragment implements TransactionPage {
+
+    private static final String ARG_CURRENCY_CODE = "currency_code";
 
     private static final String PARAM_CURRENCY_CODE = "currency_code";
 
@@ -35,8 +41,20 @@ public class AmountSelectionFragment extends Fragment {
 
     private String currencyCode;
 
-    public AmountSelectionFragment() {
+    private OnTransactionPageInteractionListener interactionListener;
+
+    public TransactionAmountSelectionFragment() {
         // Required empty public constructor
+    }
+
+    public static TransactionAmountSelectionFragment newInstance(String isoCurrencyCode) {
+        TransactionAmountSelectionFragment fragment = new TransactionAmountSelectionFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(ARG_CURRENCY_CODE, isoCurrencyCode);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override
@@ -44,15 +62,16 @@ public class AmountSelectionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(getArguments() != null) {
+            currencyCode = getArguments().getString(ARG_CURRENCY_CODE);
+        } else if(savedInstanceState != null) {
             currencyCode = savedInstanceState.getString(PARAM_CURRENCY_CODE);
         }
 
         Context context = getContext();
 
         if(context != null) {
-            // TODO: get currency from actual config
             try {
-                currency = MOVCurrency.loadFromJson(context, "cad");
+                currency = MOVCurrency.loadFromJson(context, currencyCode);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch(JSONException e) {
@@ -69,13 +88,13 @@ public class AmountSelectionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_amount_selection, container, false);
+        View view = inflater.inflate(R.layout.fragment_transaction_amount_selection, container, false);
 
-        final AmountSelectionViewModel model = ViewModelProviders.of(this).get(AmountSelectionViewModel.class);
+        final TransactionAmountSelectionViewModel model = ViewModelProviders.of(getActivity()).get(TransactionAmountSelectionViewModel.class);
 
-        final AmountSelectedListAdapter adapter = new AmountSelectedListAdapter(model);
+        final TransactionAmountSelectionListAdapter adapter = new TransactionAmountSelectionListAdapter(model);
         GridView gridView = view.findViewById(R.id.amount_selection_grid);
-        gridView.setOnDragListener(new BillTargetDragListener(model, true));
+        gridView.setOnDragListener(new DenominationTargetDragListener(model, true));
         gridView.setAdapter(adapter);
         model.getSelectedCurrency().observe(this, new Observer<List<MOVCurrencyDenomination>>() {
             @Override
@@ -106,7 +125,7 @@ public class AmountSelectionFragment extends Fragment {
             @Override
             public void onChanged(Integer integer) {
                 if(integer == 0) {
-                    header.setText(R.string.amount_selection_title);
+                    header.setText(R.string.transaction_amount_selection_header);
                     addObserver.onChanged(true);
                 } else {
                     header.setText(currency.getFormattedString(integer));
@@ -125,12 +144,31 @@ public class AmountSelectionFragment extends Fragment {
                 }
             }
         });
-
         return view;
     }
 
-    private void populateCurrencySelection(LayoutInflater inflater, LinearLayout currencySelection, AmountSelectionViewModel viewModel) {
-        currencySelection.setOnDragListener(new BillTargetDragListener(viewModel, false));
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        final TransactionAmountSelectionViewModel selectionViewModel = ViewModelProviders.of(getActivity()).get(TransactionAmountSelectionViewModel.class);
+        final TransactionViewModel transactionViewModel = ViewModelProviders.of(getActivity()).get(TransactionViewModel.class);
+        selectionViewModel.getValue().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                transactionViewModel.setSelectedAmount(integer);
+                if(integer == null || integer == 0) {
+                    interactionListener.setCanGoForward(TransactionAmountSelectionFragment.this, false);
+                } else {
+                    interactionListener.setCanGoForward(TransactionAmountSelectionFragment.this, true);
+                }
+            }
+        });
+
+    }
+
+    private void populateCurrencySelection(LayoutInflater inflater, LinearLayout currencySelection, TransactionAmountSelectionViewModel viewModel) {
+        currencySelection.setOnDragListener(new DenominationTargetDragListener(viewModel, false));
         Resources r = getContext().getResources();
         int marginVertical = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -152,7 +190,7 @@ public class AmountSelectionFragment extends Fragment {
             LinearLayout billLayout = (LinearLayout) inflater.inflate(R.layout.layout_bill, null);
             billLayout.setLayoutParams(params);
 
-            final BillImageView billImage = billLayout.findViewById(R.id.bill_image);
+            final DenominationImageView billImage = billLayout.findViewById(R.id.bill_image);
             billImage.setCurrencyDenomination(denomination);
             billImage.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -160,7 +198,7 @@ public class AmountSelectionFragment extends Fragment {
                     ClipData data = ClipData.newPlainText("", "");
                     View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
                             billImage);
-                    BillDragPayload payload = new BillDragPayload(denomination, false);
+                    DenominationDragPayload payload = new DenominationDragPayload(denomination, false);
                     billImage.startDrag(data, shadowBuilder, payload, 0);
 
                     return true;
@@ -172,14 +210,44 @@ public class AmountSelectionFragment extends Fragment {
         }
     }
 
-    public int getAmount() {
-        AmountSelectionViewModel model = ViewModelProviders.of(this).get(AmountSelectionViewModel.class);
-        Integer amount = model.getValue().getValue();
+    @Override
+    public void onPageMadeActive() {
+        TransactionViewModel viewModel = ViewModelProviders.of(getActivity()).get(TransactionViewModel.class);
+        Integer currentAmount = viewModel.getSelectedAmount().getValue();
 
-        if(amount == null) {
-            return 0;
+        interactionListener.setCanGoForward(this, currentAmount != null && currentAmount > 0);
+
+    }
+
+    @Override
+    public int getForwardButtonText() {
+        return R.string.transaction_next;
+    }
+
+    @Override
+    public int getForwardButtonIcon() {
+        return R.drawable.baseline_arrow_forward_black_24;
+    }
+
+    @Override
+    public void onNextButtonPressed() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof OnTransactionPageInteractionListener) {
+            interactionListener = (OnTransactionPageInteractionListener) context;
         } else {
-            return amount;
+            throw new IllegalStateException("Fragment must be attached to OnTransactionPageInteractionListener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        interactionListener = null;
     }
 }

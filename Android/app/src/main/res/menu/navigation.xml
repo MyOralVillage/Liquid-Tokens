@@ -2,14 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_send"
+        android:id="@+id/navigation_transactions"
         android:icon="@drawable/baseline_arrow_downward_black_24"
-        android:title="@string/nav_request" />
+        android:title="@string/nav_transactions" />
 
-    <item
-        android:id="@+id/navigation_request"
-        android:icon="@drawable/baseline_arrow_upward_black_24"
-        android:title="@string/nav_send" />
 
     <item
         android:id="@+id/navigation_scan"

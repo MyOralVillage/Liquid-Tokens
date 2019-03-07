@@ -1,4 +1,4 @@
-package org.myoralvillage.android.ui.amountselection;
+package org.myoralvillage.android.ui.transaction.amountselection;
 
 import android.content.ClipData;
 import android.view.LayoutInflater;
@@ -13,12 +13,12 @@ import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AmountSelectedListAdapter extends BaseAdapter {
+public class TransactionAmountSelectionListAdapter extends BaseAdapter {
 
     private List<MOVCurrencyDenomination> selectedAmounts;
-    private AmountSelectionViewModel viewModel;
+    private TransactionAmountSelectionViewModel viewModel;
 
-    public AmountSelectedListAdapter(AmountSelectionViewModel viewModel) {
+    public TransactionAmountSelectionListAdapter(TransactionAmountSelectionViewModel viewModel) {
         selectedAmounts = new ArrayList<>();
         this.viewModel = viewModel;
     }
@@ -40,9 +40,9 @@ public class AmountSelectedListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final BillImageView billImageView;
+        final DenominationImageView billImageView;
 
-        if(!(convertView instanceof BillImageView)) {
+        if(!(convertView instanceof DenominationImageView)) {
             LinearLayout billLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_bill, null);
             billImageView = billLayout.findViewById(R.id.bill_image);
         } else {
@@ -56,7 +56,7 @@ public class AmountSelectedListAdapter extends BaseAdapter {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
                         billImageView);
-                BillDragPayload payload = new BillDragPayload(selectedAmounts.get(position), true);
+                DenominationDragPayload payload = new DenominationDragPayload(selectedAmounts.get(position), true);
                 billImageView.startDrag(data, shadowBuilder, payload, 0);
 
                 viewModel.removeCurrency(position);
