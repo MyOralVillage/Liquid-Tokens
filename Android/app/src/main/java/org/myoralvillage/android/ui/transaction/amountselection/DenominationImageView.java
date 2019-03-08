@@ -1,4 +1,4 @@
-package org.myoralvillage.android.ui.amountselection;
+package org.myoralvillage.android.ui.transaction.amountselection;
 
 import android.content.Context;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -9,14 +9,14 @@ import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 
 import java.util.Locale;
 
-public class BillImageView extends AppCompatImageView {
+public class DenominationImageView extends AppCompatImageView {
 
 
-    public BillImageView(Context context) {
+    public DenominationImageView(Context context) {
         super(context);
     }
 
-    public BillImageView(Context context, AttributeSet attrs) {
+    public DenominationImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
