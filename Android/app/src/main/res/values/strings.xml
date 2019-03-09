@@ -29,4 +29,23 @@
     <string name="transaction_request">Request</string>
     <string name="transaction_recent_contacts">Recent Contacts</string>
     <string name="transaction_amount">Amount</string>
+
+    <string name="project_title">My Oral Village</string>
+
+    <string name="login_hint_phone">Phone Number</string>
+    <string name="login_hint_code">Code</string>
+    <string name="login_button_login">Log In</string>
+    <string name="login_button_sign_up">Sign Up</string>
+    <string name="login_button_code">Verify</string>
+    <string name="login_button_try_again">Try Again</string>
+    <string name="login_error_blank_number">Enter a number</string>
+    <string name="login_error_length">Not long enough</string>
+    <string name="login_error_invalid_code">Invalid code</string>
+    <string name="login_error_invalid_number">Invalid number</string>
+
+    <string name="login_completion_header">Your Profile</string>
+    <string name="login_completion_field_first_name">First Name</string>
+    <string name="login_completion_field_last_name">Last Name</string>
+    <string name="login_completion_button_submit">Continue</string>
+    <string name="login_completion_error_empty_name">Enter a name</string>
 </resources>
