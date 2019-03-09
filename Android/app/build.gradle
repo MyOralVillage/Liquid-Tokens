@@ -15,6 +15,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig = signingConfigs.debug
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile rootProject.file('debug.keystore')
+            keyAlias 'movdebugkeyalias'
+            keyPassword 'movdebugkeypassword'
+            storePassword 'movdebugkeypassword'
+        }
     }
 }
 
@@ -28,6 +39,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.0.0-beta01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
 
+    implementation 'androidx.annotation:annotation:1.0.0-beta01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
@@ -42,6 +54,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.firebaseui:firebase-ui-database:4.3.1'
     implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
