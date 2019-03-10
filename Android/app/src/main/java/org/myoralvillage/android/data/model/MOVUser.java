@@ -5,6 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class MOVUser {
 
+    private String uid;
     private String country;
     private String currency;
     private String image;
@@ -63,6 +64,14 @@ public class MOVUser {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
 
