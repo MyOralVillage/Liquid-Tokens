@@ -63,7 +63,6 @@ dependencies {
 
     implementation 'com.github.joielechong:CountryCodePicker:e96e7bca0f'
     implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
-    implementation 'com.github.mukeshsolanki:country-picker-android:2.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

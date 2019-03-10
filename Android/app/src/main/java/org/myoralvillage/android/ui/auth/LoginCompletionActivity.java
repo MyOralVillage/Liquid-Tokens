@@ -32,7 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.mukesh.countrypicker.CountryPicker;
+import com.mynameismidori.currencypicker.CurrencyPicker;
+import com.mynameismidori.currencypicker.CurrencyPickerListener;
 import com.rilixtech.CountryCodePicker;
 
 import org.myoralvillage.android.R;
@@ -55,6 +56,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
     private TextInputEditText firstNameText;
     private TextInputEditText lastNameText;
+    private TextInputEditText currencyText;
 
     private MaterialButton submitButton;
 
@@ -68,6 +70,8 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
     private Uri selectedPhotoUri;
     private CountryCodePicker ccp;
+    private String currency;
+    private CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +92,31 @@ public class LoginCompletionActivity extends AppCompatActivity {
                 }
             }
         });
+
+        picker.setListener(new CurrencyPickerListener() {
+            @Override
+            public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
+                Log.e("CURRENCY", name + " " + code + " " + symbol + flagDrawableResID);
+                currency = code;
+                currencyText.setText(code);
+                picker.dismiss();
+            }
+        });
+
         firstNameText = findViewById(R.id.login_completion_field_first_name);
         firstNameText.addTextChangedListener(new ErrorClearTextWatcher(firstNameText));
 
         lastNameText = findViewById(R.id.login_completion_field_last_name);
         lastNameText.addTextChangedListener(new ErrorClearTextWatcher(lastNameText));
+
+        currencyText = findViewById(R.id.login_completion_currency);
+        currencyText.addTextChangedListener(new ErrorClearTextWatcher(currencyText));
+        currencyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCurrencyClicked(picker);
+            }
+        });
 
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
         ccp.setHidePhoneCode(true);
@@ -135,6 +159,10 @@ public class LoginCompletionActivity extends AppCompatActivity {
         } else {
             pictureDeleteButton.show();
         }
+    }
+
+    private void onCurrencyClicked(CurrencyPicker picker) {
+        picker.show(getSupportFragmentManager(), "CURRENCY_PICKER");
     }
 
     private void onPictureCardClicked() {
@@ -194,13 +222,13 @@ public class LoginCompletionActivity extends AppCompatActivity {
         }
 
         viewSwitcher.showPrevious();
-
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> values = new HashMap<>();
         values.put("name", firstNameString + " " + lastNameString);
         values.put("country", ccp.getSelectedCountryNameCode());
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        values.put("currency", currency);
+        values.put("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+        values.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid());
         userRef.updateChildren(values).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
