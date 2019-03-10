@@ -106,9 +106,6 @@ public class LoginCompletionActivity extends AppCompatActivity {
         firstNameText = findViewById(R.id.login_completion_field_first_name);
         firstNameText.addTextChangedListener(new ErrorClearTextWatcher(firstNameText));
 
-        lastNameText = findViewById(R.id.login_completion_field_last_name);
-        lastNameText.addTextChangedListener(new ErrorClearTextWatcher(lastNameText));
-
         currencyText = findViewById(R.id.login_completion_currency);
         currencyText.addTextChangedListener(new ErrorClearTextWatcher(currencyText));
         currencyText.setOnClickListener(new View.OnClickListener() {
@@ -201,10 +198,10 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
     private void onSubmitButtonClicked() {
         Editable firstNameEditable = firstNameText.getText();
-        Editable lastNameEditable = lastNameText.getText();
+//        Editable lastNameEditable = lastNameText.getText();
 
         String firstNameString = null;
-        String lastNameString = null;
+//        String lastNameString = null;
 
         String error = getResources().getString(R.string.login_completion_error_empty_name);
         if (firstNameEditable == null ||
@@ -214,17 +211,17 @@ public class LoginCompletionActivity extends AppCompatActivity {
             return;
         }
 
-        if (lastNameEditable == null ||
-                (lastNameString = lastNameEditable.toString()).length() <= 1) {
-            lastNameText.setError(error);
-
-            return;
-        }
+//        if (lastNameEditable == null ||
+//                (lastNameString = lastNameEditable.toString()).length() <= 1) {
+//            lastNameText.setError(error);
+//
+//            return;
+//        }
 
         viewSwitcher.showPrevious();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> values = new HashMap<>();
-        values.put("name", firstNameString + " " + lastNameString);
+        values.put("name", firstNameString);
         values.put("country", ccp.getSelectedCountryNameCode());
         values.put("currency", currency);
         values.put("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
