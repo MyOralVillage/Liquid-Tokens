@@ -83,7 +83,7 @@ public class TransactionSelectContactFragment extends Fragment implements Transa
                     selectedContactView.setVisibility(View.VISIBLE);
                     selectedContactDeleteButton.show();
 
-                    ContactCard.setUser(selectedContactView, movUser);
+                    ContactCard.setUser(getContext(), selectedContactView, movUser);
                 }
 
                 if(movUser == null) {
@@ -206,7 +206,7 @@ public class TransactionSelectContactFragment extends Fragment implements Transa
 
         public void setUser(MOVUser user) {
             this.user = user;
-            ContactCard.setUser((MaterialCardView) itemView, user);
+            ContactCard.setUser(itemView.getContext(), (MaterialCardView) itemView, user);
         }
 
         public MOVUser getUser() {
