@@ -20,20 +20,22 @@
         android:text="@string/transaction_selection_header"/>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/transaction_header"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transaction_header">
 
-        <LinearLayout android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/transaction_vertical_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:id="@+id/transaction_vertical_layout">
+            android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/transactions_send_money"
@@ -41,11 +43,12 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_circle_white_border">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/baseline_arrow_upward_black_24"/>
+                    android:src="@drawable/baseline_arrow_upward_black_24" />
             </FrameLayout>
 
             <TextView
@@ -59,7 +62,8 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <LinearLayout android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:orientation="vertical">
@@ -70,11 +74,12 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_circle_white_border">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/baseline_arrow_downward_black_24"/>
+                    android:src="@drawable/baseline_arrow_downward_black_24" />
             </FrameLayout>
 
             <TextView
@@ -86,6 +91,45 @@
                 android:text="@string/transactions_request_money"
                 android:textAlignment="center" />
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/money_requests"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/incoming_money_requests_header"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/incoming_money_requests" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/out_going_money_requests_header"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/outgoing_money_requests" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_of_outgoing_money_requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

@@ -48,4 +48,6 @@
     <string name="login_completion_field_last_name">Last Name</string>
     <string name="login_completion_button_submit">Continue</string>
     <string name="login_completion_error_empty_name">Enter a name</string>
+    <string name="incoming_money_requests">Incoming Money Requests</string>
+    <string name="outgoing_money_requests">Outgoing Money Requests</string>
 </resources>
