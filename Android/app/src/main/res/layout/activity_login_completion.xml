@@ -28,6 +28,52 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="@string/login_completion_header"/>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/login_completion_card"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+            app:backgroundTint="@android:color/white"
+            app:strokeColor="@color/colorPrimary"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="40dp"
+            app:strokeWidth="3dp">
+
+            <ViewSwitcher
+                android:id="@+id/login_completion_card_switcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/login_completion_card_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_person_add_black_48"
+                    android:layout_gravity="center"
+                    />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/login_completion_card_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    />
+
+            </ViewSwitcher>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/login_completion_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+            app:fabSize="mini"
+            app:elevation="2dp"
+            android:src="@drawable/baseline_close_black_24"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
