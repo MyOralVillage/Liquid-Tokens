@@ -48,4 +48,7 @@
     <string name="login_completion_field_last_name">Last Name</string>
     <string name="login_completion_button_submit">Continue</string>
     <string name="login_completion_error_empty_name">Enter a name</string>
+    <string name="login_completion_button_photo_take">Take</string>
+    <string name="login_completion_button_photo_select">Select</string>
+    <string name="login_completion_dialog_add_photo">Add a Photo</string>
 </resources>

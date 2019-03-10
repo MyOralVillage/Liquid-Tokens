@@ -126,7 +126,7 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
             @Override
             public void onChanged(MOVUser movUser) {
                 if(movUser != null) {
-                    ContactCard.setUser(contactCard, movUser);
+                    ContactCard.setUser(getContext(), contactCard, movUser);
                 }
             }
         });
