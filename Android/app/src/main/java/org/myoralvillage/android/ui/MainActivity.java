@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_history:
                     switchFragment(mFragmentHistory);
-
                     return true;
             }
             return false;

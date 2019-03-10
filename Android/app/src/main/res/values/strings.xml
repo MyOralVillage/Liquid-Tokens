@@ -48,4 +48,13 @@
     <string name="login_completion_field_last_name">Last Name</string>
     <string name="login_completion_button_submit">Continue</string>
     <string name="login_completion_error_empty_name">Enter a name</string>
+    <string name="Transaction_Title">Most Recent Transaction</string>
+    <string name="History_Hint">input user\'s name</string>
+    <string name="confirm">confirm</string>
+    <string name="blank">...</string>
+    <string name="on">on</string>
+    <string name="sent">sent</string>
+    <string name="transaction">Recent Transaction</string>
+    <string name="title_activity_view_transactions">ViewTransactions</string>
+    <string name="Recent_Transactions">Recent Transactions</string>
 </resources>
