@@ -1,13 +1,23 @@
 package org.myoralvillage.android.ui.transaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.myoralvillage.android.R;
@@ -19,7 +29,9 @@ import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmoun
 import org.myoralvillage.android.ui.widgets.ContactCard;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -146,6 +158,46 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
 
     @Override
     public void onNextButtonPressed() {
-        getActivity().finish();
+        doTransaction();
+    }
+
+    private void doTransaction() {
+        TransactionViewModel transactionViewModel = ViewModelProviders.of(getActivity()).get(TransactionViewModel.class);
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("to", transactionViewModel.getSelectedContact().getValue().getUid());
+        data.put("amount", transactionViewModel.getSelectedAmount().getValue());
+
+        String function;
+        if(transactionType == TransactionActivity.TRANSACTION_TYPE_SEND) {
+            function = "transaction";
+        } else {
+            function = "request";
+        }
+
+        FirebaseFunctions.getInstance().getHttpsCallable(function).call(data).continueWith(new Continuation<HttpsCallableResult, HashMap>() {
+            @Override
+            public HashMap then(@NonNull Task<HttpsCallableResult> task) {
+                HashMap result = null;
+
+                if(!task.isSuccessful()) {
+                    Exception e = task.getException();
+                    if (e instanceof FirebaseFunctionsException) {
+                        FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                        FirebaseFunctionsException.Code code = ffe.getCode();
+                        Object details = ffe.getDetails();
+                        Log.v("ConfirmFragment", code + " :: "+details);
+
+                    }
+
+                } else {
+                    result = (HashMap) task.getResult().getData();
+                }
+
+                getActivity().finish();
+
+                return result;
+            };
+        });
     }
 }
