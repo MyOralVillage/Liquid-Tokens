@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "185321566414",
+    "firebase_url": "https://my-oral-village-app.firebaseio.com",
+    "project_id": "my-oral-village-app",
+    "storage_bucket": "my-oral-village-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185321566414:android:7e595e725c7cf252",
+        "android_client_info": {
+          "package_name": "org.myoralvillage.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185321566414-cs7t0l5o19s5711eo90s6ell03hh09r9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.myoralvillage.android",
+            "certificate_hash": "1c8128cb9ef1146f5f795afd25108b021ded9606"
+          }
+        },
+        {
+          "client_id": "185321566414-bccv6l4iatb218anprbadcs5rbd6o1jr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.myoralvillage.android",
+            "certificate_hash": "3a488852097988d7df873034421ae64cd1183faa"
+          }
+        },
+        {
+          "client_id": "185321566414-83amafanaga51belehiq830hijvj24eb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.myoralvillage.android",
+            "certificate_hash": "b130a2e28a48fd3da6bf74f2389882709a523dd9"
+          }
+        },
+        {
+          "client_id": "185321566414-9eifrf7h5d5kinebrapmqpg4ecionrr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6NOtgOE0pECqGF_x6coz7kZU-XEWbVCU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185321566414-9eifrf7h5d5kinebrapmqpg4ecionrr0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
