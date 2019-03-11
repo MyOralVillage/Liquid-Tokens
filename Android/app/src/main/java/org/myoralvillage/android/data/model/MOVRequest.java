@@ -9,7 +9,7 @@ public class MOVRequest {
     private String currency;
     private String from;
     private String status;
-    private int time;
+    private long time;
     private String to;
 
     public MOVRequest() {
@@ -56,11 +56,11 @@ public class MOVRequest {
         this.status = status;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time ) {
+    public void setTime(long time ) {
         this.time = time;
     }
 

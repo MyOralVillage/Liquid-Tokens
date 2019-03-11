@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outgoing_request"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/outgoing_request_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Requesting " />
+
+    <TextView
+        android:id="@+id/outgoing_request_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/outgoing_request_string"
+        android:layout_toRightOf="@+id/outgoing_request_string"
+        android:text="SomeAmountOf" />
+
+    <TextView
+        android:id="@+id/outgoing_request_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/outgoing_request_amount"
+        android:layout_toRightOf="@+id/outgoing_request_amount"
+        android:text="JP" />
+
+    <TextView
+        android:id="@+id/outgoing_request_intermediate_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/outgoing_request_currency"
+        android:layout_toRightOf="@+id/outgoing_request_currency"
+        android:text=" from " />
+
+    <TextView
+        android:id="@+id/outgoing_request_recipient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/outgoing_request_intermediate_string"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Somebody" />
+
+
+</RelativeLayout>
