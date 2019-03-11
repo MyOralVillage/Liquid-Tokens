@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/incoming_request"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/incoming_request_sender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Sender" />
+
+    <TextView
+        android:id="@+id/incoming_request_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/incoming_request_sender"
+        android:text=" is requesting " />
+
+    <TextView
+        android:id="@+id/incoming_request_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/incoming_request_string"
+        android:layout_toRightOf="@+id/incoming_request_string"
+        android:layout_below="@+id/incoming_request_sender"
+        android:text="SomeAmountOf" />
+
+    <TextView
+        android:id="@+id/incoming_request_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/incoming_request_amount"
+        android:layout_toRightOf="@+id/incoming_request_amount"
+        android:layout_below="@+id/incoming_request_sender"
+        android:text="CAD" />
+
+
+
+
+</RelativeLayout>

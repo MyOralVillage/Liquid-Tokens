@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-functions:16.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
     implementation 'com.github.joielechong:CountryCodePicker:e96e7bca0f'

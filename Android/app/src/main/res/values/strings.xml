@@ -68,4 +68,7 @@
   
     <string name="user_fragment_logout">Log Out</string>
     <string name="user_fragment_save">Save</string>
+    <string name="incoming_money_requests">Incoming Money Requests</string>
+    <string name="outgoing_money_requests">Outgoing Money Requests</string>
+
 </resources>
