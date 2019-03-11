@@ -17,4 +17,9 @@
         android:icon="@drawable/baseline_history_black_24"
         android:title="@string/nav_history" />
 
+    <item
+        android:id="@+id/navigation_user"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/nav_user" />
+
 </menu>

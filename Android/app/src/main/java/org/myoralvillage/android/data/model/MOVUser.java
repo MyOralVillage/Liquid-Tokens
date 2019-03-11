@@ -5,13 +5,13 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class MOVUser {
 
-    private String uid;
-    private String country;
-    private String currency;
-    private String image;
-    private String language;
-    private String name;
-    private String phone;
+    private String uid = null;
+    private String country = "CA";
+    private String currency = "CAD";
+    private String image = null;
+    private String language = "EN";
+    private String name = null;
+    private String phone = null;
 
     public MOVUser() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
