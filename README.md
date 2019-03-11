@@ -3,8 +3,6 @@
 
 **Link to deployed product:** https://appetize.io/app/1zrydg7r45dwjhnjyzqxytnq9g?device=nexus5&scale=75&orientation=portrait&osVersion=8.1
 
-> _Note:_ This document is intended to be relatively short. Be concise and precise. Assume the reader has no prior knowledge of your application and is non-technical. 
-
 ## Description 
  * This app allows users, especially those who are innumerate, to send and request money using their mobile devices.
 * This app is a demo so that My Oral Village Inc to showcase their innumerate-enabling designs.
