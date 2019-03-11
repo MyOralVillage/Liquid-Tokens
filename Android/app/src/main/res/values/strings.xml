@@ -64,5 +64,8 @@
     <string name="login_completion_button_photo_select">Select</string>
     <string name="login_completion_dialog_add_photo">Add a Photo</string>
     <string name="login_completion_currency">Currency</string>
-
+  
+    <string name="incoming_money_requests">Incoming Money Requests</string>
+    <string name="outgoing_money_requests">Outgoing Money Requests</string>
+    
 </resources>
