@@ -32,6 +32,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mynameismidori.currencypicker.CurrencyPicker;
+import com.mynameismidori.currencypicker.CurrencyPickerListener;
+import com.rilixtech.CountryCodePicker;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.ui.MainActivity;
@@ -53,6 +56,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
     private TextInputEditText firstNameText;
     private TextInputEditText lastNameText;
+    private TextInputEditText currencyText;
 
     private MaterialButton submitButton;
 
@@ -65,13 +69,16 @@ public class LoginCompletionActivity extends AppCompatActivity {
     private AlertDialog selectPhotoDialog;
 
     private Uri selectedPhotoUri;
+    private CountryCodePicker ccp;
+    private String currency;
+    private CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_completion);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             selectedPhotoUri = savedInstanceState.getParcelable(ARG_SELECTED_PHOTO_URI);
         }
 
@@ -80,16 +87,37 @@ public class LoginCompletionActivity extends AppCompatActivity {
         pictureDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectedPhotoUri != null) {
+                if (selectedPhotoUri != null) {
                     setSelectedPhotoUri(null);
                 }
             }
         });
+
+        picker.setListener(new CurrencyPickerListener() {
+            @Override
+            public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
+                Log.e("CURRENCY", name + " " + code + " " + symbol + flagDrawableResID);
+                currency = code;
+                currencyText.setText(code);
+                picker.dismiss();
+            }
+        });
+
         firstNameText = findViewById(R.id.login_completion_field_first_name);
         firstNameText.addTextChangedListener(new ErrorClearTextWatcher(firstNameText));
 
-        lastNameText = findViewById(R.id.login_completion_field_last_name);
-        lastNameText.addTextChangedListener(new ErrorClearTextWatcher(lastNameText));
+        currencyText = findViewById(R.id.login_completion_currency);
+        currencyText.addTextChangedListener(new ErrorClearTextWatcher(currencyText));
+        currencyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCurrencyClicked(picker);
+            }
+        });
+
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        ccp.setHidePhoneCode(true);
+        ccp.showFullName(true);
 
         submitButton = findViewById(R.id.login_completion_button_submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +137,6 @@ public class LoginCompletionActivity extends AppCompatActivity {
         pictureCardSwitcher = findViewById(R.id.login_completion_card_switcher);
         pictureCardImage = findViewById(R.id.login_completion_card_image);
 
-
         checkIfLoggedIn();
         setSelectedPhotoUri(selectedPhotoUri);
     }
@@ -118,17 +145,21 @@ public class LoginCompletionActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if(selectedPhotoUri != null) {
+        if (selectedPhotoUri != null) {
             outState.putParcelable(ARG_SELECTED_PHOTO_URI, selectedPhotoUri);
         }
     }
 
     private void showHideFab() {
-        if(selectedPhotoUri == null) {
+        if (selectedPhotoUri == null) {
             pictureDeleteButton.hide();
         } else {
             pictureDeleteButton.show();
         }
+    }
+
+    private void onCurrencyClicked(CurrencyPicker picker) {
+        picker.show(getSupportFragmentManager(), "CURRENCY_PICKER");
     }
 
     private void onPictureCardClicked() {
@@ -141,7 +172,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.hasChild("name")) {
+                if (dataSnapshot.exists() && dataSnapshot.hasChild("name")) {
                     redirectToMainActivity();
                 } else {
                     showRegistrationForm();
@@ -167,38 +198,39 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
     private void onSubmitButtonClicked() {
         Editable firstNameEditable = firstNameText.getText();
-        Editable lastNameEditable = lastNameText.getText();
+//        Editable lastNameEditable = lastNameText.getText();
 
         String firstNameString = null;
-        String lastNameString = null;
+//        String lastNameString = null;
 
         String error = getResources().getString(R.string.login_completion_error_empty_name);
-        if(firstNameEditable == null ||
+        if (firstNameEditable == null ||
                 (firstNameString = firstNameEditable.toString()).length() <= 1) {
             firstNameText.setError(error);
 
             return;
         }
 
-        if(lastNameEditable == null ||
-                (lastNameString = lastNameEditable.toString()).length() <= 1) {
-            lastNameText.setError(error);
-
-            return;
-        }
+//        if (lastNameEditable == null ||
+//                (lastNameString = lastNameEditable.toString()).length() <= 1) {
+//            lastNameText.setError(error);
+//
+//            return;
+//        }
 
         viewSwitcher.showPrevious();
-
-        Map<String, Object> values = new HashMap<>();
-        values.put("name", firstNameString+" "+lastNameString);
-
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        Map<String, Object> values = new HashMap<>();
+        values.put("name", firstNameString);
+        values.put("country", ccp.getSelectedCountryNameCode());
+        values.put("currency", currency);
+        values.put("phone", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+        values.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid());
         userRef.updateChildren(values).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(!task.isSuccessful()) {
+                if (!task.isSuccessful()) {
                     firstNameText.setError(task.getException().toString());
 
                     viewSwitcher.showNext();
@@ -210,11 +242,11 @@ public class LoginCompletionActivity extends AppCompatActivity {
     }
 
     private void doUploadSelectedImage() {
-        if(selectedPhotoUri != null) {
+        if (selectedPhotoUri != null) {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference child = storageRef.child("users/"+currentUser.getUid() +"/raw_profile.jpg");
+            StorageReference child = storageRef.child("users/" + currentUser.getUid() + "/raw_profile.jpg");
             child.putFile(selectedPhotoUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -244,7 +276,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 File tempFile = new File(getFilesDir(), "images/image.jpg");
-                if(!tempFile.exists() && !tempFile.mkdir()) return;
+                if (!tempFile.exists() && !tempFile.mkdir()) return;
 
                 Uri uri = FileProvider.getUriForFile(
                         LoginCompletionActivity.this,
@@ -270,7 +302,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_TAKE_PHOTO) {
+        if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
                 File imageFile = new File(getFilesDir(), "images/image.jpg");
 
@@ -281,8 +313,8 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
                 setSelectedPhotoUri(uri);
             }
-        } else if(requestCode == REQUEST_SELECT_PHOTO) {
-            if(data != null) {
+        } else if (requestCode == REQUEST_SELECT_PHOTO) {
+            if (data != null) {
                 Uri imageUri = data.getData();
 
                 setSelectedPhotoUri(imageUri);
@@ -296,7 +328,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
         selectedPhotoUri = uri;
         pictureCardImage.setImageURI(uri);
 
-        if(uri == null) {
+        if (uri == null) {
             pictureCardSwitcher.setDisplayedChild(0);
         } else {
             pictureCardSwitcher.setDisplayedChild(1);

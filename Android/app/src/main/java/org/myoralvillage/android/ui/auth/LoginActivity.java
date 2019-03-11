@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ViewSwitcher;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import com.rilixtech.CountryCodePicker;
+
+
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.ui.util.ErrorClearTextWatcher;
 
@@ -26,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 
 public class LoginActivity extends Activity {
 
@@ -38,11 +43,11 @@ public class LoginActivity extends Activity {
     private PhoneAuthProvider.ForceResendingToken resendToken;
 
     private ViewSwitcher viewSwitcher;
-
+    private CountryCodePicker ccp;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-            Log.d(LOG_TAG, "onVerificationCompleted: "+phoneAuthCredential);
+            Log.d(LOG_TAG, "onVerificationCompleted: " + phoneAuthCredential);
 
             signInWithPhoneAuthCredential(phoneAuthCredential);
         }
@@ -72,6 +77,12 @@ public class LoginActivity extends Activity {
         phoneField = findViewById(R.id.login_input_phone);
         phoneField.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         phoneField.addTextChangedListener(new ErrorClearTextWatcher(phoneField));
+
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        ccp.registerPhoneNumberTextView(phoneField);
+        ccp.enablePhoneAutoFormatter(true);
+        ccp.hideNameCode(true);
+        ccp.setHidePhoneCode(true);
 
         codeField = findViewById(R.id.login_input_code);
         codeField.addTextChangedListener(new ErrorClearTextWatcher(codeField));
@@ -104,10 +115,10 @@ public class LoginActivity extends Activity {
     }
 
     private void onVerifyButtonClicked() {
-        if(codeField.getText() == null) {
+        if (codeField.getText() == null) {
             codeField.setError(getResources().getString(R.string.login_error_blank_number));
             return;
-        } else if(codeField.getText().toString().length() < 6) {
+        } else if (codeField.getText().toString().length() < 6) {
             codeField.setError(getResources().getString(R.string.login_error_length));
         }
 
@@ -117,8 +128,8 @@ public class LoginActivity extends Activity {
         task.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()) {
-                    if(task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                if (!task.isSuccessful()) {
+                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                         codeField.setError(getResources().getString(R.string.login_error_invalid_code));
                     }
                 }
@@ -131,14 +142,13 @@ public class LoginActivity extends Activity {
     }
 
     private void onLogInButtonClicked() {
-        if(phoneField.getText() == null || phoneField.getText().length() == 0) {
+        if (!ccp.isValid()) {
             phoneField.setError(getResources().getString(R.string.login_error_blank_number));
-
             return;
         }
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneField.getText().toString(),
+                ccp.getFullNumberWithPlus(),
                 60, TimeUnit.SECONDS,
                 this,
                 verificationCallbacks
@@ -150,7 +160,7 @@ public class LoginActivity extends Activity {
         task.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     onLoginSuccess();
                 }
             }

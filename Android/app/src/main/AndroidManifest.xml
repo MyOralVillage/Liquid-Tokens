@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.history.HistoryFragment"
+            android:label="@string/title_activity_view_transactions"></activity>
+        <activity
             android:name=".ui.auth.LoginCompletionActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.auth.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -42,12 +45,18 @@
             android:authorities="org.myoralvillage.android.provider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
-        </provider>
+                android:resource="@xml/file_paths"></meta-data>
+        </provider> <!-- [START firebase_service] -->
+        <service android:name=".data.Messaging">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data        android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"/>
+
     </application>
 
 </manifest>
