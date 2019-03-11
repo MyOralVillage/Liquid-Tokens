@@ -8,6 +8,7 @@
     <string name="nav_transactions">Transactions</string>
     <string name="nav_scan">Scan</string>
     <string name="nav_history">History</string>
+    <string name="nav_user">User</string>
 
     <string name="title_send">Send Money</string>
     <string name="title_request">Request Money</string>
@@ -65,7 +66,9 @@
     <string name="login_completion_dialog_add_photo">Add a Photo</string>
     <string name="login_completion_currency">Currency</string>
   
+    <string name="user_fragment_logout">Log Out</string>
+    <string name="user_fragment_save">Save</string>
     <string name="incoming_money_requests">Incoming Money Requests</string>
     <string name="outgoing_money_requests">Outgoing Money Requests</string>
-    
+
 </resources>

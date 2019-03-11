@@ -1,6 +1,7 @@
 package org.myoralvillage.android.ui;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,12 +26,14 @@ import org.myoralvillage.android.ui.request.RequestFragment;
 import org.myoralvillage.android.ui.scan.ScanFragment;
 import org.myoralvillage.android.ui.send.SendFragment;
 import org.myoralvillage.android.ui.transaction.TransactionsFragment;
+import org.myoralvillage.android.ui.user.UserFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private final Fragment mFragmentTransactions = TransactionsFragment.newInstance();
     private final Fragment mFragmentScan = ScanFragment.newInstance();
     private final Fragment mFragmentHistory = HistoryFragment.newInstance();
+    private final Fragment mFragmentUser = UserFragment.newInstance();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,10 +46,12 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_scan:
                     switchFragment(mFragmentScan);
-
                     return true;
                 case R.id.navigation_history:
                     switchFragment(mFragmentHistory);
+                    return true;
+                case R.id.navigation_user:
+                    switchFragment(mFragmentUser);
                     return true;
             }
             return false;

@@ -55,7 +55,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
     private static final String ARG_SELECTED_PHOTO_URI = "selectedPhotoUri";
 
     private TextInputEditText firstNameText;
-    private TextInputEditText lastNameText;
+    //private TextInputEditText lastNameText;
     private TextInputEditText currencyText;
 
     private MaterialButton submitButton;
@@ -69,6 +69,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
     private AlertDialog selectPhotoDialog;
 
     private Uri selectedPhotoUri;
+
     private CountryCodePicker ccp;
     private String currency;
     private CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
