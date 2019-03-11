@@ -6,6 +6,8 @@ const spawn = require('child-process-promise').spawn;
 const os = require('os');
 const fs = require('fs');
 
+const qr = require('qrcode');
+
 const gcs = new Storage();
 
 const app = admin.initializeApp();
@@ -54,11 +56,22 @@ exports.profileImage = functions.storage.object().onFinalize((object, context) =
 });
 
 exports.createUser = functions.auth.user().onCreate((user) => {
+    const qrFilePath = path.join(os.tmpdir(), 'qr.png');
+    return qr.toFile(qrFilePath, user.uid).then(() => {
+        const bucket = gcs.bucket('my-oral-village-app.appspot.com');
 
-    return app.database().ref('users').child(user.uid).update({
-        balance: 0,
-        uid: user.uid,
-        image: '/users/profile.jpg'
+        return bucket.upload(qrFilePath, {
+            destination: path.join('users', user.uid, 'qr.png'),
+        });
+    }).then((storagePath) => {
+        fs.unlinkSync(qrFilePath);
+
+        return app.database().ref('users').child(user.uid).update({
+            balance: 10000,
+            uid: user.uid,
+            image: '/users/profile.jpg',
+            qr: storagePath[0].name
+        });
     });
 });
 

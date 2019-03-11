@@ -12,6 +12,7 @@ public class MOVUser {
     private String language = "EN";
     private String name = null;
     private String phone = null;
+    private String qr = null;
 
     public MOVUser() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -72,6 +73,14 @@ public class MOVUser {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getQr() {
+        return qr;
+    }
+
+    public void setQr(String qr) {
+        this.qr = qr;
     }
 }
 
