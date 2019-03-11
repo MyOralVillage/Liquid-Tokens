@@ -9,16 +9,16 @@
     tools:context=".ui.auth.LoginCompletionActivity">
 
     <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             style="@style/TextAppearance.MaterialComponents.Headline6"
@@ -26,43 +26,111 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="@string/login_completion_header"/>
+            android:text="@string/login_completion_header" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/login_completion_card"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+            app:backgroundTint="@android:color/white"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="3dp">
+
+            <ViewSwitcher
+                android:id="@+id/login_completion_card_switcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/login_completion_card_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_person_add_black_48" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/login_completion_card_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp" />
+
+            </ViewSwitcher>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/login_completion_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+            android:src="@drawable/baseline_close_black_24"
+            app:elevation="2dp"
+            app:fabSize="mini" />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/login_completion_field_first_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_completion_field_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/activity_vertical_margin"-->
+            <!--android:hint="@string/login_completion_field_last_name">-->
+
+            <!--<com.google.android.material.textfield.TextInputEditText-->
+                <!--android:id="@+id/login_completion_field_last_name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:maxLines="1" />-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/login_completion_field_last_name">
+            android:hint="@string/login_completion_currency">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_completion_field_last_name"
+                android:id="@+id/login_completion_currency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.rilixtech.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+        </com.rilixtech.CountryCodePicker>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_completion_button_submit"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="@string/login_completion_button_submit"/>
+            android:text="@string/login_completion_button_submit" />
+
     </LinearLayout>
 
 </ViewSwitcher>

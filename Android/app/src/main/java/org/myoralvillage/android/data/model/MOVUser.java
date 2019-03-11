@@ -5,12 +5,14 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class MOVUser {
 
+    private String uid;
     private String country;
     private String currency;
     private String image;
     private String language;
     private String name;
     private String phone;
+    private String qr;
 
     public MOVUser() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -63,6 +65,22 @@ public class MOVUser {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getQr() {
+        return qr;
+    }
+
+    public void setQr(String qr) {
+        this.qr = qr;
     }
 }
 
