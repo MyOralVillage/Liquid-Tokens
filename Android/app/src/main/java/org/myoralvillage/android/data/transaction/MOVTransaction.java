@@ -4,7 +4,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MOVTransaction {
+public class MOVTransaction implements Comparable<MOVTransaction>{
 
     private String from;
     private String from_name;
@@ -113,5 +113,12 @@ public class MOVTransaction {
         return ""+amHigh+"."+strAmLow;
 
 
+    }
+
+    @Override
+    public int compareTo(MOVTransaction o) {
+        if(o.getTime() == getTime()) return 0;
+
+        return getTime() < o.getTime() ? 1 : -1;
     }
 }
