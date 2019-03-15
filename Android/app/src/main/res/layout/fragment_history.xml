@@ -6,22 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.history.HistoryFragment">
 
-    <TextView
-        android:id="@+id/history_userid"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/history_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Recent_Transactions"
-        android:textAlignment="center"
-        android:textSize="25sp" />
-
-    <ListView
-        android:id="@+id/history_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
