@@ -1,5 +1,7 @@
 package org.myoralvillage.android.ui.transaction;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,11 +35,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import dmax.dialog.SpotsDialog;
 
 public class TransactionConfirmFragment extends Fragment implements TransactionPage {
 
@@ -52,6 +58,8 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
     private String currencyCode;
     private int transactionType;
     private MOVCurrency currency;
+
+    private Dialog transactionProgressDialog;
 
     public TransactionConfirmFragment() {
         // Required empty constructor
@@ -175,6 +183,8 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
             function = "request";
         }
 
+        showTransactionProgressDialog();
+
         FirebaseFunctions.getInstance().getHttpsCallable(function).call(data).continueWith(new Continuation<HttpsCallableResult, HashMap>() {
             @Override
             public HashMap then(@NonNull Task<HttpsCallableResult> task) {
@@ -187,17 +197,45 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
                         FirebaseFunctionsException.Code code = ffe.getCode();
                         Object details = ffe.getDetails();
                         Log.v("ConfirmFragment", code + " :: "+details);
-
                     }
 
+                    showTransactionFailureDialog();
                 } else {
                     result = (HashMap) task.getResult().getData();
-                }
 
-                getActivity().finish();
+                    getActivity().finish();
+                }
 
                 return result;
             };
         });
+    }
+
+    private void showTransactionProgressDialog() {
+        @StringRes int progressTitle = transactionType == TransactionActivity.TRANSACTION_TYPE_SEND
+                ? R.string.transaction_confirm_progress_sending
+                : R.string.transaction_confirm_progress_requesting;
+
+        transactionProgressDialog = new SpotsDialog.Builder()
+                .setContext(getContext())
+                .setMessage(progressTitle)
+                .setCancelable(false)
+                .build();
+
+        transactionProgressDialog.show();
+    }
+
+    private void showTransactionFailureDialog() {
+        transactionProgressDialog.dismiss();
+        new AlertDialog.Builder(getContext())
+                .setCancelable(true)
+                .setTitle(R.string.transaction_confirm_failure)
+                .setPositiveButton(R.string.transaction_confirm_failure_okay, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }
