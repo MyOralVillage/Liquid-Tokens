@@ -2,6 +2,7 @@ package org.myoralvillage.android.ui.transaction;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVUser;
+import org.myoralvillage.android.ui.contacts.ContactActivity;
+import org.myoralvillage.android.ui.contacts.ContactsActivity;
 import org.myoralvillage.android.ui.widgets.ContactCard;
 
 import androidx.annotation.NonNull;
@@ -42,6 +45,8 @@ public class TransactionSelectContactFragment extends Fragment implements Transa
     private FloatingActionButton selectedContactDeleteButton;
 
     private OnTransactionPageInteractionListener interactionListener;
+
+    private static final int REQUEST_SELECT_CONTACT = 0;
 
     public TransactionSelectContactFragment() {
         // Required blank constructor
@@ -91,6 +96,16 @@ public class TransactionSelectContactFragment extends Fragment implements Transa
                 } else {
                     interactionListener.setCanGoForward(TransactionSelectContactFragment.this, true);
                 }
+            }
+        });
+
+        selectContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ContactsActivity.class);
+                intent.putExtra(ContactsActivity.EXTRA_SELECTION_MODE, ContactsActivity.SELECTION_MODE_PICK);
+
+                startActivityForResult(intent, REQUEST_SELECT_CONTACT);
             }
         });
 
@@ -144,6 +159,35 @@ public class TransactionSelectContactFragment extends Fragment implements Transa
 
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_SELECT_CONTACT) {
+            if(resultCode == ContactsActivity.RESULT_DID_PICK && data != null) {
+                String uid = data.getStringExtra(ContactsActivity.RESULT_SELECTED_CONTACT);
+
+                FirebaseDatabase.getInstance().getReference()
+                        .child("users")
+                        .child(uid)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                MOVUser user = dataSnapshot.getValue(MOVUser.class);
+
+                                if(user != null) {
+                                    TransactionViewModel viewModel = ViewModelProviders.of(getActivity()).get(TransactionViewModel.class);
+                                    viewModel.setSelectedContact(user);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+            }
+        }
     }
 
     @Override

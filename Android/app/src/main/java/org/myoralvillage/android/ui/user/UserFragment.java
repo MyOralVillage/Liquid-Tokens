@@ -40,6 +40,7 @@ import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.ui.auth.LoginActivity;
 import org.myoralvillage.android.ui.auth.LoginCompletionActivity;
+import org.myoralvillage.android.ui.contacts.ContactsActivity;
 import org.myoralvillage.android.ui.util.ErrorClearTextWatcher;
 
 import java.io.File;
@@ -195,6 +196,15 @@ public class UserFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            }
+        });
+
+        MaterialCardView contactsButton = view.findViewById(R.id.user_contacts);
+        contactsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ContactsActivity.class);
+                startActivity(intent);
             }
         });
         return view;

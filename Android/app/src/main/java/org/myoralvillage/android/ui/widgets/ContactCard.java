@@ -22,14 +22,19 @@ public class ContactCard {
         nameText.setText(user.getName());
 
         if(user.getImage() != null) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
 
             ImageView imageView = contactCard.findViewById(R.id.contact_button_image);
 
-            GlideApp.with(context)
-                    .load(storageReference)
-                    .dontAnimate()
-                    .into(imageView);
+            setUserImage(context, user, imageView);
         }
+    }
+
+    public static void setUserImage(Context context, MOVUser user, ImageView imageView) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
+
+        GlideApp.with(context)
+                .load(storageReference)
+                .dontAnimate()
+                .into(imageView);
     }
 }
