@@ -13,8 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.history.HistoryFragment"
-            android:label="@string/title_activity_view_transactions"></activity>
+            android:name=".ui.contacts.phone.AddContactPhoneActivity"
+            android:label="@string/title_activity_add_contact_phone"/>
+
+        <activity
+            android:name=".ui.contacts.AddContactActivity"
+            android:label="@string/title_activity_add_contact" />
+        <activity android:name=".ui.contacts.ContactActivity" />
+        <activity
+            android:name=".ui.contacts.ContactsActivity"
+            android:label="@string/title_activity_contacts">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_contacts" />
+        </activity>
         <activity
             android:name=".ui.auth.LoginCompletionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -47,16 +59,17 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider> <!-- [START firebase_service] -->
         <service android:name=".data.Messaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <meta-data        android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id"/>
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
     </application>
 
 </manifest>

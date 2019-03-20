@@ -65,10 +65,23 @@
     <string name="login_completion_button_photo_select">Select</string>
     <string name="login_completion_dialog_add_photo">Add a Photo</string>
     <string name="login_completion_currency">Currency</string>
-  
+
     <string name="user_fragment_logout">Log Out</string>
     <string name="user_fragment_save">Save</string>
+    <string name="user_contacts">Contacts</string>
+
+    <string name="contacts_search">Search</string>
+    <string name="contacts_empty">No Contacts</string>
+    <string name="add_contact_phone_search">Search</string>
+    <string name="add_contact_phone_enter_number">Enter a valid number</string>
+    <string name="add_contact_phone_not_found">No users found</string>
+    <string name="add_contact_phone_add">Add</string>
+
+    <string name="title_activity_add_contact_phone">New Contact</string>
+
     <string name="incoming_money_requests">Incoming Money Requests</string>
     <string name="outgoing_money_requests">Outgoing Money Requests</string>
+    <string name="title_activity_contacts">Contacts</string>
+    <string name="title_activity_add_contact">Add Contact</string>
 
 </resources>

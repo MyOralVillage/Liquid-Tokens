@@ -61,7 +61,7 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
             }
 
             Fragment currentPage = pagerAdapter.getItem(viewPager.getCurrentItem());
-            if(currentPage instanceof TransactionPage) {
+            if(currentPage.isAdded() && currentPage instanceof TransactionPage) {
                 TransactionPage pageMadeActiveListener = (TransactionPage) currentPage;
                 pageMadeActiveListener.onPageMadeActive();
 
@@ -152,11 +152,17 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(pageChangeListener);
         viewPager.setCurrentItem(currentItem, false);
-        pageChangeListener.onPageSelected(currentItem);
 
 
         StepperIndicator stepperIndicator = findViewById(R.id.transaction_stepper);
         stepperIndicator.setViewPager(viewPager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        pageChangeListener.onPageSelected(currentItem);
     }
 
     @Override

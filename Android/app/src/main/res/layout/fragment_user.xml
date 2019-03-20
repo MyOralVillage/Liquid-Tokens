@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_completion_switcher"
@@ -11,7 +11,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -149,6 +148,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="@string/user_fragment_save"
             android:visibility="invisible" />
 
@@ -157,11 +157,50 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="@string/user_fragment_logout" />
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/user_contacts"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_circle_white_border"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="50dp"
+                app:strokeWidth="5dp"
+                app:cardElevation="3dp"
+                app:strokeColor="@color/colorPrimary">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_people_black_48" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/user_contacts_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin_half"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@string/user_contacts"
+                android:layout_gravity="center"
+                android:textAlignment="center" />
+        </LinearLayout>
     </LinearLayout>
 
-</ViewSwitcher>
+</ScrollView>
 
     <!--<?xml version="1.0" encoding="utf-8"?>-->
     <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
