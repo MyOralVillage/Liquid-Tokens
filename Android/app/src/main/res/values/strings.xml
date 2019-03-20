@@ -25,6 +25,10 @@
     <string name="transaction_amount_selection_header">Select Amount</string>
     <string name="transaction_select_contact_header">Select Contact</string>
     <string name="transaction_confirm_header">Confirm</string>
+    <string name="transaction_confirm_progress_sending">Sending&#8230;</string>
+    <string name="transaction_confirm_progress_requesting">Requesting&#8230;</string>
+    <string name="transaction_confirm_failure">Transaction Failed</string>
+    <string name="transaction_confirm_failure_okay">Okay</string>
     <string name="transaction_next">Next</string>
     <string name="transaction_back">Back</string>
     <string name="transaction_send">Send</string>

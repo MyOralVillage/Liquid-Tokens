@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'androidx.annotation:annotation:1.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:16.0.7'
