@@ -26,7 +26,7 @@ import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 import org.myoralvillage.android.data.model.MOVUser;
-import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionListAdapter;
+import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionRecyclerAdapter;
 import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionViewModel;
 import org.myoralvillage.android.ui.widgets.ContactCard;
 
@@ -43,6 +43,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import dmax.dialog.SpotsDialog;
 
 public class TransactionConfirmFragment extends Fragment implements TransactionPage {
@@ -52,8 +54,8 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
 
     private MaterialCardView contactCard;
     private TextView amountText;
-    private TransactionAmountSelectionListAdapter selectedListAdapter;
-    private GridView amountSelectedGridView;
+    private TransactionAmountSelectionRecyclerAdapter selectedRecyclerAdapter;
+    private RecyclerView amountSelectedRecycler;
 
     private String currencyCode;
     private int transactionType;
@@ -101,8 +103,10 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
 
         contactCard = view.findViewById(R.id.transaction_confirm_contact);
         amountText = view.findViewById(R.id.transaction_confirm_amount);
-        amountSelectedGridView = view.findViewById(R.id.transaction_confirm_amount_selection);
+        amountSelectedRecycler = view.findViewById(R.id.transaction_confirm_amount_selection);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        amountSelectedRecycler.setLayoutManager(layoutManager);
         return view;
     }
 
@@ -113,12 +117,12 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
         TransactionViewModel transactionViewModel = ViewModelProviders.of(getActivity()).get(TransactionViewModel.class);
         TransactionAmountSelectionViewModel selectionViewModel = ViewModelProviders.of(getActivity()).get(TransactionAmountSelectionViewModel.class);
 
-        selectedListAdapter = new TransactionAmountSelectionListAdapter(selectionViewModel);
-        amountSelectedGridView.setAdapter(selectedListAdapter);
-        selectionViewModel.getSelectedCurrency().observe(this, new Observer<List<MOVCurrencyDenomination>>() {
+        selectedRecyclerAdapter = new TransactionAmountSelectionRecyclerAdapter(selectionViewModel, currency);
+        amountSelectedRecycler.setAdapter(selectedRecyclerAdapter);
+        selectionViewModel.getSelectedCurrency().observe(this, new Observer<Map<MOVCurrencyDenomination, Integer>>() {
             @Override
-            public void onChanged(List<MOVCurrencyDenomination> currencyDenominations) {
-                selectedListAdapter.setSelectedDenominations(currencyDenominations);
+            public void onChanged(Map<MOVCurrencyDenomination, Integer> amounts) {
+                selectedRecyclerAdapter.setSelectedAmount(amounts);
             }
         });
         selectionViewModel.getValue().observe(this, new Observer<Integer>() {
