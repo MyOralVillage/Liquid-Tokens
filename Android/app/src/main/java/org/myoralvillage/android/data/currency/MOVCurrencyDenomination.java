@@ -1,6 +1,6 @@
 package org.myoralvillage.android.data.currency;
 
-public class MOVCurrencyDenomination {
+public class MOVCurrencyDenomination implements Comparable<MOVCurrencyDenomination>{
 
 
     private MOVCurrency mCurrency;
@@ -32,5 +32,15 @@ public class MOVCurrencyDenomination {
 
     public MOVCurrencyDenominationType getType() {
         return mType;
+    }
+
+    @Override
+    public int compareTo(MOVCurrencyDenomination o) {
+        if(o.mValue == mValue) {
+            return 0;
+        } else if(o.mValue > mValue) {
+            return 1;
+        }
+        return -1;
     }
 }

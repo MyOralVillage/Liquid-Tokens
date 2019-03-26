@@ -1,0 +1,121 @@
+<FrameLayout android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="bottom|center"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cell_denomination_tally_card_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardElevation="0dp">
+
+        <org.myoralvillage.android.ui.transaction.amountselection.DenominationImageView
+            android:id="@+id/bill_image0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="170dp"
+
+            android:rotation="90"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/usd_10000"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cell_denomination_tally_card_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="4dp"
+        android:layout_gravity="bottom|end"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <org.myoralvillage.android.ui.transaction.amountselection.DenominationImageView
+            android:id="@+id/bill_image1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="170dp"
+            android:rotation="90"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/usd_10000"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cell_denomination_tally_card_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_gravity="bottom|end"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <org.myoralvillage.android.ui.transaction.amountselection.DenominationImageView
+            android:id="@+id/bill_image2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="170dp"
+
+            android:rotation="90"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/usd_10000"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cell_denomination_tally_card_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_gravity="bottom|end"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <org.myoralvillage.android.ui.transaction.amountselection.DenominationImageView
+            android:id="@+id/bill_image3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="170dp"
+
+            android:rotation="90"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/usd_10000"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cell_denomination_tally_card_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="4dp"
+        android:layout_gravity="bottom|end"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <org.myoralvillage.android.ui.transaction.amountselection.DenominationImageView
+            android:id="@+id/bill_image4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="170dp"
+
+            android:rotation="90"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/usd_10000"/>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

@@ -146,7 +146,7 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
         // TODO: get currency from actual config
         pagerAdapter = new TransactionPagerAdapter(getSupportFragmentManager(),
                 transactionType,
-                "cad",
+                "usd",
                 transactionSendTo);
         viewPager = findViewById(R.id.transaction_pager);
         viewPager.setAdapter(pagerAdapter);

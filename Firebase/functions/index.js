@@ -91,7 +91,7 @@ exports.transaction = functions.https.onCall((data, context) => {
             from: uid,
             to: to,
             amount: amount,
-            currency: "cad",
+            currency: "usd",
             time: (new Date()).getTime(),
         });
     }).then(() => {
@@ -126,7 +126,7 @@ exports.request = functions.https.onCall((data, context) => {
             to: to,
             status: 'pending',
             amount: amount,
-            currency: "cad",
+            currency: "usd",
             time: (new Date()).getTime(),
         });
     }).then(() => {

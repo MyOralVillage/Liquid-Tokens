@@ -49,17 +49,19 @@ public class TransactionAmountSelectionListAdapter extends BaseAdapter {
             billImageView = convertView.findViewById(R.id.bill_image);
         }
 
-        billImageView.setCurrencyDenomination(selectedAmounts.get(position));
+        final MOVCurrencyDenomination denomination = selectedAmounts.get(position);
+
+        billImageView.setCurrencyDenomination(denomination);
         billImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
                         billImageView);
-                DenominationDragPayload payload = new DenominationDragPayload(selectedAmounts.get(position), true);
+                DenominationDragPayload payload = new DenominationDragPayload(denomination, true);
                 billImageView.startDrag(data, shadowBuilder, payload, 0);
 
-                viewModel.removeCurrency(position);
+                viewModel.removeCurrency(denomination);
 
                 return true;
             }

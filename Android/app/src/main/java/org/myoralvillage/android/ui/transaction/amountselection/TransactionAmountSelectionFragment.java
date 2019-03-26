@@ -9,13 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ import org.myoralvillage.android.ui.transaction.TransactionPage;
 import org.myoralvillage.android.ui.transaction.TransactionViewModel;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 
 public class TransactionAmountSelectionFragment extends Fragment implements TransactionPage {
@@ -38,8 +39,13 @@ public class TransactionAmountSelectionFragment extends Fragment implements Tran
     private static final String PARAM_CURRENCY_CODE = "currency_code";
 
     private MOVCurrency currency;
-
     private String currencyCode;
+
+    private RecyclerView currencyRecycler;
+    private View currencyAddFrame;
+    private View currencyRemoveFrame;
+    private LinearLayout currencyBills;
+    private TextView header;
 
     private OnTransactionPageInteractionListener interactionListener;
 
@@ -89,24 +95,40 @@ public class TransactionAmountSelectionFragment extends Fragment implements Tran
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transaction_amount_selection, container, false);
+        bindViews(view);
+        observeData(inflater);
 
+        return view;
+    }
+
+    private void bindViews(View view) {
+        currencyRecycler = view.findViewById(R.id.amount_selection_grid);
+        currencyAddFrame = view.findViewById(R.id.add_currency_frame);
+        currencyBills = view.findViewById(R.id.currency_bills);
+        header = view.findViewById(R.id.selection_header);
+        currencyRemoveFrame = view.findViewById(R.id.remove_currency_frame);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        currencyRecycler.setLayoutManager(layoutManager);
+
+    }
+
+    private void observeData(LayoutInflater inflater) {
         final TransactionAmountSelectionViewModel model = ViewModelProviders.of(getActivity()).get(TransactionAmountSelectionViewModel.class);
+        model.setCurrency(currency);
 
-        final TransactionAmountSelectionListAdapter adapter = new TransactionAmountSelectionListAdapter(model);
-        GridView gridView = view.findViewById(R.id.amount_selection_grid);
-        gridView.setOnDragListener(new DenominationTargetDragListener(model, true));
-        gridView.setAdapter(adapter);
-        model.getSelectedCurrency().observe(this, new Observer<List<MOVCurrencyDenomination>>() {
-            @Override
-            public void onChanged(List<MOVCurrencyDenomination> currencyDenominations) {
-                adapter.setSelectedDenominations(currencyDenominations);
-            }
-        });
+        final TransactionAmountSelectionRecyclerAdapter adapter = new TransactionAmountSelectionRecyclerAdapter(model, currency);
+        currencyRecycler.setOnDragListener(new DenominationTargetDragListener(model, true));
+        currencyRecycler.setAdapter(adapter);
 
-        final LinearLayout currencyBills = view.findViewById(R.id.currency_bills);
         populateCurrencySelection(inflater, currencyBills, model);
 
-        final View currencyAddFrame = view.findViewById(R.id.add_currency_frame);
+        model.getSelectedCurrency().observe(this, new Observer<Map<MOVCurrencyDenomination, Integer>>() {
+            @Override
+            public void onChanged(Map<MOVCurrencyDenomination, Integer> amounts) {
+                adapter.setSelectedAmount(amounts);
+            }
+        });
         final Observer<Boolean> addObserver = new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean dragging) {
@@ -119,8 +141,6 @@ public class TransactionAmountSelectionFragment extends Fragment implements Tran
             }
         };
         model.isAdding().observe(this, addObserver);
-
-        final TextView header = view.findViewById(R.id.selection_header);
         model.getValue().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -132,8 +152,6 @@ public class TransactionAmountSelectionFragment extends Fragment implements Tran
                 }
             }
         });
-
-        final View currencyRemoveFrame = view.findViewById(R.id.remove_currency_frame);
         model.isRemoving().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean dragging) {
@@ -144,7 +162,6 @@ public class TransactionAmountSelectionFragment extends Fragment implements Tran
                 }
             }
         });
-        return view;
     }
 
     @Override
