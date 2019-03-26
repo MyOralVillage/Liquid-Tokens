@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <ImageView
+        android:id="@+id/history_transaction_from"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:scaleType="center"
+        app:srcCompat="@drawable/baseline_arrow_downward_black_24" />
+
+    <ImageView
+        android:id="@+id/transaction_arrow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        app:srcCompat="@drawable/baseline_arrow_downward_black_24" />
+
+    <ImageView
+        android:id="@+id/history_transaction_to"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:scaleType="center"
+        app:srcCompat="@drawable/baseline_arrow_downward_black_24" />
+
+    <TextView
+        android:id="@+id/history_transaction_date"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="10"
+        android:textSize="20dp"
+        android:ems="10"
+        android:textColor="#000"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/history_transaction_amount"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:textSize="20dp"
+        android:ems="10"
+        android:textColor="#000"
+        android:text="Amount" />
+
+</LinearLayout>

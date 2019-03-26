@@ -13,9 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.history.HistoryTransactionActivity"
+            android:label="@string/title_activity_history_transaction"></activity>
+        <activity
             android:name=".ui.contacts.phone.AddContactPhoneActivity"
-            android:label="@string/title_activity_add_contact_phone"/>
-
+            android:label="@string/title_activity_add_contact_phone" />
         <activity
             android:name=".ui.contacts.AddContactActivity"
             android:label="@string/title_activity_add_contact" />

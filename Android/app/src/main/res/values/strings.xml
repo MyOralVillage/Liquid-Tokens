@@ -87,5 +87,6 @@
     <string name="outgoing_money_requests">Outgoing Money Requests</string>
     <string name="title_activity_contacts">Contacts</string>
     <string name="title_activity_add_contact">Add Contact</string>
+    <string name="title_activity_history_transaction">HistoryTransactionActivity</string>
 
 </resources>

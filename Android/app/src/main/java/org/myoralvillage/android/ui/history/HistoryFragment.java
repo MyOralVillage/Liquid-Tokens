@@ -1,6 +1,8 @@
 package org.myoralvillage.android.ui.history;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +40,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransactionListener {
 
     private static final String LOG_TAG = "HistoryFragment";
+    public static final String HISTORY_FROM = "org.myoralvillage.android.ui.history.from";
+    public static final String HISTORY_TO = "org.myoralvillage.android.ui.history.to";
+    public static final String HISTORY_TIME = "org.myoralvillage.android.ui.history.time";
+    public static final String HISTORY_AMOUNT = "org.myoralvillage.android.ui.history.amount";
+    public static final String HISTORY_CURRENCY = "org.myoralvillage.android.ui.history.currency";
 
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
@@ -113,7 +120,7 @@ public class HistoryFragment extends Fragment {
         transactions = new ArrayList<>();
         int defaultHeightPx = getResources().getDimensionPixelSize(R.dimen.history_cell_height);
 
-        adapter = new HistoryAdapter(transactions, defaultHeightPx);
+        adapter = new HistoryAdapter(transactions, defaultHeightPx,this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -153,5 +160,18 @@ public class HistoryFragment extends Fragment {
         }
 
         Collections.sort(children);
+    }
+
+    @Override
+    public void onTransactionClick(int position) {
+        position--;
+        Log.d("History Fragment","Clicked");
+        Intent intent = new Intent(HistoryFragment.this.getActivity(),HistoryTransactionActivity.class);
+        intent.putExtra(HISTORY_FROM,transactions.get(position).getFrom());
+        intent.putExtra(HISTORY_TO,transactions.get(position).getTo());
+        intent.putExtra(HISTORY_TIME,transactions.get(position).getTime());
+        intent.putExtra(HISTORY_AMOUNT,transactions.get(position).getAmount());
+        intent.putExtra(HISTORY_CURRENCY,transactions.get(position).getCurrency());
+        startActivity(intent);
     }
 }
