@@ -117,12 +117,12 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
         TransactionViewModel transactionViewModel = ViewModelProviders.of(getActivity()).get(TransactionViewModel.class);
         TransactionAmountSelectionViewModel selectionViewModel = ViewModelProviders.of(getActivity()).get(TransactionAmountSelectionViewModel.class);
 
-        selectedRecyclerAdapter = new TransactionAmountSelectionRecyclerAdapter(selectionViewModel, currency);
+        selectedRecyclerAdapter = new TransactionAmountSelectionRecyclerAdapter(currency, null);
         amountSelectedRecycler.setAdapter(selectedRecyclerAdapter);
-        selectionViewModel.getSelectedCurrency().observe(this, new Observer<Map<MOVCurrencyDenomination, Integer>>() {
+        selectionViewModel.getValue().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(Map<MOVCurrencyDenomination, Integer> amounts) {
-                selectedRecyclerAdapter.setSelectedAmount(amounts);
+            public void onChanged(Integer amount) {
+                selectedRecyclerAdapter.setAmount(amount);
             }
         });
         selectionViewModel.getValue().observe(this, new Observer<Integer>() {

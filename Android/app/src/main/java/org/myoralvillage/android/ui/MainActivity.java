@@ -8,19 +8,25 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
 import android.view.MenuItem;
 
 import org.myoralvillage.android.R;
+import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.ui.history.HistoryFragment;
 import org.myoralvillage.android.ui.request.RequestFragment;
 import org.myoralvillage.android.ui.scan.ScanFragment;
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private DatabaseReference currentUserReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +96,41 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_transactions);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentUserReference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("users")
+                .child(currentUser.getUid());
+    }
+
+    private ValueEventListener currentUserValueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            CurrentUserViewModel currentUserViewModel = ViewModelProviders.of(MainActivity.this)
+                    .get(CurrentUserViewModel.class);
+
+            currentUserViewModel.setCurrentUser(dataSnapshot.getValue(MOVUser.class));
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        currentUserReference.addValueEventListener(currentUserValueEventListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        currentUserReference.removeEventListener(currentUserValueEventListener);
     }
 
     private void switchFragment(Fragment fragment) {

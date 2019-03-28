@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.Map;
 
 
-public class TransactionAmountSelectionFragment extends Fragment implements TransactionPage {
+public class TransactionAmountSelectionFragment extends Fragment implements TransactionPage, TransactionAmountSelectionCurrencyRemover {
 
     private static final String ARG_CURRENCY_CODE = "currency_code";
 
@@ -115,18 +115,17 @@ public class TransactionAmountSelectionFragment extends Fragment implements Tran
 
     private void observeData(LayoutInflater inflater) {
         final TransactionAmountSelectionViewModel model = ViewModelProviders.of(getActivity()).get(TransactionAmountSelectionViewModel.class);
-        model.setCurrency(currency);
 
-        final TransactionAmountSelectionRecyclerAdapter adapter = new TransactionAmountSelectionRecyclerAdapter(model, currency);
+        final TransactionAmountSelectionRecyclerAdapter adapter = new TransactionAmountSelectionRecyclerAdapter(currency, this);
         currencyRecycler.setOnDragListener(new DenominationTargetDragListener(model, true));
         currencyRecycler.setAdapter(adapter);
 
         populateCurrencySelection(inflater, currencyBills, model);
 
-        model.getSelectedCurrency().observe(this, new Observer<Map<MOVCurrencyDenomination, Integer>>() {
+        model.getValue().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(Map<MOVCurrencyDenomination, Integer> amounts) {
-                adapter.setSelectedAmount(amounts);
+            public void onChanged(Integer amount) {
+                adapter.setAmount(amount);
             }
         });
         final Observer<Boolean> addObserver = new Observer<Boolean>() {
@@ -248,6 +247,12 @@ public class TransactionAmountSelectionFragment extends Fragment implements Tran
 
     @Override
     public void onNextButtonPressed() {
+    }
+
+    @Override
+    public void removeCurrency(MOVCurrencyDenomination denomination) {
+        final TransactionAmountSelectionViewModel selectionViewModel = ViewModelProviders.of(getActivity()).get(TransactionAmountSelectionViewModel.class);
+        selectionViewModel.removeCurrency(denomination);
     }
 
     @Override
