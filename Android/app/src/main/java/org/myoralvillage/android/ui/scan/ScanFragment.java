@@ -5,10 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import org.myoralvillage.android.R;
+import org.myoralvillage.android.ui.scan.CreateQR;
+import org.myoralvillage.android.ui.scan.ScanQR;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 public class ScanFragment extends Fragment {
@@ -48,9 +54,51 @@ public class ScanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_scan,
+                container, false);
+
+        //listener for create_qr_button
+        Button create_button = (Button) view.findViewById(R.id.create_qr_button);
+        create_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
+                Fragment createFragment = CreateQR.newInstance();
+
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                ft.replace(R.id.container, createFragment).commit();
+                // do something
+            }
+        });
+
+        //listener for scan_qr_button
+        Button scan_button = (Button) view.findViewById(R.id.scan_qr_button);
+        scan_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
+                Fragment scanFragment = ScanQR.newInstance();
+
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                ft.replace(R.id.container, scanFragment).commit();
+                // do something
+            }
+        });
+
+        return view;
     }
+        // Inflate the layout for this fragment
+        //return inflater.inflate(R.layout.fragment_scan, container, false);
+
 
     @Override
     public void onAttach(Context context) {
@@ -62,4 +110,7 @@ public class ScanFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+
+
 }
