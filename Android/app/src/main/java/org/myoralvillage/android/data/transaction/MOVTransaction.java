@@ -20,6 +20,8 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
 
     private String from;
     private String from_name;
+    private String from_num;
+    private String to_num;
     private String to;
     private String to_name;
     private int amount;
@@ -58,8 +60,7 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
         return from;
     }
 
-    public String getFrom_name() {
-        return from_name;
+    public String getFrom_name() {return from_name;
     }
 
     public String getTo() {
@@ -131,4 +132,5 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
 
         return getTime() < o.getTime() ? 1 : -1;
     }
+
 }

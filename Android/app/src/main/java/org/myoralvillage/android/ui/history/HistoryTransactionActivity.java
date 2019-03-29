@@ -3,26 +3,39 @@ package org.myoralvillage.android.ui.history;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 
 import org.myoralvillage.android.R;
-import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.ui.util.GlideApp;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class HistoryTransactionActivity extends AppCompatActivity {
 
+    private static final int TIME_PER_CIRCLE = 604800; //Seconds in a week
+    //2592000 is a month.
+
+    private StorageReference profile_image;
+    private String to_location;
+    private String from_location;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -30,40 +43,101 @@ public class HistoryTransactionActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-        setContentView(R.layout.activity_history_transaction);
+        StorageReference image_ref;
+        setContentView(R.layout.activity_transaction_history);
 
-        final TextView text_date = (TextView) findViewById(R.id.history_transaction_date);
-        final TextView text_amount = (TextView) findViewById(R.id.history_transaction_amount);
-        final ImageView image_from = (ImageView) findViewById(R.id.history_transaction_from);
-        final ImageView image_to = (ImageView) findViewById(R.id.history_transaction_to);
+        final TextView text_date = findViewById(R.id.transaction_detail_date);
+        final TextView text_amount = findViewById(R.id.transaction_detail_amount);
 
+        final TextView phone_number = findViewById(R.id.transaction_detail_phone_number);
+
+        final ImageView hand = findViewById(R.id.transaction_detail_hand);
+        final ImageView image = findViewById(R.id.transaction_detail_image);
+        final ImageView image_date = findViewById(R.id.transaction_detail_date_image);
+        final ImageView image_phone = findViewById(R.id.transaction_detail_phone);
+        final ImageView image_currency = findViewById(R.id.transaction_detail_currency);
 
         Intent intent = getIntent();
         String from = intent.getStringExtra(HistoryFragment.HISTORY_FROM);
         String to = intent.getStringExtra(HistoryFragment.HISTORY_TO);
-        int amount = intent.getIntExtra(HistoryFragment.HISTORY_AMOUNT,-1);
+        int amount = intent.getIntExtra(HistoryFragment.HISTORY_AMOUNT, -1);
         String currency = intent.getStringExtra(HistoryFragment.HISTORY_CURRENCY);
-        long time = intent.getLongExtra(HistoryFragment.HISTORY_TIME,0);
+        long time = intent.getLongExtra(HistoryFragment.HISTORY_TIME, 0);
+        String phone_num = intent.getStringExtra(HistoryFragment.HISTORY_PHONE);
+        final Boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
 
-        if(amount < 0){
-            finish();
+        Log.d("ACTIVITY",from);
+        Log.d("ACTIVITY",to);
+        Log.d("ACTIVITY",""+amount);
+        Log.d("ACTIVITY",currency);
+        Log.d("ACTIVITY",""+time);
+        Log.d("ACTIVITY",phone_num);
+        Log.d("ACTIVITY",""+intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,true));
+
+        DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("users");
+        to_location = "/users/" + to + "/profile.jpg";
+        from_location = "/users/" + from + "/profile.jpg";
+        users.orderByChild("image").equalTo(to_location).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    Log.d("LOGGGGG","NOT");
+                    if (sender) {
+                        profile_image = FirebaseStorage.getInstance().getReference(to_location);
+                    } else {
+                        profile_image = FirebaseStorage.getInstance().getReference(from_location);
+                    }
+                }else{
+                    Log.d("LOGGGGG","NULL");
+                    profile_image = null;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        if(sender){
+            hand.setImageResource(R.drawable.history_send_money);
+        }else{
+            hand.setImageResource(R.drawable.history_receive_money);
+
         }
+
         String string_time = convertTime(time);
         text_date.setText(string_time);
-        text_amount.setText(""+printAmount(amount)+" "+currency);
+        text_amount.setText("$"+printAmount(amount));
 
-        StorageReference to_reference = FirebaseStorage.getInstance().getReference("/users/"+to+"/profile.jpg");
-        StorageReference from_reference = FirebaseStorage.getInstance().getReference("/users/"+from+"/profile.jpg");
+        int id = this.getResources().getIdentifier("flag_"+currency, "drawable", this.getPackageName());
+        if(id>0)
+            image_currency.setImageResource(id);
+        else
+            image_currency.setImageResource(R.drawable.dollar);
 
-        GlideApp.with(this)
-                .load(from_reference)
-                .dontAnimate()
-                .into(image_from);
+        long current_time = System.currentTimeMillis()/1000;
+        long difference = current_time-time/1000;
+        int month_offset = (int)difference/(TIME_PER_CIRCLE);
 
-        GlideApp.with(this)
-                .load(to_reference)
-                .dontAnimate()
-                .into(image_to);
+        image_date.setImageResource(R.drawable.month_00 + (12 - Math.max(month_offset, 0)));
+        image_phone.setImageResource(R.drawable.phone);
+
+        if (phone_num != null)
+            phone_number.setText(phone_num);
+        else
+            phone_number.setText("-------------");
+        if(profile_image != null) {
+            GlideApp.with(this)
+                    .load(profile_image)
+                    .dontAnimate()
+                    .override(250)
+                    .circleCrop()
+                    .into(image);
+        }
+        else{
+            image.setImageResource(R.drawable.blank_profile);
+        }
 
     }
 

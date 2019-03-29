@@ -48,12 +48,15 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
     public static final String HISTORY_TIME = "org.myoralvillage.android.ui.history.time";
     public static final String HISTORY_AMOUNT = "org.myoralvillage.android.ui.history.amount";
     public static final String HISTORY_CURRENCY = "org.myoralvillage.android.ui.history.currency";
-
+    public static final String HISTORY_PHONE = "org.myoralvillage.android.ui.history.phone";
+    public static final String HISTORY_SENDER = "org.myoralvillage.android.ui.history.sender"; //boolean, if the user is the sender
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
     private DataSnapshot toSnapshot;
     private DataSnapshot fromSnapshot;
+    private DataSnapshot users;
 
+    private Query usersQuery;
     private Query fromQuery;
     private Query toQuery;
 
@@ -85,6 +88,19 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
         }
     };
 
+    private ValueEventListener usersListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            users = dataSnapshot;
+            onUpdateSnapshot();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -98,6 +114,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
         super.onCreate(savedInstanceState);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        usersQuery = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("uid");
         toQuery = FirebaseDatabase.getInstance().getReference().child("transactions").orderByChild("to").equalTo(user.getUid());
         fromQuery = FirebaseDatabase.getInstance().getReference().child("transactions").orderByChild("from").equalTo(user.getUid());
     }
@@ -130,6 +147,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
 
         toQuery.addValueEventListener(toListener);
         fromQuery.addValueEventListener(fromListener);
+        usersQuery.addValueEventListener(usersListener);
     }
 
     @Override
@@ -138,6 +156,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
 
         toQuery.removeEventListener(toListener);
         fromQuery.removeEventListener(fromListener);
+        usersQuery.removeEventListener(usersListener);
     }
 
     private void onUpdateSnapshot() {
@@ -165,13 +184,25 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
     @Override
     public void onTransactionClick(int position) {
         position--;
-        Log.d("History Fragment","Clicked");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Boolean sender = user.getUid().equals(transactions.get(position).getFrom());
+        String phone_number = "";
+        if(sender){
+            phone_number = users.child(transactions.get(position).getTo()).getValue(MOVUser.class).getPhone();
+        }
+        else{
+            phone_number = users.child(transactions.get(position).getFrom()).getValue(MOVUser.class).getPhone();
+        }
+
         Intent intent = new Intent(HistoryFragment.this.getActivity(),HistoryTransactionActivity.class);
         intent.putExtra(HISTORY_FROM,transactions.get(position).getFrom());
         intent.putExtra(HISTORY_TO,transactions.get(position).getTo());
         intent.putExtra(HISTORY_TIME,transactions.get(position).getTime());
         intent.putExtra(HISTORY_AMOUNT,transactions.get(position).getAmount());
         intent.putExtra(HISTORY_CURRENCY,transactions.get(position).getCurrency());
+        intent.putExtra(HISTORY_PHONE,phone_number);
+        intent.putExtra(HISTORY_SENDER,sender);
         startActivity(intent);
     }
 }
