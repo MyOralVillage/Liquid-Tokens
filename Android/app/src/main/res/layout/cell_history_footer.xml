@@ -13,6 +13,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <ImageView
+        android:id="@+id/cell_history_ground_image_center"
+        android:layout_marginTop="16dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/history_ground"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/cell_history_guide_center"
         android:layout_width="wrap_content"

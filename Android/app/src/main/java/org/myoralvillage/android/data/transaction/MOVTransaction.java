@@ -4,10 +4,24 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 public class MOVTransaction implements Comparable<MOVTransaction>{
 
     private String from;
     private String from_name;
+    private String from_num;
+    private String to_num;
     private String to;
     private String to_name;
     private int amount;
@@ -46,8 +60,7 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
         return from;
     }
 
-    public String getFrom_name() {
-        return from_name;
+    public String getFrom_name() {return from_name;
     }
 
     public String getTo() {
@@ -89,8 +102,8 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
     }
     @Override
     public String toString(){
-        return getFrom_name()+" sent "+printAmount()+""+getCurrency()+"" +
-                " to "+getTo_name()+" on "+convertTime(getTime())+".";
+        return getFrom()+" sent "+printAmount()+""+getCurrency()+"" +
+                " to "+getTo()+" on "+convertTime(getTime())+".";
 
     }
 
@@ -111,8 +124,6 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
         else
             strAmLow =  ""+amLow;
         return ""+amHigh+"."+strAmLow;
-
-
     }
 
     @Override
@@ -121,4 +132,5 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
 
         return getTime() < o.getTime() ? 1 : -1;
     }
+
 }

@@ -87,5 +87,29 @@
     <string name="outgoing_money_requests">Outgoing Money Requests</string>
     <string name="title_activity_contacts">Contacts</string>
     <string name="title_activity_add_contact">Add Contact</string>
+    <string name="title_activity_history_transaction">HistoryTransactionActivity</string>
+    <string name="send_or_receive">send_or_receieve</string>
+    <string name="image_of_other_user">image_of_other_user</string>
+    <string name="image_of_sender_user">image_of_sender_user</string>
+    <string name="image_of_receiever_user" />
+    <string name="image_of_receiver_user">image_of_receiver_user</string>
+    <string name="textview">TextView</string>
+    <string name="phone2">Receieve Number</string>
+    <string name="phone1">Send Number</string>
+    <string name="date">Date</string>
+    <string name="transaction_currency">Currency</string>
+    <string name="image_of_phone">image of phone]</string>
+    <string name="amount">Amount</string>
+    <string name="transaction_detail_hand">transaction_detail_hand</string>
+    <string name="transaction_image">transaction_detail_image</string>
+    <string name="transaction_detail_currency">transaction_detail_currency</string>
+    <string name="transaction_detail_phone_number">transaction_detail_phone_number</string>
+    <string name="transaction_detail_date">transaction_detail_date</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="currency">Currency</string>
+    <string name="transaction_detail_date_line">date line</string>
+    <string name="transaction_detail_phone">phone image</string>
+    <string name="transaction_detail_background">The background for Transaction_details</string>
+    <string name="portrait">Portrait around someones face</string>
 
 </resources>

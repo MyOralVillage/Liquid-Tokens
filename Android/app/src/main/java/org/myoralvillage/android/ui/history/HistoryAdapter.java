@@ -29,15 +29,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private int defaultCellHeight;
 
+    private OnTransactionListener mOnTransactionListener;
+
     private List<MOVTransaction> transactions;
 
     private MOVCurrencyCache currencyCache;
     private CurrentUserViewModel userViewModel;
 
-    public HistoryAdapter(CurrentUserViewModel userViewModel, List<MOVTransaction> transactions, int defaultCellHeight) {
+    public HistoryAdapter(CurrentUserViewModel userViewModel, List<MOVTransaction> transactions, int defaultCellHeight, , OnTransactionListener onTransactionListener) {
         this.userViewModel = userViewModel;
         this.transactions = transactions;
         this.defaultCellHeight = defaultCellHeight;
+
+        this.mOnTransactionListener = onTransactionListener;
 
         currencyCache = new MOVCurrencyCache();
 
@@ -63,7 +67,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_history_from, parent, false);
         }
 
-        return new HistoryViewHolder(view, currencyCache);
+        return new HistoryViewHolder(view, currencyCache, mOnTransactionListener);
     }
 
     @Override
@@ -119,5 +123,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         return transactions.size() + 2;
+    }
+
+    public interface OnTransactionListener{
+        void onTransactionClick(int position);
     }
 }
