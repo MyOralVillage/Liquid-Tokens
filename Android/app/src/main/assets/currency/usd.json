@@ -26,7 +26,19 @@
       "type": "bill"
     },
     {
+      "value": 25,
+      "type": "coin"
+    },
+    {
       "value": 10,
+      "type": "coin"
+    },
+    {
+      "value": 5,
+      "type": "coin"
+    },
+    {
+      "value": 1,
       "type": "coin"
     }
   ]

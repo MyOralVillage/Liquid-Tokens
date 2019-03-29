@@ -17,7 +17,12 @@ import java.util.Locale;
 public class MOVCurrency {
 
     public static MOVCurrency loadFromJson(Context context, String IsoCountryCode) throws IOException, JSONException {
-        InputStream stream = context.getResources().getAssets().open("currency/"+IsoCountryCode+".json");
+        InputStream stream;
+        try {
+            stream = context.getResources().getAssets().open("currency/" + IsoCountryCode + ".json");
+        } catch (Exception e) {
+            stream = context.getResources().getAssets().open("currency/usd.json");
+        }
         byte[] buffer = new byte[stream.available()];
         int bytesRead = stream.read(buffer);
         stream.close();
@@ -30,7 +35,7 @@ public class MOVCurrency {
         List<MOVCurrencyDenomination> denominations = new ArrayList<>();
 
         MOVCurrency currency = new MOVCurrency(code, denominations);
-        for(int i = 0; i < denominationsJson.length(); i++) {
+        for (int i = 0; i < denominationsJson.length(); i++) {
             JSONObject denominationObject = denominationsJson.getJSONObject(i);
 
             int amount = denominationObject.getInt("value");
@@ -71,6 +76,6 @@ public class MOVCurrency {
 
     public String getFormattedString(int amount) {
         int nFractionDigits = Currency.getInstance(mCode).getDefaultFractionDigits();
-        return String.format("%s%."+nFractionDigits+"f", getSymbol(), convertToFraction(amount));
+        return String.format("%s%." + nFractionDigits + "f", getSymbol(), convertToFraction(amount));
     }
 }

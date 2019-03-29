@@ -58,7 +58,7 @@
     <string name="Transaction_Title">Most Recent Transaction</string>
     <string name="History_Hint">input user\'s name</string>
     <string name="confirm">confirm</string>
-    <string name="blank">...</string>
+    <string name="blank">…</string>
     <string name="on">on</string>
     <string name="sent">sent</string>
     <string name="transaction">Recent Transaction</string>
