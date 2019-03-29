@@ -20,6 +20,7 @@ import java.util.Map;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adapter<TransactionAmountSelectionViewHolder>{
@@ -30,12 +31,20 @@ public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adap
     private Map<MOVCurrencyDenomination, Integer> denominationAmountsMap;
     private List<MOVCurrencyDenomination> selectedDenominations;
 
-    private TransactionAmountSelectionViewModel viewModel;
+    private TransactionAmountSelectionCurrencyRemover currencyRemover;
+    private MOVCurrency currency;
 
-    public TransactionAmountSelectionRecyclerAdapter(TransactionAmountSelectionViewModel viewModel, MOVCurrency currency) {
-        this.viewModel = viewModel;
+    /**
+     *
+     * @param currencyRemover Handle dragging a denomination out of the frame.
+     *                        If null, dragging is disabled.
+     */
+    public TransactionAmountSelectionRecyclerAdapter(@NonNull MOVCurrency currency, @Nullable TransactionAmountSelectionCurrencyRemover currencyRemover) {
+        this.currencyRemover = currencyRemover;
+        this.currency = currency;
 
         selectedDenominations = new ArrayList<>();
+        denominationAmountsMap = new HashMap<>();
     }
 
     @NonNull
@@ -65,20 +74,22 @@ public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adap
         }
 
         holder.setSelectedDenomination(denomination, selectedAmount, getItemViewType(position));
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-                        holder.getDragPayloadImage());
-                DenominationDragPayload payload = new DenominationDragPayload(denomination, true);
-                holder.getDragPayloadImage().startDrag(data, shadowBuilder, payload, 0);
+        if(currencyRemover != null) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ClipData data = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
+                            holder.getDragPayloadImage());
+                    DenominationDragPayload payload = new DenominationDragPayload(denomination, true);
+                    holder.getDragPayloadImage().startDrag(data, shadowBuilder, payload, 0);
 
-                viewModel.removeCurrency(denomination);
+                    currencyRemover.removeCurrency(denomination);
 
-                return true;
-            }
-        });
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -94,11 +105,36 @@ public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adap
         return VIEW_TYPE_HORIZONTAL;
     }
 
-    public void setSelectedAmount(Map<MOVCurrencyDenomination, Integer> denominationAmounts) {
-        this.denominationAmountsMap = denominationAmounts;
+    public void setAmount(int amount) {
+        List<MOVCurrencyDenomination> sortedDenominations = new ArrayList<>(currency.getDenominations());
+        Collections.sort(sortedDenominations);
+
+        denominationAmountsMap.clear();
+
+
+        int index = 0;
+        while(amount > 0) {
+            MOVCurrencyDenomination denomination = sortedDenominations.get(index);
+            int denominationAmount = denomination.getValue();
+
+            while(amount - denominationAmount >= 0) {
+                addDenomination(denominationAmountsMap, denomination);
+
+                amount -= denominationAmount;
+            }
+
+            index += 1;
+        }
+
+        updateSelectedDenominationsFromMap();
+
+        notifyDataSetChanged();
+    }
+
+    private void updateSelectedDenominationsFromMap() {
         selectedDenominations.clear();
 
-        for(Map.Entry<MOVCurrencyDenomination, Integer> denomination : denominationAmounts.entrySet()) {
+        for(Map.Entry<MOVCurrencyDenomination, Integer> denomination : denominationAmountsMap.entrySet()) {
             if(denomination.getValue() > 0) {
                 selectedDenominations.add(denomination.getKey());
             }
@@ -107,5 +143,16 @@ public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adap
         Collections.sort(selectedDenominations);
 
         notifyDataSetChanged();
+    }
+
+    private void addDenomination(Map<MOVCurrencyDenomination, Integer> denominationAmounts, MOVCurrencyDenomination denomination) {
+        Integer amount = denominationAmounts.get(denomination);
+        if(amount == null) {
+            amount = 0;
+        }
+
+        amount += 1;
+
+        denominationAmounts.put(denomination, amount);
     }
 }

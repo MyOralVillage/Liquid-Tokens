@@ -13,6 +13,7 @@ public class MOVUser {
     private String name = null;
     private String phone = null;
     private String qr = null;
+    private int balance;
 
     public MOVUser() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -81,6 +82,14 @@ public class MOVUser {
 
     public void setQr(String qr) {
         this.qr = qr;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 }
 
