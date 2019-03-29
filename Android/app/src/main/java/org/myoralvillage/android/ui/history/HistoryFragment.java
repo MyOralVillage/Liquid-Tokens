@@ -24,6 +24,7 @@ import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.data.transaction.MOVTransaction;
+import org.myoralvillage.android.ui.CurrentUserViewModel;
 import org.myoralvillage.android.ui.util.GlideApp;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -113,7 +115,12 @@ public class HistoryFragment extends Fragment {
         transactions = new ArrayList<>();
         int defaultHeightPx = getResources().getDimensionPixelSize(R.dimen.history_cell_height);
 
-        adapter = new HistoryAdapter(transactions, defaultHeightPx);
+        if(getActivity() == null) {
+            throw new IllegalStateException("Something went error. activity null");
+        }
+        CurrentUserViewModel userViewModel = ViewModelProviders.of(getActivity()).get(CurrentUserViewModel.class);
+
+        adapter = new HistoryAdapter(userViewModel, transactions, defaultHeightPx);
         recyclerView.setAdapter(adapter);
     }
 
