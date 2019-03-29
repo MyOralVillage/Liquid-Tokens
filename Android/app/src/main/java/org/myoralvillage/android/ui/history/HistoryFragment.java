@@ -27,12 +27,12 @@ import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.data.transaction.MOVTransaction;
 import org.myoralvillage.android.ui.util.GlideApp;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -43,13 +43,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransactionListener {
 
     private static final String LOG_TAG = "HistoryFragment";
-    public static final String HISTORY_FROM = "org.myoralvillage.android.ui.history.from";
-    public static final String HISTORY_TO = "org.myoralvillage.android.ui.history.to";
-    public static final String HISTORY_TIME = "org.myoralvillage.android.ui.history.time";
-    public static final String HISTORY_AMOUNT = "org.myoralvillage.android.ui.history.amount";
-    public static final String HISTORY_CURRENCY = "org.myoralvillage.android.ui.history.currency";
-    public static final String HISTORY_PHONE = "org.myoralvillage.android.ui.history.phone";
-    public static final String HISTORY_SENDER = "org.myoralvillage.android.ui.history.sender"; //boolean, if the user is the sender
+    static final String HISTORY_FROM = "org.myoralvillage.android.ui.history.from";
+    static final String HISTORY_TO = "org.myoralvillage.android.ui.history.to";
+    static final String HISTORY_TIME = "org.myoralvillage.android.ui.history.time";
+    static final String HISTORY_AMOUNT = "org.myoralvillage.android.ui.history.amount";
+    static final String HISTORY_CURRENCY = "org.myoralvillage.android.ui.history.currency";
+    static final String HISTORY_PHONE = "org.myoralvillage.android.ui.history.phone";
+    static final String HISTORY_SENDER = "org.myoralvillage.android.ui.history.sender"; //boolean, if the user is the sender
+    static final String HISTORY_PORTRAIT = "org.myoralvillage.android.ui.history.portrait";
+    static  final String HISTORY_FLAG = "org.myoralvillage.android.ui.history.flag";
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
     private DataSnapshot toSnapshot;
@@ -59,6 +61,8 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
     private Query usersQuery;
     private Query fromQuery;
     private Query toQuery;
+
+    private String location = "users/profile.jpg/";
 
     private List<MOVTransaction> transactions;
 
@@ -100,6 +104,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
 
         }
     };
+    private boolean flag = false;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -184,7 +189,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
     @Override
     public void onTransactionClick(int position) {
         position--;
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Boolean sender = user.getUid().equals(transactions.get(position).getFrom());
         String phone_number = "";
@@ -195,6 +199,36 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
             phone_number = users.child(transactions.get(position).getFrom()).getValue(MOVUser.class).getPhone();
         }
 
+        DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("users");
+        String to = transactions.get(position).getTo();
+        String from = transactions.get(position).getFrom();
+        String user_str;
+        if(user.getUid().equals(to))
+            user_str = from;
+        else
+            user_str = to;
+        Query ref = users.orderByChild("uid").equalTo(user_str);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int i = 0;
+                for (DataSnapshot datas : dataSnapshot.getChildren()) {
+                    i++;
+                    set_location(datas.child("image").getValue().toString());
+                    Log.d("DataSnapShot1", dataSnapshot + " " + location);
+                }
+                if(i == 0){
+                    set_location("users/profile.jpg/");
+                }
+                Log.d("DataSnapShot1.5", dataSnapshot + " " + i);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                set_location("users/profile.jpg/");
+            }
+            });
+        Log.d("DataSnapShot2",  this.location);
         Intent intent = new Intent(HistoryFragment.this.getActivity(),HistoryTransactionActivity.class);
         intent.putExtra(HISTORY_FROM,transactions.get(position).getFrom());
         intent.putExtra(HISTORY_TO,transactions.get(position).getTo());
@@ -203,6 +237,13 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
         intent.putExtra(HISTORY_CURRENCY,transactions.get(position).getCurrency());
         intent.putExtra(HISTORY_PHONE,phone_number);
         intent.putExtra(HISTORY_SENDER,sender);
+        intent.putExtra(HISTORY_PORTRAIT,this.location);
+        intent.putExtra(HISTORY_FLAG,this.flag);
         startActivity(intent);
+    }
+
+    private void set_location(String s){
+        this.location = s;
+        this.flag = true;
     }
 }

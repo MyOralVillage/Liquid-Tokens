@@ -109,5 +109,7 @@
     <string name="currency">Currency</string>
     <string name="transaction_detail_date_line">date line</string>
     <string name="transaction_detail_phone">phone image</string>
+    <string name="transaction_detail_background">The background for Transaction_details</string>
+    <string name="portrait">Portrait around someones face</string>
 
 </resources>

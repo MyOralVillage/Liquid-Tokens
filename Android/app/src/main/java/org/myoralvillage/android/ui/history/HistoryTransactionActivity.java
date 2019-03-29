@@ -7,13 +7,15 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 
 import org.myoralvillage.android.R;
@@ -33,7 +35,6 @@ public class HistoryTransactionActivity extends AppCompatActivity {
     private static final int TIME_PER_CIRCLE = 604800; //Seconds in a week
     //2592000 is a month.
 
-    private StorageReference profile_image;
     private String to_location;
     private String from_location;
     @Override
@@ -43,7 +44,6 @@ public class HistoryTransactionActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-        StorageReference image_ref;
         setContentView(R.layout.activity_transaction_history);
 
         final TextView text_date = findViewById(R.id.transaction_detail_date);
@@ -65,6 +65,7 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         long time = intent.getLongExtra(HistoryFragment.HISTORY_TIME, 0);
         String phone_num = intent.getStringExtra(HistoryFragment.HISTORY_PHONE);
         final Boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
+        final Boolean flag = intent.getBooleanExtra(HistoryFragment.HISTORY_FLAG,false);
 
         Log.d("ACTIVITY",from);
         Log.d("ACTIVITY",to);
@@ -73,31 +74,36 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         Log.d("ACTIVITY",""+time);
         Log.d("ACTIVITY",phone_num);
         Log.d("ACTIVITY",""+intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,true));
+        Log.d("ACTIVITY flag",""+intent.getBooleanExtra(HistoryFragment.HISTORY_FLAG,false));
 
+        String user_str;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("users");
-        to_location = "/users/" + to + "/profile.jpg";
-        from_location = "/users/" + from + "/profile.jpg";
-        users.orderByChild("image").equalTo(to_location).addListenerForSingleValueEvent(new ValueEventListener() {
+        if(user.getUid().equals(to))
+            user_str = from;
+        else
+            user_str = to;
+        Query ref = users.orderByChild("uid").equalTo(user_str);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    Log.d("LOGGGGG","NOT");
-                    if (sender) {
-                        profile_image = FirebaseStorage.getInstance().getReference(to_location);
-                    } else {
-                        profile_image = FirebaseStorage.getInstance().getReference(from_location);
-                    }
-                }else{
-                    Log.d("LOGGGGG","NULL");
-                    profile_image = null;
+                int i = 0;
+                for (DataSnapshot datas : dataSnapshot.getChildren()) {
+                    i++;
+                    set_location(datas.child("image").getValue().toString());
                 }
+                if (i == 0) {
+                    set_location("users/profile.jpg/");
+                }
+                Log.d("DataSnapShot1.5", dataSnapshot + " " + i);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                
             }
         });
+
 
         if(sender){
             hand.setImageResource(R.drawable.history_send_money);
@@ -105,6 +111,10 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             hand.setImageResource(R.drawable.history_receive_money);
 
         }
+        StorageReference profile_image = null;
+
+        if(!intent.getStringExtra(HistoryFragment.HISTORY_PORTRAIT).equals("no_image"))
+            profile_image =  FirebaseStorage.getInstance().getReference(intent.getStringExtra(HistoryFragment.HISTORY_PORTRAIT));
 
         String string_time = convertTime(time);
         text_date.setText(string_time);
@@ -127,18 +137,27 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             phone_number.setText(phone_num);
         else
             phone_number.setText("-------------");
-        if(profile_image != null) {
-            GlideApp.with(this)
-                    .load(profile_image)
-                    .dontAnimate()
-                    .override(250)
-                    .circleCrop()
-                    .into(image);
-        }
-        else{
-            image.setImageResource(R.drawable.blank_profile);
-        }
 
+        Log.d("LOGGGGGcc",""+profile_image);
+
+        GlideApp.with(this)
+                .load(profile_image)
+                .dontAnimate()
+                .override(250)
+                .circleCrop()
+                .into(image);
+
+    }
+
+    private void set_location(String location) {
+        StorageReference profile_image = FirebaseStorage.getInstance().getReference(location);
+        final ImageView image = findViewById(R.id.transaction_detail_image);
+        GlideApp.with(this)
+            .load(profile_image)
+            .dontAnimate()
+            .override(250)
+            .circleCrop()
+            .into(image);
     }
 
     /* From https://stackoverflow.com/questions/6782185/convert-timestamp-long-to-normal-date-format
