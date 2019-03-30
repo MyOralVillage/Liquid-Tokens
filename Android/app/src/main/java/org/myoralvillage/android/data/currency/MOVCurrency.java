@@ -21,7 +21,7 @@ public class MOVCurrency {
     public static List<String> getAvailableCurrencies(Context context) throws IOException {
         List<String> availableCurrencies = new ArrayList<>();
 
-        String[] currencyFiles = context.getResources().getAssets().list("currency/");
+        String[] currencyFiles = context.getResources().getAssets().list("currency");
         if(currencyFiles != null) {
             for(String currencyFile : currencyFiles) {
                 Log.v("MOVCurrency", currencyFile);
