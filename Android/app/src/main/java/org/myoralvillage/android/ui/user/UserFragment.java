@@ -116,7 +116,7 @@ public class UserFragment extends Fragment {
                 userNameText.setText(movUser.getName());
                 userPhoneText.setText(movUser.getPhone());
 
-                ContactCard.setUserImage(getContext(), movUser, pictureCardImage);
+                ContactCard.setUserImage(getContext(), movUser, pictureCardImage, false);
 
                 ExtendedCurrency currency = MOVCurrency.getExtendedCurrencyByIso(movUser.getCurrency().toLowerCase());
 

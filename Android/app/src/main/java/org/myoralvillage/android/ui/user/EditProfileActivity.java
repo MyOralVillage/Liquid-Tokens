@@ -156,7 +156,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void showData(MOVUser user) {
         userNameEditText.setText(user.getName());
-        ContactCard.setUserImage(this, user, userProfileImage);
+        ContactCard.setUserImage(this, user, userProfileImage, false);
 
         ExtendedCurrency currency = MOVCurrency.getExtendedCurrencyByIso(user.getCurrency().toUpperCase());
         if(currency != null) {
@@ -244,7 +244,7 @@ public class EditProfileActivity extends AppCompatActivity {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference child = storageRef.child("users/" + currentUser.getUid() + "/raw_profile.jpg");
+            StorageReference child = storageRef.child("users/" + currentUser.getUid() + "/raw_"+selectedPhotoUri.getLastPathSegment()+".jpg");
             child.putFile(selectedPhotoUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
