@@ -52,8 +52,7 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
     private MaterialButton nextButton;
 
     private DatabaseReference myRef;
-    private String UID;
-    private String currency = "usd";
+    private String currency;
     private static MOVUser user;
 
     ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
@@ -81,21 +80,9 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myRef = FirebaseDatabase.getInstance().getReference();
-        UID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        myRef.addValueEventListener((new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        }));
         setContentView(R.layout.activity_transaction);
+
+        viewPager = findViewById(R.id.transaction_pager);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -161,34 +148,57 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
                 viewPager.setCurrentItem(currentItem + 1, true);
             }
         });
-        pagerAdapter = new TransactionPagerAdapter(getSupportFragmentManager(),
-                transactionType, currency,
-                transactionSendTo);
-        viewPager = findViewById(R.id.transaction_pager);
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(pageChangeListener);
-        viewPager.setCurrentItem(currentItem, false);
-
-        StepperIndicator stepperIndicator = findViewById(R.id.transaction_stepper);
-        stepperIndicator.setViewPager(viewPager);
     }
 
     private void showData(DataSnapshot dataSnapshot) {
-        currency = dataSnapshot.child("users/" + UID).getValue(MOVUser.class).getCurrency().toLowerCase();
-        Log.e("CURRENCY", currency);
-        pagerAdapter = new TransactionPagerAdapter(getSupportFragmentManager(),
-                transactionType, currency,
-                transactionSendTo);
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(pageChangeListener);
-        viewPager.setCurrentItem(currentItem, false);
+        MOVUser user = dataSnapshot.getValue(MOVUser.class);
+
+        if(user != null && !user.getCurrency().toLowerCase().equals(currency)) {
+            currency = user.getCurrency().toLowerCase();
+            Log.e("CURRENCY", currency);
+            pagerAdapter = new TransactionPagerAdapter(getSupportFragmentManager(),
+                    transactionType, currency,
+                    transactionSendTo);
+            viewPager.setAdapter(pagerAdapter);
+            viewPager.addOnPageChangeListener(pageChangeListener);
+            viewPager.setCurrentItem(currentItem, false);
+
+            StepperIndicator stepperIndicator = findViewById(R.id.transaction_stepper);
+            stepperIndicator.setViewPager(viewPager);
+
+            pageChangeListener.onPageSelected(currentItem);
+        }
     }
+
+    private ValueEventListener userValueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            showData(dataSnapshot);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        pageChangeListener.onPageSelected(currentItem);
+        String uid = FirebaseAuth.getInstance().getUid();
+        myRef = FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(uid);
+
+        myRef.addValueEventListener(userValueEventListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        myRef.removeEventListener(userValueEventListener);
     }
 
     @Override
