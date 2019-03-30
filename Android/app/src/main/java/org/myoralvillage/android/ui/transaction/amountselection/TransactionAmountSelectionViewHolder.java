@@ -1,6 +1,7 @@
 package org.myoralvillage.android.ui.transaction.amountselection;
 
 import android.content.res.Resources;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -62,9 +63,10 @@ public class TransactionAmountSelectionViewHolder extends RecyclerView.ViewHolde
             cardViews[i].setVisibility(View.GONE);
 
             if(denomination.getType() == MOVCurrencyDenominationType.Coin) {
-                cardViews[i].setRadius(1000);
+                cardViews[i].setCardElevation(0);
             } else {
                 cardViews[i].setRadius(0);
+                cardViews[i].setCardElevation(4 * i);
             }
         }
 

@@ -213,7 +213,12 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
     private boolean isCurrentFragment(Fragment fragment) {
         int currentPosition = viewPager.getCurrentItem();
 
-        return fragment.getClass().isInstance(pagerAdapter.getItem(currentPosition));
+        if(pagerAdapter != null) {
+            return fragment.getClass().isInstance(pagerAdapter.getItem(currentPosition));
+
+        } else {
+            return false;
+        }
     }
 
     private void setCanGoBack(boolean canGoBack) {
