@@ -64,6 +64,7 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         String currency = intent.getStringExtra(HistoryFragment.HISTORY_CURRENCY);
         long time = intent.getLongExtra(HistoryFragment.HISTORY_TIME, 0);
         String phone_num = intent.getStringExtra(HistoryFragment.HISTORY_PHONE);
+        String name = intent.getStringExtra(HistoryFragment.HISTORY_FROM);
         final Boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
         final Boolean flag = intent.getBooleanExtra(HistoryFragment.HISTORY_FLAG,false);
 
@@ -106,9 +107,9 @@ public class HistoryTransactionActivity extends AppCompatActivity {
 
 
         if(sender){
-            hand.setImageResource(R.drawable.history_send_money);
+            hand.setImageResource(R.drawable.history_send_money_white);
         }else{
-            hand.setImageResource(R.drawable.history_receive_money);
+            hand.setImageResource(R.drawable.history_receive_money_white);
 
         }
         StorageReference profile_image = null;
