@@ -35,8 +35,10 @@ public class PhotoSelectionDialog {
         selectPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent selectPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                activity.startActivityForResult(selectPhoto, REQUEST_SELECT_PHOTO);
+                Intent selectPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+                selectPhoto.setType("image/*");
+
+                activity.startActivityForResult(Intent.createChooser(selectPhoto, "Select Photo"), REQUEST_SELECT_PHOTO);
             }
         });
         MaterialButton takePhotoButton = bodyView.findViewById(R.id.contact_photo_select_button_take);
@@ -55,9 +57,12 @@ public class PhotoSelectionDialog {
                 takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
                 activity.startActivityForResult(takePhoto, REQUEST_TAKE_PHOTO);
-
             }
         });
+
+        if(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(activity.getPackageManager()) == null) {
+            takePhotoButton.setVisibility(View.GONE);
+        }
 
 
         builder.setView(bodyView);
