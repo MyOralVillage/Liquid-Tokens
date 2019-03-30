@@ -1,7 +1,6 @@
 package org.myoralvillage.android.ui.history;
 
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,11 +30,11 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements ValueE
     private MOVTransaction transaction;
     private DatabaseReference activeReference;
 
-    private CircleImageView contactImage;
-    private TextView amountText;
-    HistoryAdapter.OnTransactionListener onTransactionListener;
+    private final CircleImageView contactImage;
+    private final TextView amountText;
+    final HistoryAdapter.OnTransactionListener onTransactionListener;
 
-    private MOVCurrencyCache currencyCache;
+    private final MOVCurrencyCache currencyCache;
 
     public HistoryViewHolder(@NonNull View itemView, MOVCurrencyCache currencyCache, HistoryAdapter.OnTransactionListener onTransactionListener) {
         super(itemView);

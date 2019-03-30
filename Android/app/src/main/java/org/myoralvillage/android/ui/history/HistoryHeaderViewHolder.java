@@ -1,6 +1,5 @@
 package org.myoralvillage.android.ui.history;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +14,6 @@ import org.myoralvillage.android.ui.widgets.ContactCard;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,12 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HistoryHeaderViewHolder extends RecyclerView.ViewHolder implements Observer<MOVUser>{
 
     private CurrentUserViewModel viewModel;
-    private RecyclerView balanceRecycler;
-    private TextView balanceText;
-    private ImageView userImage;
+    private final RecyclerView balanceRecycler;
+    private final TextView balanceText;
+    private final ImageView userImage;
 
-    private TransactionAmountSelectionRecyclerAdapter balanceAdapter;
-    private MOVCurrencyCache currencyCache;
+    private final MOVCurrencyCache currencyCache;
 
     public HistoryHeaderViewHolder(@NonNull View itemView, MOVCurrencyCache currencyCache) {
         super(itemView);
@@ -55,7 +52,7 @@ public class HistoryHeaderViewHolder extends RecyclerView.ViewHolder implements 
     @Override
     public void onChanged(MOVUser movUser) {
         MOVCurrency currency = currencyCache.getCurrency(itemView.getContext(), movUser.getCurrency().toLowerCase());
-        balanceAdapter = new TransactionAmountSelectionRecyclerAdapter(currency, null);
+        TransactionAmountSelectionRecyclerAdapter balanceAdapter = new TransactionAmountSelectionRecyclerAdapter(currency, null);
         balanceAdapter.setAmount(movUser.getBalance());
         balanceText.setText(currency.getFormattedString(movUser.getBalance()));
         balanceRecycler.setAdapter(balanceAdapter);

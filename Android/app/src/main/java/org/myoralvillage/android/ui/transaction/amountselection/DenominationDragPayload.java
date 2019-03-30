@@ -3,8 +3,8 @@ package org.myoralvillage.android.ui.transaction.amountselection;
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 
 public class DenominationDragPayload {
-    private MOVCurrencyDenomination denomination;
-    private boolean selectedAmount;
+    private final MOVCurrencyDenomination denomination;
+    private final boolean selectedAmount;
 
     public DenominationDragPayload(MOVCurrencyDenomination denomination, boolean selectedAmount) {
         this.denomination = denomination;

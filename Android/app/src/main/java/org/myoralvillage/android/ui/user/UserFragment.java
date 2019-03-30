@@ -1,6 +1,5 @@
 package org.myoralvillage.android.ui.user;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,9 +27,6 @@ import androidx.lifecycle.ViewModelProviders;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserFragment extends Fragment {
-
-    //Firebase
-    private static final String TAG = "UserFragment";
 
     //private CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
 
@@ -126,14 +122,4 @@ public class UserFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 }

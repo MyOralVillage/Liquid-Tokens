@@ -1,8 +1,6 @@
 package org.myoralvillage.android.ui.history;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -34,13 +31,6 @@ public class HistoryTransactionActivity extends AppCompatActivity {
 
     private static final int TIME_PER_CIRCLE = 604800; //Seconds in a week
     //2592000 is a month.
-
-    private String to_location;
-    private String from_location;
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-    }
 
     protected void onStart() {
         super.onStart();
@@ -64,18 +54,7 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         String currency = intent.getStringExtra(HistoryFragment.HISTORY_CURRENCY);
         long time = intent.getLongExtra(HistoryFragment.HISTORY_TIME, 0);
         String phone_num = intent.getStringExtra(HistoryFragment.HISTORY_PHONE);
-        String name = intent.getStringExtra(HistoryFragment.HISTORY_FROM);
-        final Boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
-        final Boolean flag = intent.getBooleanExtra(HistoryFragment.HISTORY_FLAG,false);
-
-        Log.d("ACTIVITY",from);
-        Log.d("ACTIVITY",to);
-        Log.d("ACTIVITY",""+amount);
-        Log.d("ACTIVITY",currency);
-        Log.d("ACTIVITY",""+time);
-        Log.d("ACTIVITY",phone_num);
-        Log.d("ACTIVITY",""+intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,true));
-        Log.d("ACTIVITY flag",""+intent.getBooleanExtra(HistoryFragment.HISTORY_FLAG,false));
+        final boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
 
         String user_str;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

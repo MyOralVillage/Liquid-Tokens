@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
@@ -38,7 +37,6 @@ import org.myoralvillage.android.ui.contacts.AddContactViewModel;
 import org.myoralvillage.android.ui.util.ErrorClearTextWatcher;
 import org.myoralvillage.android.ui.widgets.ContactCard;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

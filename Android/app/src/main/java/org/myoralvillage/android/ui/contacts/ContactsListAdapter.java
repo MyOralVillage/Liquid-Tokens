@@ -21,7 +21,7 @@ public class ContactsListAdapter extends BaseAdapter implements Filterable {
 
     private List<MOVUser> contacts;
     private List<MOVUser> contactsToDisplay;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     private CharSequence lastConstraint;
 

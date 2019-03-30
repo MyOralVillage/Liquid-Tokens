@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.user.EditProfileActivity"
-            android:label="@string/title_edit_profile"></activity>
+            android:label="@string/title_edit_profile" />
         <activity
             android:name=".ui.history.HistoryTransactionActivity"
             android:label="@string/title_activity_history_transaction" />

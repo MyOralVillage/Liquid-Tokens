@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class TransactionPagerAdapter extends FragmentPagerAdapter {
 
-    private List<Fragment> fragments;
+    private final List<Fragment> fragments;
 
     /**
      * Pager adapter for a transaction flow
@@ -48,7 +48,4 @@ public class TransactionPagerAdapter extends FragmentPagerAdapter {
         return fragments.size();
     }
 
-    public List<Fragment> getPages() {
-        return fragments;
-    }
 }

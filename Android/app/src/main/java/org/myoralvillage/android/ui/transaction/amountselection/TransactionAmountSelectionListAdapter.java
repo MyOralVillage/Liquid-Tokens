@@ -16,7 +16,7 @@ import java.util.List;
 public class TransactionAmountSelectionListAdapter extends BaseAdapter {
 
     private List<MOVCurrencyDenomination> selectedAmounts;
-    private TransactionAmountSelectionViewModel viewModel;
+    private final TransactionAmountSelectionViewModel viewModel;
 
     public TransactionAmountSelectionListAdapter(TransactionAmountSelectionViewModel viewModel) {
         selectedAmounts = new ArrayList<>();

@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModel;
 
 public class ContactsListViewModel extends ViewModel {
 
-    private MutableLiveData<List<MOVUser>> contacts = new MutableLiveData<>();
+    private final MutableLiveData<List<MOVUser>> contacts = new MutableLiveData<>();
 
     public ContactsListViewModel() {
         contacts.setValue(new ArrayList<MOVUser>());

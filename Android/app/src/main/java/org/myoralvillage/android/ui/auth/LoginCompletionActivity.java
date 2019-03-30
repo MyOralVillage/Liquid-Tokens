@@ -10,7 +10,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +41,6 @@ import org.myoralvillage.android.ui.util.ErrorClearTextWatcher;
 import org.myoralvillage.android.ui.widgets.PhotoSelectionDialog;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,9 +57,6 @@ public class LoginCompletionActivity extends AppCompatActivity {
     //private TextInputEditText lastNameText;
     private TextInputEditText currencyText;
 
-    private MaterialButton submitButton;
-
-    private MaterialCardView pictureCard;
     private ViewSwitcher pictureCardSwitcher;
     private CircleImageView pictureCardImage;
     private FloatingActionButton pictureDeleteButton;
@@ -73,7 +68,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
     private CountryCodePicker ccp;
     private String currency;
-    private CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
+    private final CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,11 +112,11 @@ public class LoginCompletionActivity extends AppCompatActivity {
             }
         });
 
-        ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        ccp = findViewById(R.id.ccp);
         ccp.setHidePhoneCode(true);
         ccp.showFullName(true);
 
-        submitButton = findViewById(R.id.login_completion_button_submit);
+        MaterialButton submitButton = findViewById(R.id.login_completion_button_submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +124,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
             }
         });
 
-        pictureCard = findViewById(R.id.login_completion_card);
+        MaterialCardView pictureCard = findViewById(R.id.login_completion_card);
         pictureCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,7 +197,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
         Editable firstNameEditable = firstNameText.getText();
 //        Editable lastNameEditable = lastNameText.getText();
 
-        String firstNameString = null;
+        String firstNameString;
 //        String lastNameString = null;
 
         String error = getResources().getString(R.string.login_completion_error_empty_name);
