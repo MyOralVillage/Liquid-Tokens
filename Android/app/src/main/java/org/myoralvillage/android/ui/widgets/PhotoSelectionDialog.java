@@ -1,25 +1,20 @@
 package org.myoralvillage.android.ui.widgets;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.google.android.material.button.MaterialButton;
 
 import org.myoralvillage.android.R;
-import org.myoralvillage.android.ui.auth.LoginCompletionActivity;
 
 import java.io.File;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
-
-import static android.app.Activity.RESULT_OK;
 
 public class PhotoSelectionDialog {
 

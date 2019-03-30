@@ -28,9 +28,7 @@ import android.view.MenuItem;
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.ui.history.HistoryFragment;
-import org.myoralvillage.android.ui.request.RequestFragment;
 import org.myoralvillage.android.ui.scan.ScanFragment;
-import org.myoralvillage.android.ui.send.SendFragment;
 import org.myoralvillage.android.ui.transaction.TransactionsFragment;
 import org.myoralvillage.android.ui.user.UserFragment;
 
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment mFragmentHistory = HistoryFragment.newInstance();
     private final Fragment mFragmentUser = UserFragment.newInstance();
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 .child(currentUser.getUid());
     }
 
-    private ValueEventListener currentUserValueEventListener = new ValueEventListener() {
+    private final ValueEventListener currentUserValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             CurrentUserViewModel currentUserViewModel = ViewModelProviders.of(MainActivity.this)

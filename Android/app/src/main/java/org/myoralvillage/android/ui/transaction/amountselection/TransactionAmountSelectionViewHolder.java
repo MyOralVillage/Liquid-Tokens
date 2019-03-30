@@ -25,10 +25,10 @@ public class TransactionAmountSelectionViewHolder extends RecyclerView.ViewHolde
 
     private static final int MAX_STACK = 5;
 
-    private DenominationImageView[] imageViews;
-    private MaterialCardView[] cardViews;
-    private LinearLayout tallyLayout;
-    private View containerView;
+    private final DenominationImageView[] imageViews;
+    private final MaterialCardView[] cardViews;
+    private final LinearLayout tallyLayout;
+    private final View containerView;
 
     public TransactionAmountSelectionViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -109,8 +109,8 @@ public class TransactionAmountSelectionViewHolder extends RecyclerView.ViewHolde
             maxImageHeight = dpToPx(50);
         }
 
-        for(int i = 0; i < imageViews.length; i++) {
-            imageViews[i].setMaxHeight(maxImageHeight);
+        for (DenominationImageView imageView : imageViews) {
+            imageView.setMaxHeight(maxImageHeight);
         }
     }
 

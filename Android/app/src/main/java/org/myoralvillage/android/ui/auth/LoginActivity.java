@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ViewSwitcher;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,11 +39,10 @@ public class LoginActivity extends Activity {
     private TextInputEditText codeField;
 
     private String verificationId;
-    private PhoneAuthProvider.ForceResendingToken resendToken;
 
     private ViewSwitcher viewSwitcher;
     private CountryCodePicker ccp;
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private final PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
             Log.d(LOG_TAG, "onVerificationCompleted: " + phoneAuthCredential);
@@ -62,7 +60,6 @@ public class LoginActivity extends Activity {
         @Override
         public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
             LoginActivity.this.verificationId = verificationId;
-            LoginActivity.this.resendToken = token;
 
             viewSwitcher.showNext();
         }
@@ -78,7 +75,7 @@ public class LoginActivity extends Activity {
         phoneField.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         phoneField.addTextChangedListener(new ErrorClearTextWatcher(phoneField));
 
-        ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        ccp = findViewById(R.id.ccp);
         ccp.registerPhoneNumberTextView(phoneField);
         ccp.enablePhoneAutoFormatter(true);
         ccp.hideNameCode(true);

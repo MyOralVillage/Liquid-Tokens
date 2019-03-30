@@ -1,14 +1,11 @@
 package org.myoralvillage.android.ui.transaction;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -23,7 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVUser;
-import org.myoralvillage.android.ui.contacts.ContactActivity;
 import org.myoralvillage.android.ui.contacts.ContactsActivity;
 import org.myoralvillage.android.ui.widgets.ContactCard;
 
@@ -243,17 +239,17 @@ public class TransactionSelectContactFragment extends Fragment implements Transa
 
         private MOVUser user;
 
-        public MOVUserCardViewHolder(@NonNull MaterialCardView itemView) {
+        MOVUserCardViewHolder(@NonNull MaterialCardView itemView) {
             super(itemView);
 
         }
 
-        public void setUser(MOVUser user) {
+        void setUser(MOVUser user) {
             this.user = user;
             ContactCard.setUser(itemView.getContext(), (MaterialCardView) itemView, user);
         }
 
-        public MOVUser getUser() {
+        MOVUser getUser() {
             return user;
         }
     }

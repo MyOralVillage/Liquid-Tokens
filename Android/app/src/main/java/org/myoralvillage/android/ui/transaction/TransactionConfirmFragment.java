@@ -7,24 +7,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
-import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.currency.MOVCurrency;
-import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionRecyclerAdapter;
 import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionViewModel;
@@ -32,10 +26,8 @@ import org.myoralvillage.android.ui.widgets.ContactCard;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -176,7 +168,7 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
     private void doTransaction() {
         TransactionViewModel transactionViewModel = ViewModelProviders.of(getActivity()).get(TransactionViewModel.class);
 
-        Map<String, Object> data = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<>();
         data.put("to", transactionViewModel.getSelectedContact().getValue().getUid());
         data.put("amount", transactionViewModel.getSelectedAmount().getValue());
 
@@ -211,7 +203,7 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
                 }
 
                 return result;
-            };
+            }
         });
     }
 

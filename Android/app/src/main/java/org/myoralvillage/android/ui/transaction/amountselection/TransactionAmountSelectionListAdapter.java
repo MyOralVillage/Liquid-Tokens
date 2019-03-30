@@ -13,10 +13,10 @@ import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionAmountSelectionListAdapter extends BaseAdapter {
+class TransactionAmountSelectionListAdapter extends BaseAdapter {
 
     private List<MOVCurrencyDenomination> selectedAmounts;
-    private TransactionAmountSelectionViewModel viewModel;
+    private final TransactionAmountSelectionViewModel viewModel;
 
     public TransactionAmountSelectionListAdapter(TransactionAmountSelectionViewModel viewModel) {
         selectedAmounts = new ArrayList<>();

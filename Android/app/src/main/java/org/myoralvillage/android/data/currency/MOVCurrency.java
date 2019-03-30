@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 
 public class MOVCurrency {
 
@@ -65,9 +64,9 @@ public class MOVCurrency {
         return currency;
     }
 
-    private List<MOVCurrencyDenomination> mDenominations;
+    private final List<MOVCurrencyDenomination> mDenominations;
 
-    private String mCode;
+    private final String mCode;
 
     private MOVCurrency(String code, List<MOVCurrencyDenomination> denominations) {
         this.mDenominations = denominations;
@@ -82,11 +81,11 @@ public class MOVCurrency {
         return mCode;
     }
 
-    public String getSymbol() {
+    private String getSymbol() {
         return Currency.getInstance(mCode).getSymbol();
     }
 
-    public double convertToFraction(int amount) {
+    private double convertToFraction(int amount) {
         return (double) amount / Math.pow(10, Currency.getInstance(mCode).getDefaultFractionDigits());
     }
 

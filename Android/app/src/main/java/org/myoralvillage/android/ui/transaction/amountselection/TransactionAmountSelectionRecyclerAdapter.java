@@ -1,7 +1,6 @@
 package org.myoralvillage.android.ui.transaction.amountselection;
 
 import android.content.ClipData;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,6 @@ import android.view.ViewGroup;
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
-import org.myoralvillage.android.data.model.MOVUser;
-import org.myoralvillage.android.ui.transaction.TransactionViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,14 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adapter<TransactionAmountSelectionViewHolder>{
 
-    public static final int VIEW_TYPE_HORIZONTAL = 0;
+    private static final int VIEW_TYPE_HORIZONTAL = 0;
     public static final int VIEW_TYPE_VERTICAL = 1;
 
-    private Map<MOVCurrencyDenomination, Integer> denominationAmountsMap;
-    private List<MOVCurrencyDenomination> selectedDenominations;
+    private final Map<MOVCurrencyDenomination, Integer> denominationAmountsMap;
+    private final List<MOVCurrencyDenomination> selectedDenominations;
 
-    private TransactionAmountSelectionCurrencyRemover currencyRemover;
-    private MOVCurrency currency;
+    private final TransactionAmountSelectionCurrencyRemover currencyRemover;
+    private final MOVCurrency currency;
 
     /**
      *

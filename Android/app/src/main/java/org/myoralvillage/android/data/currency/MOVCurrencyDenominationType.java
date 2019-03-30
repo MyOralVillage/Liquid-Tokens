@@ -3,7 +3,7 @@ package org.myoralvillage.android.data.currency;
 public enum MOVCurrencyDenominationType {
     Bill("bill"), Coin("coin");
 
-    private String type;
+    private final String type;
 
     MOVCurrencyDenominationType(String type) {
         this.type = type;
