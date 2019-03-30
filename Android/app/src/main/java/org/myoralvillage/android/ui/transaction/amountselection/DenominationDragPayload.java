@@ -2,7 +2,7 @@ package org.myoralvillage.android.ui.transaction.amountselection;
 
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 
-public class DenominationDragPayload {
+class DenominationDragPayload {
     private final MOVCurrencyDenomination denomination;
     private final boolean selectedAmount;
 

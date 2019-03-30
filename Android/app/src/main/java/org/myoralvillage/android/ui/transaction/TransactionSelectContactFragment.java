@@ -239,17 +239,17 @@ public class TransactionSelectContactFragment extends Fragment implements Transa
 
         private MOVUser user;
 
-        public MOVUserCardViewHolder(@NonNull MaterialCardView itemView) {
+        MOVUserCardViewHolder(@NonNull MaterialCardView itemView) {
             super(itemView);
 
         }
 
-        public void setUser(MOVUser user) {
+        void setUser(MOVUser user) {
             this.user = user;
             ContactCard.setUser(itemView.getContext(), (MaterialCardView) itemView, user);
         }
 
-        public MOVUser getUser() {
+        MOVUser getUser() {
             return user;
         }
     }

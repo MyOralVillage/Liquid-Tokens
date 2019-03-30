@@ -52,7 +52,7 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
     private String currency;
     private static MOVUser user;
 
-    final ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+    private final ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
             currentItem = position;

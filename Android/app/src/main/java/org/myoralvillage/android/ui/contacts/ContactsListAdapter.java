@@ -17,7 +17,7 @@ import org.myoralvillage.android.ui.widgets.ContactCard;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsListAdapter extends BaseAdapter implements Filterable {
+class ContactsListAdapter extends BaseAdapter implements Filterable {
 
     private List<MOVUser> contacts;
     private List<MOVUser> contactsToDisplay;

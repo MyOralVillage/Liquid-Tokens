@@ -39,7 +39,7 @@ import androidx.lifecycle.ViewModelProviders;
 public class ContactsActivity extends AppCompatActivity implements ChildEventListener, SearchView.OnQueryTextListener, ContactsListAdapter.OnContactSelectedListener {
 
     public static final String EXTRA_SELECTION_MODE = "SelectionMode";
-    public static final int SELECTION_MODE_VIEW = 0;
+    private static final int SELECTION_MODE_VIEW = 0;
     public static final int SELECTION_MODE_PICK = 1;
 
     public static final int RESULT_DID_PICK = 0;

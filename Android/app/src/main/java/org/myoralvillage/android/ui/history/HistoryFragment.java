@@ -41,7 +41,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
     static final String HISTORY_PHONE = "org.myoralvillage.android.ui.history.phone";
     static final String HISTORY_SENDER = "org.myoralvillage.android.ui.history.sender"; //boolean, if the user is the sender
     static final String HISTORY_PORTRAIT = "org.myoralvillage.android.ui.history.portrait";
-    static  final String HISTORY_FLAG = "org.myoralvillage.android.ui.history.flag";
+    private static  final String HISTORY_FLAG = "org.myoralvillage.android.ui.history.flag";
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
     private DataSnapshot toSnapshot;
@@ -206,9 +206,9 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int i = 0;
-                for (DataSnapshot datas : dataSnapshot.getChildren()) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     i++;
-                    set_location(datas.child("image").getValue().toString());
+                    set_location(data.child("image").getValue().toString());
                     Log.d("DataSnapShot1", dataSnapshot + " " + location);
                 }
                 if(i == 0){

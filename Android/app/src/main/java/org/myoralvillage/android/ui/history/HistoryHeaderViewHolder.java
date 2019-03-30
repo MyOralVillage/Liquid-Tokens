@@ -18,7 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HistoryHeaderViewHolder extends RecyclerView.ViewHolder implements Observer<MOVUser>{
+class HistoryHeaderViewHolder extends RecyclerView.ViewHolder implements Observer<MOVUser>{
 
     private CurrentUserViewModel viewModel;
     private final RecyclerView balanceRecycler;

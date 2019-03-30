@@ -83,7 +83,7 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
         Given a long representing the seconds since the Epoch (00:00:00 Thursday, 1 January 1970)
         Format it into a yyyy/MM/dd HH:mm:ss format for easy of printing to screen.
      */
-    public String convertTime(long time){
+    private String convertTime(long time){
         Date date = new Date(time);
         Format format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return format.format(date);

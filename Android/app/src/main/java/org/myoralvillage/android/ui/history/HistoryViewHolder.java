@@ -25,14 +25,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static org.myoralvillage.android.ui.history.HistoryAdapter.VIEW_TYPE_FROM;
 import static org.myoralvillage.android.ui.history.HistoryAdapter.VIEW_TYPE_TO;
 
-public class HistoryViewHolder extends RecyclerView.ViewHolder implements ValueEventListener, View.OnClickListener {
+class HistoryViewHolder extends RecyclerView.ViewHolder implements ValueEventListener, View.OnClickListener {
 
     private MOVTransaction transaction;
     private DatabaseReference activeReference;
 
     private final CircleImageView contactImage;
     private final TextView amountText;
-    final HistoryAdapter.OnTransactionListener onTransactionListener;
+    private final HistoryAdapter.OnTransactionListener onTransactionListener;
 
     private final MOVCurrencyCache currencyCache;
 

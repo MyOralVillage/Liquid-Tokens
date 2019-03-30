@@ -3,7 +3,7 @@ package org.myoralvillage.android.ui.transaction.amountselection;
 import android.view.DragEvent;
 import android.view.View;
 
-public class DenominationTargetDragListener implements View.OnDragListener {
+class DenominationTargetDragListener implements View.OnDragListener {
 
     private final TransactionAmountSelectionViewModel model;
     private final boolean add;

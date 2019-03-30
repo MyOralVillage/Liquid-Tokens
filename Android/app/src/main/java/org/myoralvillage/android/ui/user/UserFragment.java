@@ -47,9 +47,7 @@ public class UserFragment extends Fragment {
 
     // TODO: Rename and change types and number of parameters
     public static UserFragment newInstance() {
-        UserFragment fragment = new UserFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new UserFragment();
     }
 
     @Override

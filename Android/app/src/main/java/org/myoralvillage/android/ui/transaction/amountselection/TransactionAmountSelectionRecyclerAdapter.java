@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adapter<TransactionAmountSelectionViewHolder>{
 
-    public static final int VIEW_TYPE_HORIZONTAL = 0;
+    private static final int VIEW_TYPE_HORIZONTAL = 0;
     public static final int VIEW_TYPE_VERTICAL = 1;
 
     private final Map<MOVCurrencyDenomination, Integer> denominationAmountsMap;

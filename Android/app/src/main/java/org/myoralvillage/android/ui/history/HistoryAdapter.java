@@ -17,7 +17,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int VIEW_TYPE_TO = 0;
     public static final int VIEW_TYPE_FROM = 1;

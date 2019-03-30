@@ -81,11 +81,11 @@ public class MOVCurrency {
         return mCode;
     }
 
-    public String getSymbol() {
+    private String getSymbol() {
         return Currency.getInstance(mCode).getSymbol();
     }
 
-    public double convertToFraction(int amount) {
+    private double convertToFraction(int amount) {
         return (double) amount / Math.pow(10, Currency.getInstance(mCode).getDefaultFractionDigits());
     }
 
