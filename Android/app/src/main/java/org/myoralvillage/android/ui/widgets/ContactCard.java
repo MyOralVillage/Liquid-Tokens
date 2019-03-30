@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,11 +31,16 @@ public class ContactCard {
     }
 
     public static void setUserImage(Context context, MOVUser user, ImageView imageView) {
+        setUserImage(context, user, imageView, false);
+    }
+
+    public static void setUserImage(Context context, MOVUser user, ImageView imageView, boolean skipMemoryCache) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
 
         GlideApp.with(context)
                 .load(storageReference)
                 .dontAnimate()
+                .skipMemoryCache(skipMemoryCache)
                 .into(imageView);
     }
 }

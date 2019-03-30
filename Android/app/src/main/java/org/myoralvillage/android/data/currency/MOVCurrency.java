@@ -3,6 +3,8 @@ package org.myoralvillage.android.data.currency;
 import android.content.Context;
 import android.util.Log;
 
+import com.mynameismidori.currencypicker.ExtendedCurrency;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +17,20 @@ import java.util.List;
 import java.util.Locale;
 
 public class MOVCurrency {
+
+    public static List<String> getAvailableCurrencies(Context context) throws IOException {
+        List<String> availableCurrencies = new ArrayList<>();
+
+        String[] currencyFiles = context.getResources().getAssets().list("currency/");
+        if(currencyFiles != null) {
+            for(String currencyFile : currencyFiles) {
+                Log.v("MOVCurrency", currencyFile);
+                availableCurrencies.add(currencyFile.split("\\.")[0]);
+            }
+        }
+
+        return availableCurrencies;
+    }
 
     public static MOVCurrency loadFromJson(Context context, String IsoCountryCode) throws IOException, JSONException {
         InputStream stream;
@@ -77,5 +93,23 @@ public class MOVCurrency {
     public String getFormattedString(int amount) {
         int nFractionDigits = Currency.getInstance(mCode).getDefaultFractionDigits();
         return String.format("%s%." + nFractionDigits + "f", getSymbol(), convertToFraction(amount));
+    }
+
+    /**
+     * Used in conjunction with CurrencyPicker, because CurrencyPicker#getCurrencyByIso doesn't work
+     * properly
+     * @param iso the iso currency code
+     * @return the ExtendedCurrency currency object
+     */
+    public static ExtendedCurrency getExtendedCurrencyByIso(String iso) {
+        iso = iso.toUpperCase();
+        List<ExtendedCurrency> allCurrencies = ExtendedCurrency.getAllCurrencies();
+        for(ExtendedCurrency currency : allCurrencies) {
+            if(currency.getCode().equals(iso)) {
+                return currency;
+            }
+        }
+
+        return null;
     }
 }
