@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if(!task.isSuccessful()){
+                        if (!task.isSuccessful()) {
                             Log.d("T2", "getInstanceId failed", task.getException());
                             return;
                         }
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().
                                 child("users").child(userId).child("messagingToken");
-                        if(!ref.toString().equals(token)) {
+                        if (!ref.toString().equals(token)) {
                             ref.setValue(token);
                         }
                     }

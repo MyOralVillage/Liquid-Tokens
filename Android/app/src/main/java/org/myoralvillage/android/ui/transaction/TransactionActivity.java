@@ -12,11 +12,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.badoualy.stepperindicator.StepperIndicator;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,19 +51,23 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
     private MaterialButton backButton;
     private MaterialButton nextButton;
 
+    private DatabaseReference myRef;
+    private String currency;
+    private static MOVUser user;
+
     ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
             currentItem = position;
 
-            if(position == 0) {
+            if (position == 0) {
                 setCanGoBack(false);
             } else {
                 setCanGoBack(true);
             }
 
             Fragment currentPage = pagerAdapter.getItem(viewPager.getCurrentItem());
-            if(currentPage.isAdded() && currentPage instanceof TransactionPage) {
+            if (currentPage.isAdded() && currentPage instanceof TransactionPage) {
                 TransactionPage pageMadeActiveListener = (TransactionPage) currentPage;
                 pageMadeActiveListener.onPageMadeActive();
 
@@ -76,26 +82,26 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
 
-        Intent intent = getIntent();
+        viewPager = findViewById(R.id.transaction_pager);
 
-        if(intent != null) {
+        Intent intent = getIntent();
+        if (intent != null) {
             transactionType = intent.getIntExtra(EXTRA_TRANSACTION_TYPE, 0);
             transactionSendTo = intent.getStringExtra(EXTRA_TRANSACTION_SEND_TO);
         }
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             transactionType = savedInstanceState.getInt(ARG_TRANSACTION_TYPE);
             transactionSendTo = savedInstanceState.getString(ARG_TRANSACTION_SEND_TO);
             currentItem = savedInstanceState.getInt(ARG_CURRENT_ITEM, 0);
         }
 
-        if(transactionSendTo != null) {
-            DatabaseReference sendToRef = FirebaseDatabase.getInstance().getReference().child("users/"+transactionSendTo);
+        if (transactionSendTo != null) {
+            DatabaseReference sendToRef = FirebaseDatabase.getInstance().getReference().child("users/" + transactionSendTo);
             sendToRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    MOVUser user = dataSnapshot.getValue(MOVUser.class);
-
+                    user = dataSnapshot.getValue(MOVUser.class);
                     TransactionViewModel viewModel = ViewModelProviders.of(TransactionActivity.this).get(TransactionViewModel.class);
                     viewModel.setSelectedContact(user);
                 }
@@ -108,10 +114,10 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
         }
 
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-            switch(transactionType) {
+            switch (transactionType) {
                 case TRANSACTION_TYPE_REQUEST:
                     actionBar.setTitle(R.string.transactions_request_money);
                     break;
@@ -125,7 +131,7 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(backButton.isEnabled() && currentItem > 0) {
+                if (backButton.isEnabled() && currentItem > 0) {
                     viewPager.setCurrentItem(currentItem - 1, true);
                 }
             }
@@ -135,39 +141,69 @@ public class TransactionActivity extends AppCompatActivity implements OnTransact
             @Override
             public void onClick(View v) {
                 Fragment currentPage = pagerAdapter.getItem(currentItem);
-                if(currentPage instanceof TransactionPage) {
+                if (currentPage instanceof TransactionPage) {
                     ((TransactionPage) currentPage).onNextButtonPressed();
                 }
 
                 viewPager.setCurrentItem(currentItem + 1, true);
             }
         });
-
-        // TODO: get currency from actual config
-        pagerAdapter = new TransactionPagerAdapter(getSupportFragmentManager(),
-                transactionType,
-                "usd",
-                transactionSendTo);
-        viewPager = findViewById(R.id.transaction_pager);
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(pageChangeListener);
-        viewPager.setCurrentItem(currentItem, false);
-
-
-        StepperIndicator stepperIndicator = findViewById(R.id.transaction_stepper);
-        stepperIndicator.setViewPager(viewPager);
     }
+
+    private void showData(DataSnapshot dataSnapshot) {
+        MOVUser user = dataSnapshot.getValue(MOVUser.class);
+
+        if(user != null && !user.getCurrency().toLowerCase().equals(currency)) {
+            currency = user.getCurrency().toLowerCase();
+            Log.e("CURRENCY", currency);
+            pagerAdapter = new TransactionPagerAdapter(getSupportFragmentManager(),
+                    transactionType, currency,
+                    transactionSendTo);
+            viewPager.setAdapter(pagerAdapter);
+            viewPager.addOnPageChangeListener(pageChangeListener);
+            viewPager.setCurrentItem(currentItem, false);
+
+            StepperIndicator stepperIndicator = findViewById(R.id.transaction_stepper);
+            stepperIndicator.setViewPager(viewPager);
+
+            pageChangeListener.onPageSelected(currentItem);
+        }
+    }
+
+    private ValueEventListener userValueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            showData(dataSnapshot);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        pageChangeListener.onPageSelected(currentItem);
+        String uid = FirebaseAuth.getInstance().getUid();
+        myRef = FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(uid);
+
+        myRef.addValueEventListener(userValueEventListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        myRef.removeEventListener(userValueEventListener);
     }
 
     @Override
     public void setCanGoForward(Fragment fragment, boolean canGoForward) {
-        if(!isCurrentFragment(fragment)) {
+        if (!isCurrentFragment(fragment)) {
             return;
         }
 
