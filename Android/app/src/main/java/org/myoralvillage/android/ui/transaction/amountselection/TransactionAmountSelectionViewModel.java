@@ -17,37 +17,15 @@ import java.util.Map;
 
 public class TransactionAmountSelectionViewModel extends ViewModel {
 
-    private MutableLiveData<Map<MOVCurrencyDenomination, Integer>> selectedCurrency = new MutableLiveData<>();
-    ;
     private MutableLiveData<Boolean> adding = new MutableLiveData<>();
     private MutableLiveData<Boolean> removing = new MutableLiveData<>();
 
     private MutableLiveData<Integer> selectedCurrencyValue = new MutableLiveData<>();
 
-    private MOVCurrency currency;
-
     public TransactionAmountSelectionViewModel() {
-        selectedCurrency.observeForever(new Observer<Map<MOVCurrencyDenomination, Integer>>() {
-            @Override
-            public void onChanged(@Nullable Map<MOVCurrencyDenomination, Integer> movCurrencyDenominations) {
-                if(movCurrencyDenominations == null) {
-                    selectedCurrencyValue.setValue(0);
-                } else {
-                    int amount = 0;
-                    for(Map.Entry<MOVCurrencyDenomination, Integer> entry : movCurrencyDenominations.entrySet()) {
-                        amount += entry.getKey().getValue() * entry.getValue();
-                    }
-
-                    selectedCurrencyValue.setValue(amount);
-                }
-            }
-        });
-        selectedCurrency.setValue(new HashMap<MOVCurrencyDenomination, Integer>());
     }
 
-    public LiveData<Map<MOVCurrencyDenomination, Integer>> getSelectedCurrency() {
-        return selectedCurrency;
-    }
+
 
     public void addCurrency(MOVCurrencyDenomination toAdd) {
         Integer amount = selectedCurrencyValue.getValue();
@@ -56,43 +34,7 @@ public class TransactionAmountSelectionViewModel extends ViewModel {
         }
         amount += toAdd.getValue();
 
-        updateForValue(amount);
-    }
-
-    private void updateForValue(int amount) {
-        List<MOVCurrencyDenomination> sortedDenominations = new ArrayList<>(currency.getDenominations());
-        Collections.sort(sortedDenominations);
-
-        Map<MOVCurrencyDenomination, Integer> map = selectedCurrency.getValue();
-        map.clear();
-
-
-        int index = 0;
-        while(amount > 0) {
-            MOVCurrencyDenomination denomination = sortedDenominations.get(index);
-            int denominationAmount = denomination.getValue();
-
-            while(amount - denominationAmount >= 0) {
-                addDenomination(map, denomination);
-
-                amount -= denominationAmount;
-            }
-
-            index += 1;
-        }
-
-        selectedCurrency.setValue(map);
-    }
-
-    private void addDenomination(Map<MOVCurrencyDenomination, Integer> denominationAmounts, MOVCurrencyDenomination denomination) {
-        Integer amount = denominationAmounts.get(denomination);
-        if(amount == null) {
-            amount = 0;
-        }
-
-        amount += 1;
-
-        denominationAmounts.put(denomination, amount);
+        selectedCurrencyValue.setValue(amount);
     }
 
     public void removeCurrency(MOVCurrencyDenomination amount) {
@@ -101,7 +43,7 @@ public class TransactionAmountSelectionViewModel extends ViewModel {
             currentAmount = 0;
         }
 
-        updateForValue(currentAmount - amount.getValue());
+        selectedCurrencyValue.setValue(currentAmount - amount.getValue());
     }
 
     public LiveData<Integer> getValue() {
@@ -122,9 +64,5 @@ public class TransactionAmountSelectionViewModel extends ViewModel {
 
     public void setRemoving(boolean removing) {
         this.removing.setValue(removing);
-    }
-
-    public void setCurrency(MOVCurrency currency) {
-        this.currency = currency;
     }
 }
