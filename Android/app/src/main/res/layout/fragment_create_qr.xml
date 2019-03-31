@@ -5,10 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.scan.CreateQR">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ImageView
+        android:id="@+id/qr_create_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="hello we will create QR code here" />
+        android:src="@drawable/qr_image"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        />
 
 </FrameLayout>

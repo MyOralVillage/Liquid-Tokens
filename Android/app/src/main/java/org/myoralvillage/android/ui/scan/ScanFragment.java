@@ -3,6 +3,7 @@ package org.myoralvillage.android.ui.scan;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import org.myoralvillage.android.R;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 public class ScanFragment extends Fragment {
@@ -22,6 +25,8 @@ public class ScanFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Fragment createFragment;
 
     public ScanFragment() {
         // Required empty public constructor
@@ -60,7 +65,12 @@ public class ScanFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
+                createFragment = CreateQR.newInstance();
 
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                ft.replace(R.id.container, createFragment).commit();
             }
         });
 
@@ -77,20 +87,20 @@ public class ScanFragment extends Fragment {
 
         return view;
     }
-    // Inflate the layout for this fragment
-    //return inflater.inflate(R.layout.fragment_scan, container, false);
-
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+
+        //call CreateQR fragment instance to insure QRcode dissapears
+        if (createFragment != null){
+            createFragment.onDetach();
+        }
+
     }
-
-
 }
