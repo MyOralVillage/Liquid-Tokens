@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/transaction_history_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/transaction_history_background"
     android:orientation="vertical">
 
 
@@ -12,9 +12,11 @@
         android:id="@+id/transaction_detail_amount_display"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_below="@+id/transaction_detail_date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
         android:paddingTop="@dimen/activity_vertical_margin_half"
         android:paddingBottom="@dimen/activity_vertical_margin_half"
-        android:layout_below="@+id/transaction_detail_date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +32,7 @@
         android:layout_marginTop="1dp"
         app:srcCompat="@drawable/portrait"
         android:contentDescription="@string/portrait" />
+
     <ImageView
         android:id="@+id/transaction_detail_image"
         android:layout_width="100dp"
@@ -98,10 +101,13 @@
         android:layout_marginTop="28dp"
         android:layout_marginLeft="195dp"
         android:scaleX="-1"
-        app:srcCompat="@drawable/history_receive_money_white" />
+        app:srcCompat="@drawable/history_receive_money"
+        android:layout_marginStart="195dp"
+        android:contentDescription="@string/transaction_detail_hand" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/transaction_detail_amount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="90dp"
         android:layout_marginLeft="150dp"

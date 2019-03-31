@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
+import org.myoralvillage.android.ui.transaction.TransactionViewModel;
 import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionRecyclerAdapter;
 import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionViewModel;
 import org.myoralvillage.android.ui.util.GlideApp;
@@ -121,9 +122,9 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         });
 
         if(sender){
-            hand.setImageResource(R.drawable.history_send_money_white);
+            hand.setImageResource(R.drawable.history_send_money);
         }else{
-            hand.setImageResource(R.drawable.history_receive_money_white);
+            hand.setImageResource(R.drawable.history_receive_money);
 
         }
         StorageReference profile_image = null;
@@ -163,25 +164,16 @@ public class HistoryTransactionActivity extends AppCompatActivity {
                 .circleCrop()
                 .into(image);
 
-        HashMap<MOVCurrencyDenomination, Integer> amounts = new HashMap<>();
         try {
             currency = MOVCurrency.loadFromJson(getApplicationContext(), currency_code);
-            if(currency != null) {
-                int[] denominations = currency.toIntArray();
-                int[] denomination_count = greedyMoney(amount, denominations);
-                for (int i = 0; i < denomination_count.length; i++) {
-                    amounts.put(currency.getDenomination(denominations[i]), denomination_count[i]);
-                }
-            }
-
-
             amountSelectedRecycler = findViewById(R.id.transaction_detail_amount_display);
-            TransactionAmountSelectionViewModel selectionViewModel = ViewModelProviders.of(this).get(TransactionAmountSelectionViewModel.class);
-            selectedRecyclerAdapter = new TransactionAmountSelectionRecyclerAdapter(selectionViewModel, currency);
-            amountSelectedRecycler.setAdapter(selectedRecyclerAdapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             amountSelectedRecycler.setLayoutManager(layoutManager);
-            selectedRecyclerAdapter.setSelectedAmount(amounts);
+
+            selectedRecyclerAdapter = new TransactionAmountSelectionRecyclerAdapter(currency, null);
+            amountSelectedRecycler.setAdapter(selectedRecyclerAdapter);
+
+            selectedRecyclerAdapter.setAmount(amount);
 
         } catch (IOException e) {
             e.printStackTrace();

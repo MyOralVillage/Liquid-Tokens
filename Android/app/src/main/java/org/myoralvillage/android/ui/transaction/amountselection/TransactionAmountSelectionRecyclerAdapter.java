@@ -111,7 +111,6 @@ public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adap
 
         denominationAmountsMap.clear();
 
-
         int index = 0;
         while(amount > 0) {
             MOVCurrencyDenomination denomination = sortedDenominations.get(index);
