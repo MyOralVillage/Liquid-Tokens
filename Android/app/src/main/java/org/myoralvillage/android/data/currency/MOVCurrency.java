@@ -31,6 +31,26 @@ public class MOVCurrency {
         return availableCurrencies;
     }
 
+    public static List<ExtendedCurrency> getAvailableCurrenciesForPicker(Context context) {
+        List<ExtendedCurrency> currencies = new ArrayList<>();
+        try {
+            List<String> availableCurrencyCodes = MOVCurrency.getAvailableCurrencies(context);
+            for(String currencyCode : availableCurrencyCodes) {
+                currencyCode = currencyCode.toUpperCase();
+
+                ExtendedCurrency currency = MOVCurrency.getExtendedCurrencyByIso(currencyCode.trim());
+
+                if(currency != null) {
+                    currencies.add(currency);
+                }
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return currencies;
+    }
+
     public static MOVCurrency loadFromJson(Context context, String IsoCountryCode) throws IOException, JSONException {
         InputStream stream;
         try {
