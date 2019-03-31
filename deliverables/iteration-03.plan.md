@@ -1,6 +1,5 @@
 # My Oral Village/Team 11
 
-
 ## Iteration 3
 
  * Start date: March 4th
@@ -10,7 +9,7 @@
 
 #### Changes from previous iteration
 
-We did not maky any significant changes to our process this iteration. The following is a list of the most sucesfull process decisions we made:
+We did not make any significant changes to our process this iteration. The following is a list of the most sucesfull process decisions we made:
 
 1. Slack
 
@@ -24,7 +23,7 @@ We did not maky any significant changes to our process this iteration. The follo
 
    We chose to use *Github* pull requests to manage the integration of new features into our master branch. We require there to be atleast one review on a PR (by someone other than the submitter) for  it to be merged. With PRs, we are enabled to "inspect" each other's code and feature functionality, which helps in avoiding bugs and code-smells. A metric that could be use to measure the success of this process decision is the frequency of activity on PRs. That is, comments, commits or changes to code that exist as a result of there being a PR. More activity means that a higher number of bugs, code-smells etc. were weeded about before the feature could make it to the master branch.
 
- #### Roles & responsibilities
+#### Roles & responsibilities
 
 ##### Roles Glossary
 
@@ -100,7 +99,6 @@ The second problem we discussed is when one person makes decisions on behalf of 
 
 The third problem would be if someone disappeared. If a group member completely cut contact and do not come to class. Our first order of business would be to try and talk with their friends. If they are completely gone the only recourse is talk with a professor to make sure they did not drop the class without informing us. In the end even if they are not kicked out of the group they still are not getting marks for it so in essence it does not matter.
 
-
 #### Events
 
 We have, on average, one and a half meetings each week, this includes a internal meeting inside our group and a external meeting with our partner. We will set a recurring meeting to ensure our working progress. We chose to do in-person meetings rather than online meetings as we feel they are better for communication and quickly sharing ideas.
@@ -126,7 +124,6 @@ When a group member has completed their assigned task(s), they are free to self-
 
 We prioritize the completion of tasks based on how strongly they relate to our core features (these are described below, in the *Product* section). For example, a task that exists, but has not been prioritized is the integration of a PIN system to secure accounts when the app is opened. While this feature may be useful, it is not necessary for us to complete in order to satisfy core functionality.
 
-
 #### Deployment and Github Workflow
 
 ##### GitHub Workflow
@@ -143,8 +140,6 @@ We prioritize the completion of tasks based on how strongly they relate to our c
 For the app we build an apk within Android Studio and deploy to appetize.io for deliverables. When we are writing and testing on our own machines, we deploy directly to our phones or to an emulator using Android Studio and ADB.
 
 For the firebase we either make changes directly in the firebase console or use firebase deploy from our computers. 
-
-
 
 ## Product
 
