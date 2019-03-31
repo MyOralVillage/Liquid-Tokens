@@ -13,10 +13,12 @@ import com.google.android.material.card.MaterialCardView;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.ui.contacts.phone.AddContactPhoneActivity;
+import org.myoralvillage.android.ui.scan.CameraScanActivity;
 
 public class AddContactActivity extends AppCompatActivity {
 
     private static final int REQUEST_ADD_CONTACT = 0;
+    private static final int REQUEST_SCAN_QR = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,9 @@ public class AddContactActivity extends AppCompatActivity {
     }
 
     private void onQrButtonClicked() {
+        Intent intent = new Intent(this, CameraScanActivity.class);
 
+        startActivityForResult(intent, REQUEST_SCAN_QR);
     }
 
     @Override
@@ -58,6 +62,15 @@ public class AddContactActivity extends AppCompatActivity {
         if(requestCode == REQUEST_ADD_CONTACT) {
             if(resultCode == RESULT_OK) {
                 finish();
+            }
+        } else if(requestCode == REQUEST_SCAN_QR) {
+            if(resultCode == RESULT_OK && data != null) {
+                String contactUid = data.getStringExtra(CameraScanActivity.EXTRA_CONTACT_UID);
+
+                Intent intent = new Intent(this, AddContactPhoneActivity.class);
+                intent.putExtra(AddContactPhoneActivity.EXTRA_CONTACT_UID, contactUid);
+
+                startActivityForResult(intent, REQUEST_ADD_CONTACT);
             }
         }
     }

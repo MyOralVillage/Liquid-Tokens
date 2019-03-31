@@ -10,13 +10,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import org.myoralvillage.android.R;
+import org.myoralvillage.android.ui.transaction.TransactionActivity;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class ScanFragment extends Fragment {
+
+    private static final int REQUEST_SCAN_QR = 0;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -81,11 +88,24 @@ public class ScanFragment extends Fragment {
             public void onClick(View v) {
                 //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), CameraScanActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_SCAN_QR);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_SCAN_QR && resultCode == RESULT_OK && data != null) {
+            String contactUid = data.getStringExtra(CameraScanActivity.EXTRA_CONTACT_UID);
+
+            Intent intent = new Intent(getContext(), TransactionActivity.class);
+            intent.putExtra(TransactionActivity.EXTRA_TRANSACTION_SEND_TO, contactUid);
+            intent.putExtra(TransactionActivity.EXTRA_TRANSACTION_TYPE, TransactionActivity.TRANSACTION_TYPE_SEND);
+
+            startActivity(intent);
+        }
     }
 
     @Override
