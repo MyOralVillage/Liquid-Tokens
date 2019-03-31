@@ -100,6 +100,7 @@ public class TransactionAmountSelectionRecyclerAdapter extends RecyclerView.Adap
 
         for(Map.Entry<MOVCurrencyDenomination, Integer> denomination : denominationAmounts.entrySet()) {
             if(denomination.getValue() > 0) {
+                Log.d("Adding",denomination+"");
                 selectedDenominations.add(denomination.getKey());
             }
         }
