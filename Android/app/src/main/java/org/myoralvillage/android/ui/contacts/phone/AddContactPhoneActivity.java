@@ -42,6 +42,8 @@ import java.util.Map;
 
 public class AddContactPhoneActivity extends AppCompatActivity {
 
+    public static final String EXTRA_CONTACT_UID = "ContactUid";
+
     private TextInputEditText phoneField;
     private CountryCodePicker countryCodePicker;
 
@@ -51,6 +53,7 @@ public class AddContactPhoneActivity extends AppCompatActivity {
     private TextView errorText;
     private MaterialButton addButton;
     private View contactResultView;
+    private View contactSearchForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,36 @@ public class AddContactPhoneActivity extends AppCompatActivity {
         bindViews();
         observeData();
         addListeners();
+
+        if(getIntent() != null) {
+            if(getIntent().getStringExtra(EXTRA_CONTACT_UID) != null) {
+                contactSearchForm.setVisibility(View.GONE);
+                
+                String contactUid = getIntent().getStringExtra(EXTRA_CONTACT_UID);
+
+                searchContactFromUid(contactUid);
+            }
+        }
+    }
+
+    private void searchContactFromUid(String uid) {
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(uid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        MOVUser user = dataSnapshot.getValue(MOVUser.class);
+                        if(user != null) {
+                            searchUsers(user.getPhone());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void bindViews() {
@@ -75,6 +108,7 @@ public class AddContactPhoneActivity extends AppCompatActivity {
         errorText = findViewById(R.id.add_contact_phone_text_error);
         addButton = findViewById(R.id.add_contact_phone_button_add);
         contactResultView = findViewById(R.id.add_contact_phone_layout_contact);
+        contactSearchForm = findViewById(R.id.add_contact_phone_layout_form);
 
 
         countryCodePicker.registerPhoneNumberTextView(phoneField);

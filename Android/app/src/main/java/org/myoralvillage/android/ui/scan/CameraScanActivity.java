@@ -106,11 +106,10 @@ public class CameraScanActivity extends AppCompatActivity {
         });
     }
     private void startTransaction(){
-        Intent intent = new Intent(this, TransactionActivity.class);
-        intent.putExtra(TransactionActivity.EXTRA_TRANSACTION_SEND_TO, contactUid);
-        intent.putExtra(TransactionActivity.EXTRA_TRANSACTION_TYPE, TransactionActivity.TRANSACTION_TYPE_SEND);
+        Intent data = new Intent();
+        data.putExtra(EXTRA_CONTACT_UID, contactUid);
 
-        startActivity(intent);
+        setResult(RESULT_OK, data);
         finish();
     }
 
