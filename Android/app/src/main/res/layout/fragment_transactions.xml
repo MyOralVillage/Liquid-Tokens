@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -100,7 +100,7 @@
 
     <LinearLayout
         android:id="@+id/money_requests"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="204dp"
         android:orientation="vertical"
@@ -115,12 +115,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:text="@string/incoming_money_requests" />
+            android:text="@string/incoming_money_requests"
+            android:textAppearance="@style/Base.TextAppearance.MaterialComponents.Subtitle2" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_of_incoming_money_requests"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/out_going_money_requests_header"
@@ -129,12 +131,14 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/outgoing_money_requests" />
+            android:text="@string/outgoing_money_requests"
+            android:textAppearance="@style/Base.TextAppearance.MaterialComponents.Subtitle2" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_of_outgoing_money_requests"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"/>
 
     </LinearLayout>
 

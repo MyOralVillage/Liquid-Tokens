@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/outgoing_request"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbars="vertical"
-    android:padding="10dp" >
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/outgoing_request_contact_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="Contact Profile Image"
+        app:srcCompat="@drawable/baseline_add_a_photo_black_24" />
 
     <TextView
         android:id="@+id/outgoing_request_string"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Requesting " />
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/outgoing_request_contact_image"
+        android:layout_toRightOf="@+id/outgoing_request_contact_image"
+        android:text="You are requesting " />
 
     <TextView
         android:id="@+id/outgoing_request_amount"
@@ -19,32 +33,40 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/outgoing_request_string"
         android:layout_toRightOf="@+id/outgoing_request_string"
-        android:text="SomeAmountOf" />
-
-    <TextView
-        android:id="@+id/outgoing_request_currency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/outgoing_request_amount"
-        android:layout_toRightOf="@+id/outgoing_request_amount"
-        android:text="JP" />
+        android:text="SomeAmount" />
 
     <TextView
         android:id="@+id/outgoing_request_intermediate_string"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/outgoing_request_currency"
-        android:layout_toRightOf="@+id/outgoing_request_currency"
+        android:layout_toEndOf="@+id/outgoing_request_amount"
+        android:layout_toRightOf="@+id/outgoing_request_amount"
         android:text=" from " />
 
     <TextView
         android:id="@+id/outgoing_request_recipient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/outgoing_request_contact_image"
+        android:layout_toRightOf="@+id/outgoing_request_contact_image"
         android:layout_below="@+id/outgoing_request_intermediate_string"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Somebody" />
 
+    <ImageView
+        android:id="@+id/outgoing_request_call_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:contentDescription="Phone call image"
+        app:srcCompat="@drawable/baseline_phone_black_24" />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,9 +13,12 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +28,66 @@ import android.widget.TextView;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVRequest;
+import org.myoralvillage.android.ui.CurrentUserViewModel;
 
-public class TransactionsFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class TransactionsFragment extends Fragment implements OnTransactionListener{
+
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> incAdapter;
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> outAdapter;
+
+    private DataSnapshot toSnapshot;
+    private DataSnapshot fromSnapshot;
+    private DataSnapshot users;
+
+    private Query usersQuery;
+    private Query fromQuery;
+    private Query toQuery;
+
+    private List<MOVRequest> incRequests;
+    private List<MOVRequest> outRequests;
+
+    private final ValueEventListener toListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            toSnapshot = dataSnapshot;
+            onUpdateSnapshot();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    private final ValueEventListener fromListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            fromSnapshot = dataSnapshot;
+            onUpdateSnapshot();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    private final ValueEventListener usersListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            users = dataSnapshot;
+            onUpdateSnapshot();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     public TransactionsFragment() {
         // Required empty public constructor
@@ -34,6 +96,16 @@ public class TransactionsFragment extends Fragment {
     public static TransactionsFragment newInstance() {
 
         return new TransactionsFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        usersQuery = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("uid");
+        toQuery = FirebaseDatabase.getInstance().getReference().child("requests").orderByChild("to").equalTo(user.getUid());
+        fromQuery = FirebaseDatabase.getInstance().getReference().child("requests").orderByChild("from").equalTo(user.getUid());
     }
 
     @Override
@@ -76,107 +148,74 @@ public class TransactionsFragment extends Fragment {
     }
 
     private void setUpIncReqRecyclerView(RecyclerView recyclerView) {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        //String uid = "1";
-        //Log.v("Hi", uid);
-        Query toQuery = FirebaseDatabase.getInstance().getReference().child("requests").orderByChild("to").equalTo(uid);
-        //Log.v("Hi", uid);
+        incRequests = new ArrayList<>();
 
-        FirebaseRecyclerOptions<MOVRequest> options = new FirebaseRecyclerOptions.Builder<MOVRequest>()
-                .setQuery(toQuery, new SnapshotParser<MOVRequest>() {
-                    @NonNull
-                    @Override
-                    public MOVRequest parseSnapshot(@NonNull DataSnapshot snapshot) {
-                        return snapshot.getValue(MOVRequest.class);
-                    }
-                }).build();
-
-        FirebaseRecyclerAdapter<MOVRequest, MOVIncRequestViewHolder> adapterInc = new FirebaseRecyclerAdapter<MOVRequest, MOVIncRequestViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull MOVIncRequestViewHolder movIncRequestViewHolder, int i, @NonNull MOVRequest movRequest) {
-                //Log.v("Bye", movRequest.getCurrency());
-                movIncRequestViewHolder.sender.setText(movRequest.getFrom()); // View Holder Functions
-                movIncRequestViewHolder.amount.setText(Integer.toString(movRequest.getAmount()));
-                movIncRequestViewHolder.currency.setText(movRequest.getCurrency());
-            }
-
-            @NonNull
-            @Override
-            public MOVIncRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_incoming_request, parent, false);
-
-                return new MOVIncRequestViewHolder(view);
-            }
-        };
-
-        recyclerView.setAdapter(adapterInc);
-        adapterInc.startListening();
-
-    }
-
-    class MOVIncRequestViewHolder extends RecyclerView.ViewHolder {
-        final TextView sender;
-        final TextView amount;
-        final TextView currency;
-
-        MOVIncRequestViewHolder(View itemView) {
-            super(itemView);
-
-            sender = itemView.findViewById(R.id.incoming_request_sender);
-            amount = itemView.findViewById(R.id.incoming_request_amount);
-            currency = itemView.findViewById(R.id.incoming_request_currency);
+        if(getActivity() == null) {
+            throw new IllegalStateException("Something went error. activity null");
         }
+        CurrentUserViewModel userViewModel = ViewModelProviders.of(getActivity()).get(CurrentUserViewModel.class);
+
+        incAdapter = new IncomingRequestAdapter(userViewModel, incRequests, this);
+        recyclerView.setAdapter(incAdapter);
     }
 
     private void setUpOutReqRecyclerView(RecyclerView recyclerView) {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        outRequests = new ArrayList<>();
 
-        Query fromQuery = FirebaseDatabase.getInstance().getReference().child("requests").orderByChild("from").equalTo(uid);
-
-        FirebaseRecyclerOptions<MOVRequest> options = new FirebaseRecyclerOptions.Builder<MOVRequest>()
-                .setQuery(fromQuery, new SnapshotParser<MOVRequest>() {
-                    @NonNull
-                    @Override
-                    public MOVRequest parseSnapshot(@NonNull DataSnapshot snapshot) {
-                        return snapshot.getValue(MOVRequest.class);
-                    }
-                }).build();
-
-        FirebaseRecyclerAdapter<MOVRequest, MOVOutRequestViewHolder> adapterOut = new FirebaseRecyclerAdapter<MOVRequest, MOVOutRequestViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull MOVOutRequestViewHolder movOutRequestViewHolder, int i, @NonNull MOVRequest movRequest) {
-                // Use DataSnapshot to search for name?
-                movOutRequestViewHolder.recipient.setText(movRequest.getTo()); // View Holder Functions
-                movOutRequestViewHolder.amount.setText(Integer.toString(movRequest.getAmount()));
-                movOutRequestViewHolder.currency.setText(movRequest.getCurrency());
-            }
-
-            @NonNull
-            @Override
-            public MOVOutRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_outgoing_request, parent, false);
-
-                return new MOVOutRequestViewHolder(view);
-            }
-        };
-
-        recyclerView.setAdapter(adapterOut);
-        adapterOut.startListening();
-
-    }
-
-    class MOVOutRequestViewHolder extends RecyclerView.ViewHolder {
-        final TextView recipient;
-        final TextView amount;
-        final TextView currency;
-
-        MOVOutRequestViewHolder(View itemView) {
-            super(itemView);
-
-            recipient = itemView.findViewById(R.id.outgoing_request_recipient);
-            amount = itemView.findViewById(R.id.outgoing_request_amount);
-            currency = itemView.findViewById(R.id.outgoing_request_currency);
+        if(getActivity() == null) {
+            throw new IllegalStateException("Something went error. activity null");
         }
+        CurrentUserViewModel userViewModel = ViewModelProviders.of(getActivity()).get(CurrentUserViewModel.class);
+
+        outAdapter = new OutgoingRequestAdapter(userViewModel, outRequests, this);
+        recyclerView.setAdapter(outAdapter);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        toQuery.addValueEventListener(toListener);
+        fromQuery.addValueEventListener(fromListener);
+        usersQuery.addValueEventListener(usersListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        toQuery.removeEventListener(toListener);
+        fromQuery.removeEventListener(fromListener);
+        usersQuery.removeEventListener(usersListener);
+    }
+
+    private void onUpdateSnapshot() {
+        incRequests.clear();
+        outRequests.clear();
+
+        if(toSnapshot != null) {
+            addChildrenValues(incRequests, toSnapshot);
+        }
+
+        if(fromSnapshot != null) {
+            addChildrenValues(outRequests, fromSnapshot);
+        }
+
+        incAdapter.notifyDataSetChanged();
+        outAdapter.notifyDataSetChanged();
+    }
+
+    private void addChildrenValues(List<MOVRequest> children, DataSnapshot dataSnapshot) {
+        for(DataSnapshot child : dataSnapshot.getChildren()) {
+            MOVRequest request = child.getValue(MOVRequest.class);
+            children.add(request);
+        }
+
+        // Need to make MOVRequest comparable to sort by date
+    }
+
+    @Override
+    public void onTransactionClick(int position) {
+
+    }
 }

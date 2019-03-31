@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/incoming_request"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -7,10 +8,24 @@
     android:scrollbars="vertical"
     android:padding="10dp" >
 
+    <ImageView
+        android:id="@+id/incoming_request_contact_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="Contact Profile Image"
+        app:srcCompat="@drawable/baseline_add_a_photo_black_24" />
+
     <TextView
         android:id="@+id/incoming_request_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/incoming_request_contact_image"
+        android:layout_toRightOf="@+id/incoming_request_contact_image"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Sender" />
@@ -19,8 +34,12 @@
         android:id="@+id/incoming_request_string"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/incoming_request_contact_image"
+        android:layout_toRightOf="@+id/incoming_request_contact_image"
         android:layout_below="@+id/incoming_request_sender"
-        android:text=" is requesting " />
+        android:text="is requesting " />
 
     <TextView
         android:id="@+id/incoming_request_amount"
@@ -31,16 +50,14 @@
         android:layout_below="@+id/incoming_request_sender"
         android:text="SomeAmountOf" />
 
-    <TextView
-        android:id="@+id/incoming_request_currency"
+    <ImageView
+        android:id="@+id/incoming_request_call_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/incoming_request_amount"
-        android:layout_toRightOf="@+id/incoming_request_amount"
-        android:layout_below="@+id/incoming_request_sender"
-        android:text="CAD" />
-
-
-
-
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:contentDescription="Phone call image"
+        app:srcCompat="@drawable/baseline_phone_black_24" />
 </RelativeLayout>
