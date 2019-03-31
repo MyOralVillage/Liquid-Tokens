@@ -32,17 +32,16 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import dmax.dialog.SpotsDialog;
 
 public class CameraScanActivity extends AppCompatActivity {
 
     public static final String EXTRA_CONTACT_UID = "ContactUid";
     private String contactUid;
-    CameraView cameraView;
-    Button btnDetect, btnCancel;
-    AlertDialog waitingDialouge;
+    private CameraView cameraView;
+    private Button btnDetect;
+    private Button btnCancel;
+    private AlertDialog waitingDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +49,8 @@ public class CameraScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan_qr);
         addListeners();
 
-        cameraView = (CameraView) this.findViewById(R.id.cameraview);
-        waitingDialouge = new SpotsDialog.Builder()
+        cameraView = this.findViewById(R.id.cameraview);
+        waitingDialogue = new SpotsDialog.Builder()
                 .setContext(this)
                 .setMessage("Please Wait")
                 .setCancelable(true)
@@ -70,7 +69,7 @@ public class CameraScanActivity extends AppCompatActivity {
 
             @Override
             public void onImage(CameraKitImage cameraKitImage) {
-                waitingDialouge.show();
+                waitingDialogue.show();
                 Bitmap bitmap = cameraKitImage.getBitmap();
                 bitmap = Bitmap.createScaledBitmap(bitmap, cameraView.getWidth(), cameraView.getHeight(), false);
                 cameraView.stop();
@@ -88,7 +87,7 @@ public class CameraScanActivity extends AppCompatActivity {
     }
 
     private void addListeners(){
-        btnDetect = (Button) this.findViewById(R.id.btn_detect);
+        btnDetect = this.findViewById(R.id.btn_detect);
         btnDetect.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -97,7 +96,7 @@ public class CameraScanActivity extends AppCompatActivity {
             }
         });
 
-        btnCancel = (Button) this.findViewById(R.id.btn_cancel);
+        btnCancel = this.findViewById(R.id.btn_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -147,7 +146,7 @@ public class CameraScanActivity extends AppCompatActivity {
         Log.v("LOC", "loc got to processResult");
         if (firebaseVisionBarcodes.isEmpty()){
             Log.v("LOC", "barcode is empty");
-            waitingDialouge.dismiss();
+            waitingDialogue.dismiss();
             cameraView.stop();
             cameraView.start();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -184,15 +183,14 @@ public class CameraScanActivity extends AppCompatActivity {
 
                     case FirebaseVisionBarcode.TYPE_CONTACT_INFO: {
                         Log.v("LOC", "loc case contact info");
-                        String info = new StringBuilder("Name: ")
-                                .append(item.getContactInfo().getName().getFormattedName())
-                                .append("\n")
-                                .append("Adress: ")
-                                .append(item.getContactInfo().getAddresses().get(0).getAddressLines())
-                                .append("\n")
-                                .append("Email: ")
-                                .append(item.getContactInfo().getEmails().get(0).getAddress())
-                                .toString();
+                        String info = "Name: " +
+                                item.getContactInfo().getName().getFormattedName() +
+                                "\n" +
+                                "Address: " +
+                                String.valueOf(item.getContactInfo().getAddresses().get(0).getAddressLines()) +
+                                "\n" +
+                                "Email: " +
+                                item.getContactInfo().getEmails().get(0).getAddress();
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setMessage(info);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -209,9 +207,9 @@ public class CameraScanActivity extends AppCompatActivity {
                     default:
                         break;
                 }
-                Log.v("LOC", "loc pre_dialouge close");
-                waitingDialouge.dismiss();
-                Log.v("LOC", "loc after_dialouge close");
+                Log.v("LOC", "loc pre_dialogue close");
+                waitingDialogue.dismiss();
+                Log.v("LOC", "loc after_dialogue close");
             }
         }
     }

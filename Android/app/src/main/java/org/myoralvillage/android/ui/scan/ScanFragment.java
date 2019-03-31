@@ -55,7 +55,7 @@ public class ScanFragment extends Fragment {
                 container, false);
 
         //listener for create_qr_button
-        Button create_button = (Button) view.findViewById(R.id.create_qr_button);
+        Button create_button = view.findViewById(R.id.create_qr_button);
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class ScanFragment extends Fragment {
         });
 
         //listener for scan_qr_button
-        Button scan_button = (Button) view.findViewById(R.id.scan_qr_button);
+        Button scan_button = view.findViewById(R.id.scan_qr_button);
         scan_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
