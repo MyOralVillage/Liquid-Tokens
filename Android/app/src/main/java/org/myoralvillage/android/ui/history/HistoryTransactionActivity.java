@@ -166,13 +166,14 @@ public class HistoryTransactionActivity extends AppCompatActivity {
 
         try {
             currency = MOVCurrency.loadFromJson(getApplicationContext(), currency_code);
+
             amountSelectedRecycler = findViewById(R.id.transaction_detail_amount_display);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            amountSelectedRecycler.setLayoutManager(layoutManager);
 
             selectedRecyclerAdapter = new TransactionAmountSelectionRecyclerAdapter(currency, null);
             amountSelectedRecycler.setAdapter(selectedRecyclerAdapter);
 
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            amountSelectedRecycler.setLayoutManager(layoutManager);
             selectedRecyclerAdapter.setAmount(amount);
 
         } catch (IOException e) {
@@ -213,7 +214,9 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         int amLow = am%100;
         String strAmLow;
         //for the case when amount ends in 0 add a 0 at the end
-        if (amLow % 10 == 0 && amLow > 9){
+        int amLowHigh = amLow/10;
+        int amLower = amLow-amLowHigh*10;
+        if (amLow % 10 == 0 && amLow > 9 && amLower != 0){
             strAmLow = ""+amLow+"0";
         }
         else if(amLow < 10){

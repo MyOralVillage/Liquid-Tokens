@@ -10,20 +10,18 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transaction_detail_amount_display"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_below="@+id/transaction_detail_date"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:paddingTop="@dimen/activity_vertical_margin_half"
-        android:paddingBottom="@dimen/activity_vertical_margin_half"
+        android:layout_marginTop="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transaction_detail_date_image" />
 
     <ImageView
-        android:id="@+id/portrait"
+        android:id="@+id/transaction_confirm_amount"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_centerInParent="false"
@@ -60,7 +58,7 @@
         android:layout_width="81dp"
         android:layout_height="183dp"
         android:layout_below="@+id/transaction_detail_image"
-        android:layout_marginTop="129dp"
+        android:layout_marginTop="125dp"
         android:contentDescription="@string/transaction_detail_phone"
         app:srcCompat="@drawable/phone" />
 
@@ -68,11 +66,10 @@
         android:id="@+id/transaction_detail_phone_number"
         android:layout_width="198dp"
         android:layout_height="69dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginLeft="13dp"
+        android:layout_marginLeft="3dp"
         android:layout_marginTop="310dp"
-        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@+id/transaction_detail_phone"
+        android:layout_toRightOf="@+id/transaction_detail_phone"
         android:contentDescription="@string/transaction_detail_phone_number"
         android:text="@string/phone_number"
         android:textColor="#000"

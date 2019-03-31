@@ -24,10 +24,10 @@ public class TransactionAmountSelectionViewHolder extends RecyclerView.ViewHolde
 
     private static final int MAX_STACK = 5;
 
-    private DenominationImageView[] imageViews;
-    private MaterialCardView[] cardViews;
-    private LinearLayout tallyLayout;
-    private View containerView;
+    private final DenominationImageView[] imageViews;
+    private final MaterialCardView[] cardViews;
+    private final LinearLayout tallyLayout;
+    private final View containerView;
 
     public TransactionAmountSelectionViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -62,9 +62,10 @@ public class TransactionAmountSelectionViewHolder extends RecyclerView.ViewHolde
             cardViews[i].setVisibility(View.GONE);
 
             if(denomination.getType() == MOVCurrencyDenominationType.Coin) {
-                cardViews[i].setRadius(1000);
+                cardViews[i].setCardElevation(0);
             } else {
                 cardViews[i].setRadius(0);
+                cardViews[i].setCardElevation(4 * i);
             }
         }
 
@@ -107,8 +108,8 @@ public class TransactionAmountSelectionViewHolder extends RecyclerView.ViewHolde
             maxImageHeight = dpToPx(50);
         }
 
-        for(int i = 0; i < imageViews.length; i++) {
-            imageViews[i].setMaxHeight(maxImageHeight);
+        for (DenominationImageView imageView : imageViews) {
+            imageView.setMaxHeight(maxImageHeight);
         }
     }
 
