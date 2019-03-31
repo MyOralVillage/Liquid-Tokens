@@ -1,11 +1,9 @@
 package org.myoralvillage.android.ui.widgets;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
@@ -21,7 +19,7 @@ public class ContactCard {
         TextView nameText = contactCard.findViewById(R.id.contact_button_name);
         nameText.setText(user.getName());
 
-        if(user.getImage() != null) {
+        if (user.getImage() != null) {
 
             ImageView imageView = contactCard.findViewById(R.id.contact_button_image);
 
@@ -30,11 +28,24 @@ public class ContactCard {
     }
 
     public static void setUserImage(Context context, MOVUser user, ImageView imageView) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
+        setUserImage(context, user, imageView, false);
+    }
 
-        GlideApp.with(context)
-                .load(storageReference)
-                .dontAnimate()
-                .into(imageView);
+    public static void setUserImage(Context context, MOVUser user, ImageView imageView, boolean skipMemoryCache) {
+        try {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
+            GlideApp.with(context)
+                    .load(storageReference)
+                    .dontAnimate()
+                    .skipMemoryCache(skipMemoryCache)
+                    .into(imageView);
+        } catch (Exception e) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference("/users/profile.jpg");
+            GlideApp.with(context)
+                    .load(storageReference)
+                    .dontAnimate()
+                    .skipMemoryCache(skipMemoryCache)
+                    .into(imageView);
+        }
     }
 }

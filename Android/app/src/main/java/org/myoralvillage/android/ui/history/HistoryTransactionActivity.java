@@ -1,8 +1,6 @@
 package org.myoralvillage.android.ui.history;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,11 +49,6 @@ public class HistoryTransactionActivity extends AppCompatActivity {
     private TransactionAmountSelectionRecyclerAdapter selectedRecyclerAdapter;
     private RecyclerView amountSelectedRecycler;
     //2592000 is a month
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-    }
 
     protected void onStart() {
         super.onStart();
@@ -80,18 +72,7 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         String currency_code = intent.getStringExtra(HistoryFragment.HISTORY_CURRENCY);
         long time = intent.getLongExtra(HistoryFragment.HISTORY_TIME, 0);
         String phone_num = intent.getStringExtra(HistoryFragment.HISTORY_PHONE);
-        String name = intent.getStringExtra(HistoryFragment.HISTORY_FROM);
-        final Boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
-        final Boolean flag = intent.getBooleanExtra(HistoryFragment.HISTORY_FLAG,false);
-
-        Log.d("ACTIVITY",from);
-        Log.d("ACTIVITY",to);
-        Log.d("ACTIVITY",""+amount);
-        Log.d("ACTIVITY",currency_code);
-        Log.d("ACTIVITY",""+time);
-        Log.d("ACTIVITY",phone_num);
-        Log.d("ACTIVITY",""+intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,true));
-        Log.d("ACTIVITY flag",""+intent.getBooleanExtra(HistoryFragment.HISTORY_FLAG,false));
+        final boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
 
         String user_str;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -105,9 +86,9 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int i = 0;
-                for (DataSnapshot datas : dataSnapshot.getChildren()) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     i++;
-                    set_location(datas.child("image").getValue().toString());
+                    set_location(data.child("image").getValue().toString());
                 }
                 if (i == 0) {
                     set_location("users/profile.jpg/");
@@ -154,9 +135,6 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             phone_number.setText(phone_num);
         else
             phone_number.setText("-------------");
-
-        Log.d("LOGGGGGcc",""+profile_image);
-
         GlideApp.with(this)
                 .load(profile_image)
                 .dontAnimate()
@@ -199,7 +177,7 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         Given a long representing the seconds since the Epoch (00:00:00 Thursday, 1 January 1970)
         Format it into a yyyy/MM/dd HH:mm:ss format for easy of printing to screen.
      */
-    public String convertTime(long time){
+    private String convertTime(long time){
         Date date = new Date(time);
         Format format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return format.format(date);

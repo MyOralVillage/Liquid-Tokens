@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:text="John Smitherson"
+        android:text="John Smith"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/cell_contact_image_contact"/>

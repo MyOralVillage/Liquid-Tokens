@@ -10,10 +10,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,15 +35,20 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mynameismidori.currencypicker.CurrencyPicker;
 import com.mynameismidori.currencypicker.CurrencyPickerListener;
+import com.mynameismidori.currencypicker.ExtendedCurrency;
 import com.rilixtech.CountryCodePicker;
 
 import org.myoralvillage.android.R;
+import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.ui.MainActivity;
 import org.myoralvillage.android.ui.util.ErrorClearTextWatcher;
+import org.myoralvillage.android.ui.widgets.PhotoSelectionDialog;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginCompletionActivity extends AppCompatActivity {
@@ -55,12 +61,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
     private static final String ARG_SELECTED_PHOTO_URI = "selectedPhotoUri";
 
     private TextInputEditText firstNameText;
-    //private TextInputEditText lastNameText;
-    private TextInputEditText currencyText;
 
-    private MaterialButton submitButton;
-
-    private MaterialCardView pictureCard;
     private ViewSwitcher pictureCardSwitcher;
     private CircleImageView pictureCardImage;
     private FloatingActionButton pictureDeleteButton;
@@ -70,9 +71,12 @@ public class LoginCompletionActivity extends AppCompatActivity {
 
     private Uri selectedPhotoUri;
 
+    private Button currencyButton;
+    private ImageView currencyImage;
+
     private CountryCodePicker ccp;
     private String currency;
-    private CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
+    private final CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +98,12 @@ public class LoginCompletionActivity extends AppCompatActivity {
             }
         });
 
+        picker.setCurrenciesList(MOVCurrency.getAvailableCurrenciesForPicker(this));
         picker.setListener(new CurrencyPickerListener() {
             @Override
             public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
                 Log.e("CURRENCY", name + " " + code + " " + symbol + flagDrawableResID);
-                currency = code;
-                currencyText.setText(code);
+                setSelectedCurrency(MOVCurrency.getExtendedCurrencyByIso(code));
                 picker.dismiss();
             }
         });
@@ -107,20 +111,11 @@ public class LoginCompletionActivity extends AppCompatActivity {
         firstNameText = findViewById(R.id.login_completion_field_first_name);
         firstNameText.addTextChangedListener(new ErrorClearTextWatcher(firstNameText));
 
-        currencyText = findViewById(R.id.login_completion_currency);
-        currencyText.addTextChangedListener(new ErrorClearTextWatcher(currencyText));
-        currencyText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCurrencyClicked(picker);
-            }
-        });
-
-        ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        ccp = findViewById(R.id.ccp);
         ccp.setHidePhoneCode(true);
         ccp.showFullName(true);
 
-        submitButton = findViewById(R.id.login_completion_button_submit);
+        MaterialButton submitButton = findViewById(R.id.login_completion_button_submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +123,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
             }
         });
 
-        pictureCard = findViewById(R.id.login_completion_card);
+        MaterialCardView pictureCard = findViewById(R.id.login_completion_card);
         pictureCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,8 +133,18 @@ public class LoginCompletionActivity extends AppCompatActivity {
         pictureCardSwitcher = findViewById(R.id.login_completion_card_switcher);
         pictureCardImage = findViewById(R.id.login_completion_card_image);
 
+        currencyImage = findViewById(R.id.login_completion_image_currency);
+        currencyButton = findViewById(R.id.login_completion_button_currency);
+        currencyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picker.show(getSupportFragmentManager(), "Choose a Currency");
+            }
+        });
+
         checkIfLoggedIn();
         setSelectedPhotoUri(selectedPhotoUri);
+        setSelectedCurrency(MOVCurrency.getExtendedCurrencyByIso("usd"));
     }
 
     @Override
@@ -149,6 +154,14 @@ public class LoginCompletionActivity extends AppCompatActivity {
         if (selectedPhotoUri != null) {
             outState.putParcelable(ARG_SELECTED_PHOTO_URI, selectedPhotoUri);
         }
+    }
+
+    private void setSelectedCurrency(ExtendedCurrency currency) {
+        this.currency = currency.getCode();
+
+        currencyImage.setImageResource(currency.getFlag());
+        currencyButton.setText(currency.getName());
+        currencyButton.requestLayout();
     }
 
     private void showHideFab() {
@@ -164,7 +177,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
     }
 
     private void onPictureCardClicked() {
-        presentPictureOptionsDialog();
+        selectPhotoDialog = PhotoSelectionDialog.presentPictureOptionsDialog(this);
     }
 
     private void checkIfLoggedIn() {
@@ -201,7 +214,7 @@ public class LoginCompletionActivity extends AppCompatActivity {
         Editable firstNameEditable = firstNameText.getText();
 //        Editable lastNameEditable = lastNameText.getText();
 
-        String firstNameString = null;
+        String firstNameString;
 //        String lastNameString = null;
 
         String error = getResources().getString(R.string.login_completion_error_empty_name);
@@ -258,45 +271,6 @@ public class LoginCompletionActivity extends AppCompatActivity {
             redirectToMainActivity();
         }
 
-    }
-
-    private void presentPictureOptionsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        View bodyView = getLayoutInflater().inflate(R.layout.layout_contact_photo_select, null);
-        MaterialButton selectPhotoButton = bodyView.findViewById(R.id.contact_photo_select_button_select);
-        selectPhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent selectPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(selectPhoto, REQUEST_SELECT_PHOTO);
-            }
-        });
-        MaterialButton takePhotoButton = bodyView.findViewById(R.id.contact_photo_select_button_take);
-        takePhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File tempFile = new File(getFilesDir(), "images/image.jpg");
-                if (!tempFile.exists() && !tempFile.mkdir()) return;
-
-                Uri uri = FileProvider.getUriForFile(
-                        LoginCompletionActivity.this,
-                        "org.myoralvillage.android.provider",
-                        tempFile);
-
-                Intent takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-                startActivityForResult(takePhoto, REQUEST_TAKE_PHOTO);
-
-            }
-        });
-
-
-        builder.setView(bodyView);
-        builder.setTitle(getResources().getString(R.string.login_completion_dialog_add_photo));
-
-        selectPhotoDialog = builder.show();
     }
 
     @Override

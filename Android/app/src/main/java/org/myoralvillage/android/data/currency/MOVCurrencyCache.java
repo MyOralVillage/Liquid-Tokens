@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 public class MOVCurrencyCache {
 
-    private Map<String, MOVCurrency> currencies = new HashMap<>();
+    private final Map<String, MOVCurrency> currencies = new HashMap<>();
 
     public MOVCurrency getCurrency(@NonNull Context context, @NonNull String isoCurrencyCode) {
         MOVCurrency existing = currencies.get(isoCurrencyCode);

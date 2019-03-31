@@ -24,27 +24,16 @@ import android.widget.TextView;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVRequest;
-import android.util.Log;
 
 public class TransactionsFragment extends Fragment {
-
-    private FirebaseRecyclerAdapter<MOVRequest, MOVIncRequestViewHolder> adapterInc;
-    private FirebaseRecyclerAdapter<MOVRequest, MOVOutRequestViewHolder> adapterOut;
 
     public TransactionsFragment() {
         // Required empty public constructor
     }
 
     public static TransactionsFragment newInstance() {
-        TransactionsFragment fragment = new TransactionsFragment();
 
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+        return new TransactionsFragment();
     }
 
     @Override
@@ -102,7 +91,7 @@ public class TransactionsFragment extends Fragment {
                     }
                 }).build();
 
-        adapterInc = new FirebaseRecyclerAdapter<MOVRequest, MOVIncRequestViewHolder>(options) {
+        FirebaseRecyclerAdapter<MOVRequest, MOVIncRequestViewHolder> adapterInc = new FirebaseRecyclerAdapter<MOVRequest, MOVIncRequestViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MOVIncRequestViewHolder movIncRequestViewHolder, int i, @NonNull MOVRequest movRequest) {
                 //Log.v("Bye", movRequest.getCurrency());
@@ -126,9 +115,9 @@ public class TransactionsFragment extends Fragment {
     }
 
     class MOVIncRequestViewHolder extends RecyclerView.ViewHolder {
-        TextView sender;
-        TextView amount;
-        TextView currency;
+        final TextView sender;
+        final TextView amount;
+        final TextView currency;
 
         MOVIncRequestViewHolder(View itemView) {
             super(itemView);
@@ -153,7 +142,7 @@ public class TransactionsFragment extends Fragment {
                     }
                 }).build();
 
-        adapterOut = new FirebaseRecyclerAdapter<MOVRequest, MOVOutRequestViewHolder>(options) {
+        FirebaseRecyclerAdapter<MOVRequest, MOVOutRequestViewHolder> adapterOut = new FirebaseRecyclerAdapter<MOVRequest, MOVOutRequestViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MOVOutRequestViewHolder movOutRequestViewHolder, int i, @NonNull MOVRequest movRequest) {
                 // Use DataSnapshot to search for name?
@@ -177,9 +166,9 @@ public class TransactionsFragment extends Fragment {
     }
 
     class MOVOutRequestViewHolder extends RecyclerView.ViewHolder {
-        TextView recipient;
-        TextView amount;
-        TextView currency;
+        final TextView recipient;
+        final TextView amount;
+        final TextView currency;
 
         MOVOutRequestViewHolder(View itemView) {
             super(itemView);

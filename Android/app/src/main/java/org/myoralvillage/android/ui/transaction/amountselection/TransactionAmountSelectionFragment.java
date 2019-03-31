@@ -29,7 +29,6 @@ import org.myoralvillage.android.ui.transaction.TransactionPage;
 import org.myoralvillage.android.ui.transaction.TransactionViewModel;
 
 import java.io.IOException;
-import java.util.Map;
 
 
 public class TransactionAmountSelectionFragment extends Fragment implements TransactionPage, TransactionAmountSelectionCurrencyRemover {

@@ -8,7 +8,7 @@ import com.google.firebase.database.annotations.NotNull;
 
 public class ErrorClearTextWatcher implements TextWatcher {
 
-    private TextInputEditText editText;
+    private final TextInputEditText editText;
 
     public ErrorClearTextWatcher(@NotNull TextInputEditText editText) {
         this.editText = editText;

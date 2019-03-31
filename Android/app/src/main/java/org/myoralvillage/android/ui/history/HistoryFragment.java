@@ -6,11 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,32 +15,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.myoralvillage.android.R;
-import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.data.transaction.MOVTransaction;
 import org.myoralvillage.android.ui.CurrentUserViewModel;
-import org.myoralvillage.android.ui.util.GlideApp;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransactionListener {
 
-    private static final String LOG_TAG = "HistoryFragment";
     static final String HISTORY_FROM = "org.myoralvillage.android.ui.history.from";
     static final String HISTORY_TO = "org.myoralvillage.android.ui.history.to";
     static final String HISTORY_TIME = "org.myoralvillage.android.ui.history.time";
@@ -53,7 +41,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
     static final String HISTORY_PHONE = "org.myoralvillage.android.ui.history.phone";
     static final String HISTORY_SENDER = "org.myoralvillage.android.ui.history.sender"; //boolean, if the user is the sender
     static final String HISTORY_PORTRAIT = "org.myoralvillage.android.ui.history.portrait";
-    static  final String HISTORY_FLAG = "org.myoralvillage.android.ui.history.flag";
+    private static  final String HISTORY_FLAG = "org.myoralvillage.android.ui.history.flag";
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
     private DataSnapshot toSnapshot;
@@ -68,7 +56,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
 
     private List<MOVTransaction> transactions;
 
-    private ValueEventListener toListener = new ValueEventListener() {
+    private final ValueEventListener toListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             toSnapshot = dataSnapshot;
@@ -81,7 +69,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
         }
     };
 
-    private ValueEventListener fromListener = new ValueEventListener() {
+    private final ValueEventListener fromListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             fromSnapshot = dataSnapshot;
@@ -94,7 +82,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
         }
     };
 
-    private ValueEventListener usersListener = new ValueEventListener() {
+    private final ValueEventListener usersListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             users = dataSnapshot;
@@ -197,7 +185,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
         position--;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Boolean sender = user.getUid().equals(transactions.get(position).getFrom());
-        String phone_number = "";
+        String phone_number;
         if(sender){
             phone_number = users.child(transactions.get(position).getTo()).getValue(MOVUser.class).getPhone();
         }
@@ -218,9 +206,9 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int i = 0;
-                for (DataSnapshot datas : dataSnapshot.getChildren()) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     i++;
-                    set_location(datas.child("image").getValue().toString());
+                    set_location(data.child("image").getValue().toString());
                     Log.d("DataSnapShot1", dataSnapshot + " " + location);
                 }
                 if(i == 0){

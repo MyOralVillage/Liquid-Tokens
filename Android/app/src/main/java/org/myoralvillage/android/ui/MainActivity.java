@@ -22,15 +22,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.MenuItem;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.ui.history.HistoryFragment;
-import org.myoralvillage.android.ui.request.RequestFragment;
 import org.myoralvillage.android.ui.scan.ScanFragment;
-import org.myoralvillage.android.ui.send.SendFragment;
 import org.myoralvillage.android.ui.transaction.TransactionsFragment;
 import org.myoralvillage.android.ui.user.UserFragment;
 
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment mFragmentHistory = HistoryFragment.newInstance();
     private final Fragment mFragmentUser = UserFragment.newInstance();
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if(!task.isSuccessful()){
+                        if (!task.isSuccessful()) {
                             Log.d("T2", "getInstanceId failed", task.getException());
                             return;
                         }
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().
                                 child("users").child(userId).child("messagingToken");
-                        if(!ref.toString().equals(token)) {
+                        if (!ref.toString().equals(token)) {
                             ref.setValue(token);
                         }
                     }
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         setContentView(R.layout.activity_main);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 .child(currentUser.getUid());
     }
 
-    private ValueEventListener currentUserValueEventListener = new ValueEventListener() {
+    private final ValueEventListener currentUserValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             CurrentUserViewModel currentUserViewModel = ViewModelProviders.of(MainActivity.this)

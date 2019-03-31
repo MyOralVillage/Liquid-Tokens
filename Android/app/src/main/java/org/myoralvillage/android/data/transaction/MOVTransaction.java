@@ -4,18 +4,6 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 public class MOVTransaction implements Comparable<MOVTransaction>{
 
     private String from;
@@ -95,7 +83,7 @@ public class MOVTransaction implements Comparable<MOVTransaction>{
         Given a long representing the seconds since the Epoch (00:00:00 Thursday, 1 January 1970)
         Format it into a yyyy/MM/dd HH:mm:ss format for easy of printing to screen.
      */
-    public String convertTime(long time){
+    private String convertTime(long time){
         Date date = new Date(time);
         Format format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return format.format(date);

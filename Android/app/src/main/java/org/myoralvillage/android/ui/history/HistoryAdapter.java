@@ -8,18 +8,16 @@ import android.widget.LinearLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.myoralvillage.android.R;
-import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.currency.MOVCurrencyCache;
 import org.myoralvillage.android.data.transaction.MOVTransaction;
 import org.myoralvillage.android.ui.CurrentUserViewModel;
-import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionViewModel;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int VIEW_TYPE_TO = 0;
     public static final int VIEW_TYPE_FROM = 1;
@@ -27,14 +25,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_TYPE_HEADER = 2;
     private static final int VIEW_TYPE_FOOTER = 3;
 
-    private int defaultCellHeight;
+    private final int defaultCellHeight;
 
-    private OnTransactionListener mOnTransactionListener;
+    private final OnTransactionListener mOnTransactionListener;
 
-    private List<MOVTransaction> transactions;
+    private final List<MOVTransaction> transactions;
 
-    private MOVCurrencyCache currencyCache;
-    private CurrentUserViewModel userViewModel;
+    private final MOVCurrencyCache currencyCache;
+    private final CurrentUserViewModel userViewModel;
 
     public HistoryAdapter(CurrentUserViewModel userViewModel, List<MOVTransaction> transactions, int defaultCellHeight, OnTransactionListener onTransactionListener) {
         this.userViewModel = userViewModel;
