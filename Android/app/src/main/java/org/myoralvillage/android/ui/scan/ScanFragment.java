@@ -68,7 +68,7 @@ public class ScanFragment extends Fragment {
                 createFragment = CreateQR.newInstance();
 
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+                FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
 
                 ft.replace(R.id.container, createFragment).commit();
             }
