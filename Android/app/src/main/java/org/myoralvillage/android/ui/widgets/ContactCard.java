@@ -1,7 +1,6 @@
 package org.myoralvillage.android.ui.widgets;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +34,6 @@ public class ContactCard {
     public static void setUserImage(Context context, MOVUser user, ImageView imageView, boolean skipMemoryCache) {
         try {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
-            Log.e("testimage", user.getImage());
             GlideApp.with(context)
                     .load(storageReference)
                     .dontAnimate()
