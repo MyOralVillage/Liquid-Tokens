@@ -56,11 +56,9 @@ public class ScanFragment extends Fragment {
 
         //listener for create_qr_button
         Button create_button = (Button) view.findViewById(R.id.create_qr_button);
-        create_button.setOnClickListener(new View.OnClickListener()
-        {
+        create_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
 
             }
@@ -68,11 +66,9 @@ public class ScanFragment extends Fragment {
 
         //listener for scan_qr_button
         Button scan_button = (Button) view.findViewById(R.id.scan_qr_button);
-        scan_button.setOnClickListener(new View.OnClickListener()
-        {
+        scan_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), CameraScanActivity.class);
                 startActivity(intent);
@@ -81,8 +77,8 @@ public class ScanFragment extends Fragment {
 
         return view;
     }
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_scan, container, false);
+    // Inflate the layout for this fragment
+    //return inflater.inflate(R.layout.fragment_scan, container, false);
 
 
     @Override
@@ -95,7 +91,6 @@ public class ScanFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
 
 
 }

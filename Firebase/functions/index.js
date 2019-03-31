@@ -38,7 +38,7 @@ exports.profileImage = functions.storage.object().onFinalize((object, context) =
         }).then(() => {
 
             return bucket.upload(tempFilePath, {
-                destination: path.join(path.dirname(filePath), 'profile.jpg'),
+                destination: path.join(path.dirname(filePath), fileName.split('raw_')[1]),
                 metadata: metadata
             });
         }).then((storagePath) => {

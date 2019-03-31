@@ -7,28 +7,13 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.app.Activity;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.firebase.ui.database.ClassSnapshotParser;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,54 +21,35 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVUser;
-import org.myoralvillage.android.ui.widgets.ContactCard;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ContactsActivity extends AppCompatActivity implements ChildEventListener, SearchView.OnQueryTextListener, ContactsListAdapter.OnContactSelectedListener {
 
-    public static String EXTRA_SELECTION_MODE = "SelectionMode";
-    public static int SELECTION_MODE_VIEW = 0;
-    public static int SELECTION_MODE_PICK = 1;
+    public static final String EXTRA_SELECTION_MODE = "SelectionMode";
+    private static final int SELECTION_MODE_VIEW = 0;
+    public static final int SELECTION_MODE_PICK = 1;
 
-    public static int RESULT_DID_PICK = 0;
-    public static String RESULT_SELECTED_CONTACT = "SelectedContact";
+    public static final int RESULT_DID_PICK = 0;
+    public static final String RESULT_SELECTED_CONTACT = "SelectedContact";
 
     private Query contactsQuery;
 
-    private ListView listView;
     private View emptyView;
     private ContactsListViewModel contactListViewModel;
     private ContactsListAdapter contactListAdapter;
-
-    private FloatingActionButton addContactButton;
-
-    private MenuItem searchItem;
 
     private int selectionMode;
 
@@ -99,14 +65,14 @@ public class ContactsActivity extends AppCompatActivity implements ChildEventLis
 
         selectionMode = getIntent().getIntExtra(EXTRA_SELECTION_MODE, SELECTION_MODE_VIEW);
 
-        addContactButton = findViewById(R.id.contacts_fab);
+        FloatingActionButton addContactButton = findViewById(R.id.contacts_fab);
         addContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickAddContactButton();
             }
         });
-        listView = findViewById(R.id.contacts_list);
+        ListView listView = findViewById(R.id.contacts_list);
         emptyView = findViewById(R.id.contacts_text_empty);
 
         contactListViewModel = ViewModelProviders.of(this).get(ContactsListViewModel.class);
@@ -233,9 +199,9 @@ public class ContactsActivity extends AppCompatActivity implements ChildEventLis
 
         SearchManager searchManager = (SearchManager)
                 getSystemService(Context.SEARCH_SERVICE);
-        searchItem = menu.findItem(R.id.search);
+        MenuItem searchItem = menu.findItem(R.id.search);
 
-        Drawable icon = (Drawable)searchItem.getIcon();
+        Drawable icon = searchItem.getIcon();
         icon.mutate().setColorFilter(Color.argb(255, 255, 255, 255), PorterDuff.Mode.SRC_IN);
         searchItem.setIcon(icon);
 

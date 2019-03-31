@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -33,47 +34,48 @@ dependencies {
     def lifecycle_version = "2.0.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'com.google.android.material:material:1.0.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
+    implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.0-beta01'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0-alpha01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'androidx.annotation:annotation:1.0.0-beta01'
-    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'androidx.annotation:annotation:1.1.0-alpha02'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
     // UI
     implementation 'com.github.badoualy:stepper-indicator:1.0.7'
-    implementation "com.google.android.material:material:1.1.0-alpha04"
+    implementation "com.google.android.material:material:1.1.0-alpha05"
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'androidx.annotation:annotation:1.0.0'
+    annotationProcessor 'androidx.annotation:annotation:1.0.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.firebaseui:firebase-ui-database:4.3.1'
     implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
-    implementation 'com.google.firebase:firebase-auth:16.1.0'
-    implementation 'com.google.firebase:firebase-functions:16.2.0'
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-functions:16.3.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-messaging:17.5.0'
 
     implementation 'com.github.joielechong:CountryCodePicker:e96e7bca0f'
     implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
     implementation 'com.wonderkiln:camerakit:0.13.1'
-    implementation 'com.google.firebase:firebase-core:16.0.3'
-    implementation 'com.google.firebase:firebase-ml-vision:17.0.0'
+    apply plugin: 'com.google.gms.google-services'
+    implementation 'com.google.firebase:firebase-ml-vision:19.0.3'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
-    implementation 'com.android.support:support-v4:28.0.+'
+    implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
 }
 

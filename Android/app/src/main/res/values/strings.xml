@@ -14,6 +14,8 @@
     <string name="title_request">Request Money</string>
     <string name="title_scan">Scan and Pay</string>
     <string name="title_history">Transaction History</string>
+    <string name="title_edit_profile">Edit Profile</string>
+
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -58,7 +60,7 @@
     <string name="Transaction_Title">Most Recent Transaction</string>
     <string name="History_Hint">input user\'s name</string>
     <string name="confirm">confirm</string>
-    <string name="blank">...</string>
+    <string name="blank">…</string>
     <string name="on">on</string>
     <string name="sent">sent</string>
     <string name="transaction">Recent Transaction</string>
@@ -73,6 +75,7 @@
     <string name="user_fragment_logout">Log Out</string>
     <string name="user_fragment_save">Save</string>
     <string name="user_contacts">Contacts</string>
+    <string name="user_edit">Edit Profile</string>
 
     <string name="contacts_search">Search</string>
     <string name="contacts_empty">No Contacts</string>
@@ -87,5 +90,28 @@
     <string name="outgoing_money_requests">Outgoing Money Requests</string>
     <string name="title_activity_contacts">Contacts</string>
     <string name="title_activity_add_contact">Add Contact</string>
+    <string name="title_activity_history_transaction">HistoryTransactionActivity</string>
+    <string name="send_or_receive">send_or_receive</string>
+    <string name="image_of_other_user">image_of_other_user</string>
+    <string name="image_of_sender_user">image_of_sender_user</string>
+    <string name="image_of_receiver_user">image_of_receiver_user</string>
+    <string name="textview">TextView</string>
+    <string name="phone2">Receive Number</string>
+    <string name="phone1">Send Number</string>
+    <string name="date">Date</string>
+    <string name="transaction_currency">Currency</string>
+    <string name="image_of_phone">image of phone]</string>
+    <string name="amount">Amount</string>
+    <string name="transaction_detail_hand">transaction_detail_hand</string>
+    <string name="transaction_image">transaction_detail_image</string>
+    <string name="transaction_detail_currency">transaction_detail_currency</string>
+    <string name="transaction_detail_phone_number">transaction_detail_phone_number</string>
+    <string name="transaction_detail_date">transaction_detail_date</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="currency">Currency</string>
+    <string name="transaction_detail_date_line">date line</string>
+    <string name="transaction_detail_phone">phone image</string>
+    <string name="transaction_detail_background">The background for Transaction_details</string>
+    <string name="portrait">Portrait around someones face</string>
 
 </resources>

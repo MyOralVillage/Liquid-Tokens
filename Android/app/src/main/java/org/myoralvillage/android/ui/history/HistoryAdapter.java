@@ -8,18 +8,16 @@ import android.widget.LinearLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.myoralvillage.android.R;
-import org.myoralvillage.android.data.currency.MOVCurrency;
 import org.myoralvillage.android.data.currency.MOVCurrencyCache;
 import org.myoralvillage.android.data.transaction.MOVTransaction;
 import org.myoralvillage.android.ui.CurrentUserViewModel;
-import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionViewModel;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int VIEW_TYPE_TO = 0;
     public static final int VIEW_TYPE_FROM = 1;
@@ -27,58 +25,64 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_TYPE_HEADER = 2;
     private static final int VIEW_TYPE_FOOTER = 3;
 
-    private int defaultCellHeight;
+    private final int defaultCellHeight;
 
-    private List<MOVTransaction> transactions;
+    private final OnTransactionListener mOnTransactionListener;
 
-    private MOVCurrencyCache currencyCache;
-    private CurrentUserViewModel userViewModel;
+    private final List<MOVTransaction> transactions;
 
-    public HistoryAdapter(CurrentUserViewModel userViewModel, List<MOVTransaction> transactions, int defaultCellHeight) {
+    private final MOVCurrencyCache currencyCache;
+    private final CurrentUserViewModel userViewModel;
+
+    public HistoryAdapter(CurrentUserViewModel userViewModel, List<MOVTransaction> transactions, int defaultCellHeight, OnTransactionListener onTransactionListener) {
         this.userViewModel = userViewModel;
         this.transactions = transactions;
         this.defaultCellHeight = defaultCellHeight;
+
+        this.mOnTransactionListener = onTransactionListener;
 
         currencyCache = new MOVCurrencyCache();
 
 
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
 
-        if(viewType == VIEW_TYPE_HEADER) {
+        if (viewType == VIEW_TYPE_HEADER) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_history_header, parent, false);
 
 
             return new HistoryHeaderViewHolder(view, currencyCache);
-        }else if(viewType == VIEW_TYPE_FOOTER) {
+        } else if (viewType == VIEW_TYPE_FOOTER) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_history_footer, parent, false);
 
-            return new RecyclerView.ViewHolder(view){};
-        }else if(viewType == VIEW_TYPE_TO) {
+            return new RecyclerView.ViewHolder(view) {
+            };
+        } else if (viewType == VIEW_TYPE_TO) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_history_to, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_history_from, parent, false);
         }
 
-        return new HistoryViewHolder(view, currencyCache);
+        return new HistoryViewHolder(view, currencyCache, mOnTransactionListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder.getItemViewType() == VIEW_TYPE_HEADER) {
+        if (holder.getItemViewType() == VIEW_TYPE_HEADER) {
             HistoryHeaderViewHolder headerViewHolder = (HistoryHeaderViewHolder) holder;
             headerViewHolder.setViewModel(userViewModel);
-        }else if(holder.getItemViewType() == VIEW_TYPE_FROM || holder.getItemViewType() == VIEW_TYPE_TO) {
+        } else if (holder.getItemViewType() == VIEW_TYPE_FROM || holder.getItemViewType() == VIEW_TYPE_TO) {
             int transactionPosition = position - 1;
 
             MOVTransaction transaction = transactions.get(transactionPosition);
             HistoryViewHolder historyViewHolder = (HistoryViewHolder) holder;
             historyViewHolder.setTransaction(transaction);
 
-            if(transactionPosition > 0) {
+            if (transactionPosition > 0) {
                 MOVTransaction nextTransaction = transactions.get(transactionPosition - 1);
 
                 long timeDiff = Math.abs(nextTransaction.getTime() - transaction.getTime());
@@ -100,16 +104,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return VIEW_TYPE_HEADER;
-        } else if(position == transactions.size() + 1) {
+        } else if (position == transactions.size() + 1) {
             return VIEW_TYPE_FOOTER;
         }
 
         MOVTransaction transaction = transactions.get(position - 1);
         String uid = FirebaseAuth.getInstance().getUid();
 
-        if(uid != null && uid.equals(transaction.getTo())) {
+        if (uid != null && uid.equals(transaction.getTo())) {
             return VIEW_TYPE_TO;
         } else {
             return VIEW_TYPE_FROM;
@@ -119,5 +123,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         return transactions.size() + 2;
+    }
+
+    public interface OnTransactionListener {
+        void onTransactionClick(int position);
     }
 }

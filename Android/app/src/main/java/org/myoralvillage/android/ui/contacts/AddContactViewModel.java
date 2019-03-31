@@ -12,9 +12,9 @@ public class AddContactViewModel extends ViewModel {
         Loading, Error, Found, Blank
     }
 
-    private MutableLiveData<MOVUser> contactToAdd = new MutableLiveData<>();
+    private final MutableLiveData<MOVUser> contactToAdd = new MutableLiveData<>();
 
-    private MutableLiveData<AddContactState> contactState = new MutableLiveData<>();
+    private final MutableLiveData<AddContactState> contactState = new MutableLiveData<>();
 
     private String errorText;
 

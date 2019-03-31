@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 public class CurrentUserViewModel extends ViewModel {
 
-    private MutableLiveData<MOVUser> currentUser;
+    private final MutableLiveData<MOVUser> currentUser;
 
     public CurrentUserViewModel() {
         currentUser = new MutableLiveData<>();

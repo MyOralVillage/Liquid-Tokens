@@ -3,9 +3,9 @@ package org.myoralvillage.android.data.currency;
 public class MOVCurrencyDenomination implements Comparable<MOVCurrencyDenomination>{
 
 
-    private MOVCurrency mCurrency;
-    private int mValue;
-    private MOVCurrencyDenominationType mType;
+    private final MOVCurrency mCurrency;
+    private final int mValue;
+    private final MOVCurrencyDenominationType mType;
 
     /**
      * Represents a currency denomination (e.g. $20 bill, $2 coin)

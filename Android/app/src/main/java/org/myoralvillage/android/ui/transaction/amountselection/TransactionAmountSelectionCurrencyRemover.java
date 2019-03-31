@@ -2,6 +2,6 @@ package org.myoralvillage.android.ui.transaction.amountselection;
 
 import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
 
-public interface TransactionAmountSelectionCurrencyRemover {
+interface TransactionAmountSelectionCurrencyRemover {
     void removeCurrency(MOVCurrencyDenomination denomination);
 }
