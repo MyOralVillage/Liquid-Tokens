@@ -75,7 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         currencyPicker = CurrencyPicker.newInstance("Select Currency");
-        currencyPicker.setCurrenciesList(getAvailableCurrencies());
+        currencyPicker.setCurrenciesList(MOVCurrency.getAvailableCurrenciesForPicker(this));
 
         bindViews();
         addListeners();
@@ -249,25 +249,5 @@ public class EditProfileActivity extends AppCompatActivity {
             finish();
         }
 
-    }
-
-    private List<ExtendedCurrency> getAvailableCurrencies() {
-        List<ExtendedCurrency> currencies = new ArrayList<>();
-        try {
-            List<String> availableCurrencyCodes = MOVCurrency.getAvailableCurrencies(this);
-            for(String currencyCode : availableCurrencyCodes) {
-                currencyCode = currencyCode.toUpperCase();
-
-                ExtendedCurrency currency = MOVCurrency.getExtendedCurrencyByIso(currencyCode.trim());
-
-                if(currency != null) {
-                    currencies.add(currency);
-                }
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-
-        return currencies;
     }
 }
