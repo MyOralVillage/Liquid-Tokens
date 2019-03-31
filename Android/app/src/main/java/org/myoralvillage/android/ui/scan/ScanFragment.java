@@ -1,20 +1,16 @@
 package org.myoralvillage.android.ui.scan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import org.myoralvillage.android.R;
-import org.myoralvillage.android.ui.scan.CreateQR;
-import org.myoralvillage.android.ui.scan.ScanQR;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 
 public class ScanFragment extends Fragment {
@@ -66,13 +62,7 @@ public class ScanFragment extends Fragment {
             public void onClick(View v)
             {
                 //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
-                Fragment createFragment = CreateQR.newInstance();
 
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-
-                ft.replace(R.id.container, createFragment).commit();
-                // do something
             }
         });
 
@@ -84,13 +74,8 @@ public class ScanFragment extends Fragment {
             public void onClick(View v)
             {
                 //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
-                Fragment scanFragment = ScanQR.newInstance();
-
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-
-                ft.replace(R.id.container, scanFragment).commit();
-                // do something
+                Intent intent = new Intent(getActivity(), CameraScanActivity.class);
+                startActivity(intent);
             }
         });
 

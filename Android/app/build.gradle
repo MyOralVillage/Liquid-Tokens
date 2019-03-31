@@ -68,6 +68,13 @@ dependencies {
     implementation 'com.github.joielechong:CountryCodePicker:e96e7bca0f'
     implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    implementation 'com.wonderkiln:camerakit:0.13.1'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-ml-vision:17.0.0'
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    implementation 'com.android.support:support-v4:28.0.+'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

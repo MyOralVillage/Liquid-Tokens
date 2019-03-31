@@ -46,6 +46,8 @@
         <activity
             android:name=".ui.transaction.TransactionActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ui.scan.CameraScanActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
@@ -70,6 +72,12 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="barcode">
+
+        </meta-data>
     </application>
 
 </manifest>
