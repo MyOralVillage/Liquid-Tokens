@@ -19,7 +19,7 @@ public class ContactCard {
         TextView nameText = contactCard.findViewById(R.id.contact_button_name);
         nameText.setText(user.getName());
 
-        if(user.getImage() != null) {
+        if (user.getImage() != null) {
 
             ImageView imageView = contactCard.findViewById(R.id.contact_button_image);
 
@@ -32,12 +32,20 @@ public class ContactCard {
     }
 
     public static void setUserImage(Context context, MOVUser user, ImageView imageView, boolean skipMemoryCache) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
-
-        GlideApp.with(context)
-                .load(storageReference)
-                .dontAnimate()
-                .skipMemoryCache(skipMemoryCache)
-                .into(imageView);
+        try {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(user.getImage());
+            GlideApp.with(context)
+                    .load(storageReference)
+                    .dontAnimate()
+                    .skipMemoryCache(skipMemoryCache)
+                    .into(imageView);
+        } catch (Exception e) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference("/users/profile.jpg");
+            GlideApp.with(context)
+                    .load(storageReference)
+                    .dontAnimate()
+                    .skipMemoryCache(skipMemoryCache)
+                    .into(imageView);
+        }
     }
 }
