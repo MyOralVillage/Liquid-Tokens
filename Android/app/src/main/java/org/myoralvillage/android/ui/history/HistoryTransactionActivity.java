@@ -16,21 +16,39 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
 import org.myoralvillage.android.R;
+import org.myoralvillage.android.data.currency.MOVCurrency;
+import org.myoralvillage.android.data.currency.MOVCurrencyDenomination;
+import org.myoralvillage.android.ui.transaction.TransactionViewModel;
+import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionRecyclerAdapter;
+import org.myoralvillage.android.ui.transaction.amountselection.TransactionAmountSelectionViewModel;
 import org.myoralvillage.android.ui.util.GlideApp;
 
+import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class HistoryTransactionActivity extends AppCompatActivity {
 
     private static final int TIME_PER_CIRCLE = 604800; //Seconds in a week
-    //2592000 is a month.
+    MOVCurrency currency;
+    private TransactionAmountSelectionRecyclerAdapter selectedRecyclerAdapter;
+    private RecyclerView amountSelectedRecycler;
+    //2592000 is a month
 
     protected void onStart() {
         super.onStart();
@@ -51,7 +69,7 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         String from = intent.getStringExtra(HistoryFragment.HISTORY_FROM);
         String to = intent.getStringExtra(HistoryFragment.HISTORY_TO);
         int amount = intent.getIntExtra(HistoryFragment.HISTORY_AMOUNT, -1);
-        String currency = intent.getStringExtra(HistoryFragment.HISTORY_CURRENCY);
+        String currency_code = intent.getStringExtra(HistoryFragment.HISTORY_CURRENCY);
         long time = intent.getLongExtra(HistoryFragment.HISTORY_TIME, 0);
         String phone_num = intent.getStringExtra(HistoryFragment.HISTORY_PHONE);
         final boolean sender = intent.getBooleanExtra(HistoryFragment.HISTORY_SENDER,false);
@@ -80,15 +98,14 @@ public class HistoryTransactionActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                
+
             }
         });
 
-
         if(sender){
-            hand.setImageResource(R.drawable.history_send_money_white);
+            hand.setImageResource(R.drawable.history_send_money);
         }else{
-            hand.setImageResource(R.drawable.history_receive_money_white);
+            hand.setImageResource(R.drawable.history_receive_money);
 
         }
         StorageReference profile_image = null;
@@ -97,10 +114,11 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             profile_image =  FirebaseStorage.getInstance().getReference(intent.getStringExtra(HistoryFragment.HISTORY_PORTRAIT));
 
         String string_time = convertTime(time);
+        String string_amount = "$"+printAmount(amount);
         text_date.setText(string_time);
-        text_amount.setText("$"+printAmount(amount));
+        text_amount.setText(string_amount);
 
-        int id = this.getResources().getIdentifier("flag_"+currency, "drawable", this.getPackageName());
+        int id = this.getResources().getIdentifier("flag_"+currency_code, "drawable", this.getPackageName());
         if(id>0)
             image_currency.setImageResource(id);
         else
@@ -123,6 +141,24 @@ public class HistoryTransactionActivity extends AppCompatActivity {
                 .override(250)
                 .circleCrop()
                 .into(image);
+
+        try {
+            currency = MOVCurrency.loadFromJson(getApplicationContext(), currency_code);
+
+            amountSelectedRecycler = findViewById(R.id.transaction_detail_amount_display);
+
+            selectedRecyclerAdapter = new TransactionAmountSelectionRecyclerAdapter(currency, null);
+            amountSelectedRecycler.setAdapter(selectedRecyclerAdapter);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            amountSelectedRecycler.setLayoutManager(layoutManager);
+            selectedRecyclerAdapter.setAmount(amount);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -156,13 +192,30 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         int amLow = am%100;
         String strAmLow;
         //for the case when amount ends in 0 add a 0 at the end
-        // unless amount <100 which in 0.100
-        if (amLow % 10 == 0 && am > 99){
+        int amLowHigh = amLow/10;
+        int amLower = amLow-amLowHigh*10;
+        if (amLow % 10 == 0 && amLow > 9 && amLower != 0){
             strAmLow = ""+amLow+"0";
+        }
+        else if(amLow < 10){
+            strAmLow = "0"+amLow;
         }
         else
             strAmLow =  ""+amLow;
         return ""+amHigh+"."+strAmLow;
+    }
+
+    public static int[] greedyMoney(int amount, int[] denoms){
+        int[] to_ret = new int[denoms.length];
+        for(int i = 0; i < denoms.length; i++){
+            if(denoms[i] <= amount){
+                amount -= denoms[i];
+                to_ret[i]++;
+                i--;
+            }
+        }
+
+        return to_ret;
     }
 
 }

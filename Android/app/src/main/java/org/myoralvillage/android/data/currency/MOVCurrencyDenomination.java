@@ -34,6 +34,10 @@ public class MOVCurrencyDenomination implements Comparable<MOVCurrencyDenominati
         return mType;
     }
 
+    public String toString(){
+        return(this.mValue+"");
+    }
+
     @Override
     public int compareTo(MOVCurrencyDenomination o) {
         if(o.mValue == mValue) {
