@@ -15,7 +15,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +30,9 @@ import org.myoralvillage.android.R;
 import org.myoralvillage.android.data.model.MOVUser;
 import org.myoralvillage.android.ui.transaction.TransactionActivity;
 import org.myoralvillage.android.ui.widgets.ContactCard;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ContactActivity extends AppCompatActivity implements ValueEventListener {
 
@@ -42,6 +49,8 @@ public class ContactActivity extends AppCompatActivity implements ValueEventList
 
     private MaterialCardView sendButton;
     private MaterialCardView requestButton;
+
+    private MaterialButton removeContactButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +81,7 @@ public class ContactActivity extends AppCompatActivity implements ValueEventList
         contactPhone = findViewById(R.id.contact_text_phone);
         sendButton = findViewById(R.id.contact_button_send);
         requestButton = findViewById(R.id.contact_button_request);
+        removeContactButton = findViewById(R.id.contact_button_remove);
     }
 
     private void addListeners() {
@@ -96,6 +106,31 @@ public class ContactActivity extends AppCompatActivity implements ValueEventList
                 startActivity(intent);
             }
         });
+
+        removeContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeFromContacts();
+            }
+        });
+    }
+
+    private void removeFromContacts() {
+        String uid = FirebaseAuth.getInstance().getUid();
+
+        Map<String, Object> contacts = new HashMap<>();
+        contacts.put(contactUid, false);
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(uid)
+                .child("contacts")
+                .updateChildren(contacts)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        finish();
+                    }
+                });
     }
 
     private void observeData() {
