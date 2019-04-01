@@ -79,7 +79,7 @@ exports.transaction = functions.https.onCall((data, context) => {
     if(context.auth === undefined) {
         throw new functions.https.HttpsError('permission-denied', 'invalid auth');
     }
-    const { amount, to } = data;
+    const { amount, to, currency } = data;
     const uid = context.auth.uid;
 
     return app.database().ref('users').child(to).once("value").then((value) => {
@@ -91,7 +91,7 @@ exports.transaction = functions.https.onCall((data, context) => {
             from: uid,
             to: to,
             amount: amount,
-            currency: "usd",
+            currency: currency,
             time: (new Date()).getTime(),
         });
     }).then(() => {
@@ -127,7 +127,7 @@ exports.request = functions.https.onCall((data, context) => {
     if(context.auth === undefined) {
         throw new functions.https.HttpsError('permission-denied', 'invalid auth');
     }
-    const { amount, to } = data;
+    const { amount, to, currency } = data;
     const uid = context.auth.uid;
 
     return app.database().ref('users').child(to).once("value").then((value) => {
@@ -140,7 +140,7 @@ exports.request = functions.https.onCall((data, context) => {
             to: to,
             status: 'pending',
             amount: amount,
-            currency: "usd",
+            currency: currency,
             time: (new Date()).getTime(),
         });
     }).then(() => {
