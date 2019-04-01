@@ -1,4 +1,4 @@
-# My Oral Village/Team 11
+﻿# My Oral Village/Team 11
 
 ## Iteration 3
 
@@ -11,19 +11,16 @@
 
 We did not make any significant changes to our process this iteration. The following is a list of the most sucesfull process decisions we made:
 
-1. Slack
+ **Slack**
+   We chose to use *Slack* as our primary mode of communication. *Slack* allows us to communicate quickly and effectively: With apps available on all devices and operating systems, we are able to respond to *Slack* messages at any time. *Slack* also allows us to integrate with third-party services. We have chosen to integrate with *Google Drive* and *Trello*. Integration with *Google Drive* allows us to seamlessly share documents and files. Integration with *Trello* allows us to reference boards and cards, which we will describe below. We have measured the effectiveness of this process decision by examining a time-to-reply  (TTR) metric (the average time it takes someone to respond to a message). We noticed that the TTR on our *Slack* channel is on par, if not higher than what we usually see with traditional forms of communication (email, text, Facebook Messenger).
 
-   We chose to use *Slack* as our primary mode of communication. *Slack* allows us to communicate quickly and effectively: With apps available on all devices and operating systems, we are able to respond to *Slack* messages at any time. *Slack* also allows us to integrate with third-party services. We have chosen to integrate with *Google Drive* and *Trello*. Integration with*Google Drive* allows us to seamlessly share documents and files. Integration with *Trello* allows us to reference boards and cards, which we will describe below. We have measured the effectiveness of this process decision by examining a time-to-reply  (TTR) metric (the average time it takes someone to respond to a message). We noticed that the TTR on our *Slack* channel is on par, if not higher than what we usually see with traditional forms of communication (email, text, Facebook Messenger).
-
-2. Trello
-
+**Trello**
    We chose to use *Trello* as our primary means of task delegation and organization. Using *Trello* has allowed us to excel as a team, because we are able to see exactly what needs to be done, and exactly what everyone is working on. We have divided our *Trello* board into the following lists: `User Stories`, `Planned`, `Implementing`, `Testing`, `Complete` and `Suspended`. We have found that these lists cover every single state that a task could be in. The metric we have used to examine the effectiveness of this process decision is the rate-of-task-overlap (RTO) metric. This metric measures how often two individuals overlap in their work on a specific task. A high RTO is undesireable because it waste time and leads to code conflicts. We are proud to say that the RTO for this iteration was zero (meaning our work on any tasks did not overlap with another's).
 
-3. Github Pull Requests (PRs)
+ **Github Pull Requests (PRs)**
+   We chose to use *Github* pull requests to manage the integration of new features into our master branch. We require there to be atleast one review on a PR (by someone other than the submitter) for  it to be merged. With PRs, we are enabled and forced to "inspect" each other's code and feature functionality, which helps in avoiding bugs and code-smells. A metric that could be use to measure the success of this process decision is the frequency of activity on PRs. That is, comments, commits or changes to code that exist as a result of there being a PR. More activity means that a higher number of bugs, code-smells etc. were weeded out before the feature could make it to the master branch.
 
-   We chose to use *Github* pull requests to manage the integration of new features into our master branch. We require there to be atleast one review on a PR (by someone other than the submitter) for  it to be merged. With PRs, we are enabled to "inspect" each other's code and feature functionality, which helps in avoiding bugs and code-smells. A metric that could be use to measure the success of this process decision is the frequency of activity on PRs. That is, comments, commits or changes to code that exist as a result of there being a PR. More activity means that a higher number of bugs, code-smells etc. were weeded about before the feature could make it to the master branch.
-
-#### Roles & responsibilities
+#### Roles & Responsibilities
 
 ##### Roles Glossary
 
@@ -64,7 +61,7 @@ Manu is responsible for the design and implementation of the backend, in particu
 
 **Matthew Tory:** - Front End + Implementation. 
 
-Matthew will be taking involved in the visual design process of the app. He will be taking some of the mockups and designs from the client and implementing them into our app.
+Matthew will be involved in the visual design process of the app. He will be taking some of the mockups and designs from the client and implementing them into our app.
 
 - Strengths: Android, Flutter (Cross Platform), Graphic Design 				
 - Weaknesses: Databases
@@ -86,12 +83,13 @@ Simon will be involved in researching different design philosophies to determine
 
 #### Team Rules
 
-Our teams culture is mature and flexible. One of the first things that we discussed in class was how to handle a variety of problems. The overwhelming solution to the wide range of those problems was to talk about it like a mature adult. There is no point in spite. If you are angry it is important to understand why and communicate the reason. Similarly we are flexible. Many of the team members have experience working in the field or with clients. As such those without this experience will use this opportunity to develop these skills and support the team. Additionally there is not one glaring weakness. We have at least two people working on the front end and two people working on the back end.
+Our teams culture is mature and flexible. One of the first things that we discussed in class was how to handle a variety of problems. The overwhelming solution to the wide range of those problems was to talk about it like a mature adult. There is no point in spite. If you are angry it is important to understand why and communicate the reason. Similarly we are flexible. Many of the team members have experience working in the field or with clients. As such those without this experience will use this opportunity to develop these skills and support the team. Additionally there is no single glaring weakness. We have at least two people working on the front end and two people working on the back end.
 
 Early on our team decided to use Slack as our primary communication method. We have everyone’s email and phone number in case of emergencies or Slack failure. We decided to have a maximum of twelve hours to respond on weekdays and twenty-four hours over the weekend. We all attend the same weekly lecture and tutorial as well.
 
-At the moment we are using Google Meet to conduct meetings with the team at My Oral Village. In addition they want us to use their git repository and have invited us to their Slack workplace. At the moment this is still under discussion. Face to face meetings are being organized, the current plan is one every two weeks.
-Group members are held accountable through the shocking method of maturity. There is no three-strike-system. THere is no punishment that a group member can hand out. If a deadline is missed our first step is to figure out why. If needed, work can be redistributed. If the group as a whole feels like someone is not meeting their deadlines they can be put on notice. If they continue to fail to meet expectations that is when a professor or teaching assistant should be called in.
+At the moment we are using Google Meet to conduct meetings with the team at My Oral Village. In addition they want us to use their git repository and have invited us to their Slack workplace. At the moment this is still under discussion. Face to face meetings are being organized, the current plan is one every two weeks. 
+
+Group members are held accountable through the shocking method of maturity. There is no punishment that a group member can hand out. If a deadline is missed our first step is to figure out why. If needed, work can be redistributed. If the group as a whole feels like someone is not meeting their deadlines they can be put on notice. If they continue to fail to meet expectations that is when a professor or teaching assistant should be called in.
 
 The first problem we discussed is that a team member is not meeting their deadlines. The solution is, if necessary, to redistribute the work. Additionally the deadlines can be made more granular so that the group member can provide some work that can be built upon.
 
@@ -103,11 +101,11 @@ The third problem would be if someone disappeared. If a group member completely 
 
 We have, on average, one and a half meetings each week, this includes a internal meeting inside our group and a external meeting with our partner. We will set a recurring meeting to ensure our working progress. We chose to do in-person meetings rather than online meetings as we feel they are better for communication and quickly sharing ideas.
 Our internal group meetings will be scheduled on Tuesday, at University of Toronto. This meeting is a combined session of coding and coding review. We will first check the progress of all our groupmates to ensure the tasks can be finished on time and rearrange the tasks if necessary. After that, we will review all our existing code and correct it if necessary. If time is available, we will code together after reviewing.
-We plan to have meeting once every other week through face to face communication inside University of Toronto with our partner. The meeting is tentatively scheduled for Friday. In the meeting, we will present the current work to our partner and make amendments using the feedback from them. This meeting can be used to improve our work and make sure the functionality of our product fit the expectations of our partner.
+We plan to have meeting once every other week through face to face communication inside University of Toronto with our partner. The meeting is scheduled for Friday, time changing based on availability. In the meeting, we will present the current work to our partner and make amendments using the feedback from them. This meeting can be used to improve our work and make sure the functionality of our product fit the expectations of our partner.
 
 #### Artifacts
 
-We will employ Trello to keep track of what needs to be done. We will divide our project into small tasks that can be completed independently of each other. Tasks will then be split amongst group members. Small tasks can be completed by anyone, but larger tasks will be informally decided upon by the group. For example, we decided that Manu is going to be doing the Main work for the back end. We just do not know exactly what that work is yet.
+We will employ Trello to keep track of what needs to be done. We will divide our project into small tasks that can be completed independently of each other. Tasks will then be split amongst group members. Small tasks can be completed by anyone, but larger tasks will be informally decided upon by the group. For example, we decided that Manu is going to be doing the base work for the back end. We just do not know exactly what that work is yet.
 
 Tasks can be in one of five states.
 
@@ -145,7 +143,7 @@ For the firebase we either make changes directly in the firebase console or use 
 
 #### Goals and tasks
 
-In the previous iteration, we made significant progress in implementing several core features. In this iteration, we will work to improve and polish these features, and also finish the core features that were not developed. The following is a list of features (in order of priority) that we will work on in this iteration: More specifically, we will be 
+In the previous iteration, we made significant progress in implementing several core features. In this iteration, we will work to improve and polish these features, and also finish the core features that were not developed. The following is a list of features (in order of priority) that we will work on in this iteration: More specifically,
 
 - We will finish implementing the scan and pay core feature.
 - We will implement the contacts system core feature that will allow users to add contacts, and send money to those contacts.
@@ -153,6 +151,7 @@ In the previous iteration, we made significant progress in implementing several 
   - Making the transaction history page look like a tree
   - Improving the design of the transaction requests page
   - Canonicalizing the denomination selection widget
+- We will add transaction details to the transaction history page. The user should be able to see more details of a previous transaction.
 - We will continue to localize the app, ensuring that it is built in a way that supports multiple currencies and languages
 
 At the end of this iteration, we hope that all core features will be fully functional, and the design of the app to be satisfactory to our project partner, My Oral Village.
