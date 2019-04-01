@@ -132,7 +132,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnTransa
         transactions = new ArrayList<>();
         int defaultHeightPx = getResources().getDimensionPixelSize(R.dimen.history_cell_height);
         if(getActivity() == null) {
-            throw new IllegalStateException("Something went error. activity null");
+            throw new IllegalStateException("Something went wrong. activity null");
         }
         CurrentUserViewModel userViewModel = ViewModelProviders.of(getActivity()).get(CurrentUserViewModel.class);
 
