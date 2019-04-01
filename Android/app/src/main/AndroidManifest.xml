@@ -53,8 +53,10 @@
             android:name=".ui.transaction.TransactionActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.scan.ScanAndPayActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:label="@string/title_activity_scan_qr"/>
         <activity android:name=".ui.scan.DisplayQRActivity"
+            android:label="@string/title_activity_display_qr"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".ui.MainActivity"
