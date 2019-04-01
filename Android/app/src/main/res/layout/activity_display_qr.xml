@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom|center_horizontal"
-    android:layout_alignParentBottom="true"
-    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context="ui.scan.DisplayQRActivity">
 
 
-    <Button
-        android:id="@+id/return_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Return" />
+
 
     <ImageView
         android:id="@+id/qr_create_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:src="@drawable/qr_image"
-        android:padding="5dp"
-        android:layout_margin="10dp"
         />
 
+    <Button
+        android:id="@+id/return_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:text="Return" />
 
-</LinearLayout>
+
+</RelativeLayout>
