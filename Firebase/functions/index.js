@@ -13,7 +13,7 @@ const gcs = new Storage();
 const app = admin.initializeApp();
 
 exports.profileImage = functions.storage.object().onFinalize((object, context) => {
-    
+
     const filePath = object.name;
     const fileName = path.basename(filePath);
     const fileBucket = object.bucket;
@@ -75,7 +75,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
     });
 });
 
-exports.transaction = functions.https.onCall((data, context) => {   
+exports.transaction = functions.https.onCall((data, context) => {
     if(context.auth === undefined) {
         throw new functions.https.HttpsError('permission-denied', 'invalid auth');
     }
@@ -101,10 +101,24 @@ exports.transaction = functions.https.onCall((data, context) => {
             return data + amount;
         })]);
     }).then(() => {
+        const payload = {
+              notification: {
+                  title: 'You have recieved money.',
+                  body: 'You have recieved ' + amount/100 + ' .'
+              }
+         };
+        return app.database().ref('users').child(to).child('messagingToken').once('value').then((data) => {
+            console.log("Messaging token " + data.val());
+            return admin.messaging().sendToDevice(data.val(), payload);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }).then(() => {
         return {
             result: 'success',
         };
     }).catch((error) => {
+        console.log(error);
         throw new functions.https.HttpsError('unknown', error);
     })
 });
