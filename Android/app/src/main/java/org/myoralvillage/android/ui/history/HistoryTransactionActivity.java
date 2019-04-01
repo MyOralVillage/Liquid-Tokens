@@ -2,6 +2,7 @@ package org.myoralvillage.android.ui.history;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,6 +55,11 @@ public class HistoryTransactionActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setContentView(R.layout.activity_transaction_history);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         final TextView text_date = findViewById(R.id.transaction_detail_date);
         final TextView text_amount = findViewById(R.id.transaction_detail_amount);
@@ -113,11 +120,6 @@ public class HistoryTransactionActivity extends AppCompatActivity {
         if(!intent.getStringExtra(HistoryFragment.HISTORY_PORTRAIT).equals("no_image"))
             profile_image =  FirebaseStorage.getInstance().getReference(intent.getStringExtra(HistoryFragment.HISTORY_PORTRAIT));
 
-        String string_time = convertTime(time);
-        String string_amount = "$"+printAmount(amount);
-        text_date.setText(string_time);
-        text_amount.setText(string_amount);
-
         int id = this.getResources().getIdentifier("flag_"+currency_code, "drawable", this.getPackageName());
         if(id>0)
             image_currency.setImageResource(id);
@@ -154,6 +156,11 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             amountSelectedRecycler.setLayoutManager(layoutManager);
             selectedRecyclerAdapter.setAmount(amount);
 
+            String string_time = convertTime(time);
+            String string_amount = currency.getFormattedString(amount);
+            text_date.setText(string_time);
+            text_amount.setText(string_amount);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -171,6 +178,17 @@ public class HistoryTransactionActivity extends AppCompatActivity {
             .override(250)
             .circleCrop()
             .into(image);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /* From https://stackoverflow.com/questions/6782185/convert-timestamp-long-to-normal-date-format
