@@ -1,7 +1,7 @@
 # My Oral Village Android App
 # Team 11
 
-**Link to deployed product:** TODO
+**Link to deployed product:** https://appetize.io/app/t4v9p65m2th4ua7k4cqyccfb24?device=nexus5&scale=75&orientation=portrait&osVersion=8.1
 
 ## Description 
  * This app allows users, especially those who are innumerate, to send and request money using their mobile devices.
@@ -62,9 +62,10 @@
   * To view your balance, navigate to the **History** page via the bottom navigation bar
   * Your balance is displayed in to forms at the top of the window. The first is a traditional number display. The second is in canonicalized denomination form with tallies.
 * ***Scan and Pay***
-  * TODO
+  * To scan a QR code, navigate to the **Scan** page. Press the *Scan QR Code* button, and scan another user's QR code.
+  * To display your own QR code, navigate to the **Scan** page. Press the top button.
 * **Transaction Requests**
-  * TODO
+  * To view transaction requests, navigate to the **Transactions** page.
 * **Contacts**
   * To view your contacts, navigate to the **User** page via the bottom navigation bar.
   * Tap on the *Contacts* button.
