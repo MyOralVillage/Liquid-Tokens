@@ -69,6 +69,7 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <LinearLayout
+            android:id="@+id/contact_layout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -153,7 +154,21 @@
             </LinearLayout>
         </LinearLayout>
 
-
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:id="@+id/contact_button_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_remove"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/contact_guideline_center"
+            app:layout_constraintEnd_toEndOf="@id/contact_guideline_center"
+            app:backgroundTint="@android:color/white"
+            app:strokeColor="@color/colorPrimary"
+            app:iconTint="@color/colorPrimary"
+            app:strokeWidth="3dp"
+            app:icon="@drawable/baseline_close_black_24"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ViewSwitcher>
