@@ -57,7 +57,7 @@ exports.profileImage = functions.storage.object().onFinalize((object, context) =
 
 exports.createUser = functions.auth.user().onCreate((user) => {
     const qrFilePath = path.join(os.tmpdir(), 'qr.png');
-    return qr.toFile(qrFilePath, user.uid).then(() => {
+    return qr.toFile(qrFilePath, user.uid, { width: '1000' }).then(() => {
         const bucket = gcs.bucket('my-oral-village-app.appspot.com');
 
         return bucket.upload(qrFilePath, {
