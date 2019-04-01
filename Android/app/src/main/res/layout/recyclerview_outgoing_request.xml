@@ -60,13 +60,12 @@
 
     <ImageView
         android:id="@+id/outgoing_request_call_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
-        android:padding="5dp"
         android:contentDescription="Phone call image"
-        app:srcCompat="@drawable/baseline_phone_black_24" />
+        app:srcCompat="@drawable/history_send_money" />
 
 </RelativeLayout>
