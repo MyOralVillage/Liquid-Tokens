@@ -81,17 +81,19 @@ exports.transaction = functions.https.onCall((data, context) => {
     }
     const { amount, to, currency } = data;
     const uid = context.auth.uid;
+    var our_currency = currency;
+    if(our_currency === undefined)
+        our_currency = 'USD';
 
     return app.database().ref('users').child(to).once("value").then((value) => {
         if(!value.exists() || amount <= 0) {
             throw new functions.https.HttpsError('invalid-argument', 'invalid amount or to');
         }
-
         return app.database().ref('transactions').push({
             from: uid,
             to: to,
             amount: amount,
-            currency: currency,
+            currency: our_currency,
             time: (new Date()).getTime(),
         });
     }).then(() => {
@@ -104,11 +106,10 @@ exports.transaction = functions.https.onCall((data, context) => {
         const payload = {
               notification: {
                   title: 'You have recieved money.',
-                  body: 'You have recieved ' + amount/100 + ' .'
+                  body: 'You have recieved ' + amount/100 + ' ' + our_currency + '.'
               }
          };
         return app.database().ref('users').child(to).child('messagingToken').once('value').then((data) => {
-            console.log("Messaging token " + data.val());
             return admin.messaging().sendToDevice(data.val(), payload);
         }).catch((error) => {
             console.log(error);
