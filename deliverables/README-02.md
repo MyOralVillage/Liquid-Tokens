@@ -1,7 +1,7 @@
 # My Oral Village Android App
 # Team 11
 
-**Link to deployed product:** https://appetize.io/app/t4v9p65m2th4ua7k4cqyccfb24?device=nexus5&scale=75&orientation=portrait&osVersion=8.1
+**Link to deployed product:** http://bit.ly/MOVDemo
 
 ## Description 
  * This app allows users, especially those who are innumerate, to send and request money using their mobile devices.
