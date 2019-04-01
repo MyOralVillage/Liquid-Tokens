@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/transaction_history_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/transaction_history_background"
     android:orientation="vertical">
 
 
@@ -32,21 +32,21 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
+        android:id="@+id/transaction_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp" />
+            android:layout_marginTop="150dp" />
 
         <TextView
             android:id="@+id/transaction_detail_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="false"
             android:layout_marginTop="170dp"
             android:contentDescription="@string/transaction_detail_date"
             android:gravity="center_vertical"
@@ -86,6 +86,22 @@
                 android:textColor="#000"
                 android:textSize="20sp" />
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/transaction_detail_amount_display"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_details" />
+
     </LinearLayout>
 
     <ImageView
@@ -102,7 +118,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/portrait"
+        android:layout_alignBottom="@+id/portrait"
         android:layout_marginBottom="-40dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">

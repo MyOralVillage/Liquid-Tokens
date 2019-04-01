@@ -31,6 +31,26 @@ public class MOVCurrency {
         return availableCurrencies;
     }
 
+    public static List<ExtendedCurrency> getAvailableCurrenciesForPicker(Context context) {
+        List<ExtendedCurrency> currencies = new ArrayList<>();
+        try {
+            List<String> availableCurrencyCodes = MOVCurrency.getAvailableCurrencies(context);
+            for(String currencyCode : availableCurrencyCodes) {
+                currencyCode = currencyCode.toUpperCase();
+
+                ExtendedCurrency currency = MOVCurrency.getExtendedCurrencyByIso(currencyCode.trim());
+
+                if(currency != null) {
+                    currencies.add(currency);
+                }
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return currencies;
+    }
+
     public static MOVCurrency loadFromJson(Context context, String IsoCountryCode) throws IOException, JSONException {
         InputStream stream;
         try {
@@ -64,6 +84,14 @@ public class MOVCurrency {
         return currency;
     }
 
+    public int[] toIntArray(){
+        int[] to_ret = new int[this.getDenominations().size()];
+        for(int i = 0; i < to_ret.length; i++){
+            to_ret[i] = this.getDenominations().get(i).getValue();
+        }
+        return to_ret;
+    }
+
     private final List<MOVCurrencyDenomination> mDenominations;
 
     private final String mCode;
@@ -71,6 +99,14 @@ public class MOVCurrency {
     private MOVCurrency(String code, List<MOVCurrencyDenomination> denominations) {
         this.mDenominations = denominations;
         this.mCode = code;
+    }
+
+    public MOVCurrencyDenomination getDenomination(int i){
+        for(MOVCurrencyDenomination mDenom:this.getDenominations()){
+            if(mDenom.getValue() == i)
+                return mDenom;
+        }
+        return null;
     }
 
     public List<MOVCurrencyDenomination> getDenominations() {

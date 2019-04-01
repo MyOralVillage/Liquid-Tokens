@@ -1,7 +1,6 @@
 package org.myoralvillage.android.ui.transaction.amountselection;
 
 import android.content.res.Resources;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;

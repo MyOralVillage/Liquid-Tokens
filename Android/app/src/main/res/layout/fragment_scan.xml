@@ -5,10 +5,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.scan.ScanFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:paddingTop="200dp"
+        android:orientation="vertical">
 
+        <Button
+            android:id="@+id/create_qr_button"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:text="Create QR Code" />
+
+        <Button
+            android:id="@+id/scan_qr_button"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Scan QR Code" />
+    </LinearLayout>
 </FrameLayout>

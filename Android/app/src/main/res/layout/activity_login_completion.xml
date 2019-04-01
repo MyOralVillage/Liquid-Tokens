@@ -8,10 +8,10 @@
     android:layout_gravity="center"
     tools:context=".ui.auth.LoginCompletionActivity">
 
-    <!--<ProgressBar-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center" />-->
+    <ProgressBar
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+    android:layout_gravity="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,26 +88,43 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:hint="@string/login_completion_currency">
+            android:layout_gravity="start">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_completion_currency"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/login_completion_image_currency"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:editable="false"
-                android:inputType="none"
-                android:maxLines="1"
-                android:textIsSelectable="false" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:src="@drawable/flag_aed"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin_half"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/login_completion_button_currency"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@android:color/white"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="3dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                app:layout_constraintTop_toTopOf="@id/login_completion_image_currency"
+                app:layout_constraintBottom_toBottomOf="@id/login_completion_image_currency"
+                app:layout_constraintStart_toEndOf="@id/login_completion_image_currency"
+                app:layout_constraintWidth_max="300dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.rilixtech.CountryCodePicker
             android:id="@+id/ccp"
