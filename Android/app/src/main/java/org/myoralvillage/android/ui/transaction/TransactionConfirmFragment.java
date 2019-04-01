@@ -74,14 +74,14 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             currencyCode = getArguments().getString(ARG_CURRENCY_CODE);
             transactionType = getArguments().getInt(ARG_TRANSACTION_TYPE);
         }
 
         try {
             currency = MOVCurrency.loadFromJson(getContext(), currencyCode);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
         selectionViewModel.getValue().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer amount) {
-                if(amount == null) {
+                if (amount == null) {
                     amount = 0;
                 }
                 amountText.setText(currency.getFormattedString(amount));
@@ -129,7 +129,7 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
         transactionViewModel.getSelectedContact().observe(this, new Observer<MOVUser>() {
             @Override
             public void onChanged(MOVUser movUser) {
-                if(movUser != null) {
+                if (movUser != null) {
                     ContactCard.setUser(getContext(), contactCard, movUser);
                 }
             }
@@ -144,7 +144,7 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
 
     @Override
     public int getForwardButtonText() {
-        if(transactionType == TransactionActivity.TRANSACTION_TYPE_SEND) {
+        if (transactionType == TransactionActivity.TRANSACTION_TYPE_SEND) {
             return R.string.transaction_send;
         } else {
             return R.string.transaction_request;
@@ -153,7 +153,7 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
 
     @Override
     public int getForwardButtonIcon() {
-        if(transactionType == TransactionActivity.TRANSACTION_TYPE_SEND) {
+        if (transactionType == TransactionActivity.TRANSACTION_TYPE_SEND) {
             return R.drawable.baseline_arrow_upward_black_24;
         } else {
             return R.drawable.baseline_arrow_downward_black_24;
@@ -171,9 +171,10 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
         Map<String, Object> data = new HashMap<>();
         data.put("to", transactionViewModel.getSelectedContact().getValue().getUid());
         data.put("amount", transactionViewModel.getSelectedAmount().getValue());
+        data.put("currency", currencyCode);
 
         String function;
-        if(transactionType == TransactionActivity.TRANSACTION_TYPE_SEND) {
+        if (transactionType == TransactionActivity.TRANSACTION_TYPE_SEND) {
             function = "transaction";
         } else {
             function = "request";
@@ -186,13 +187,13 @@ public class TransactionConfirmFragment extends Fragment implements TransactionP
             public HashMap then(@NonNull Task<HttpsCallableResult> task) {
                 HashMap result = null;
 
-                if(!task.isSuccessful()) {
+                if (!task.isSuccessful()) {
                     Exception e = task.getException();
                     if (e instanceof FirebaseFunctionsException) {
                         FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
                         FirebaseFunctionsException.Code code = ffe.getCode();
                         Object details = ffe.getDetails();
-                        Log.v("ConfirmFragment", code + " :: "+details);
+                        Log.v("ConfirmFragment", code + " :: " + details);
                     }
 
                     showTransactionFailureDialog();
