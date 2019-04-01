@@ -26,7 +26,6 @@ import com.wonderkiln.camerakit.CameraKitVideo;
 import com.wonderkiln.camerakit.CameraView;
 
 import org.myoralvillage.android.R;
-import org.myoralvillage.android.ui.transaction.TransactionActivity;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import dmax.dialog.SpotsDialog;
 
-public class CameraScanActivity extends AppCompatActivity {
+public class ScanAndPayActivity extends AppCompatActivity {
 
     public static final String EXTRA_CONTACT_UID = "ContactUid";
     private String contactUid;
@@ -134,7 +133,7 @@ public class CameraScanActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CameraScanActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScanAndPayActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });

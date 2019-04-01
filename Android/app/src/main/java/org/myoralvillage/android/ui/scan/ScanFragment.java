@@ -3,7 +3,6 @@ package org.myoralvillage.android.ui.scan;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import org.myoralvillage.android.ui.transaction.TransactionActivity;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -71,13 +68,8 @@ public class ScanFragment extends Fragment {
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
-                createFragment = CreateQR.newInstance();
-
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
-
-                ft.replace(R.id.container, createFragment).commit();
+                Intent intent = new Intent(getActivity(), DisplayQRActivity.class);
+                startActivityForResult(intent, REQUEST_SCAN_QR);
             }
         });
 
@@ -86,8 +78,8 @@ public class ScanFragment extends Fragment {
         scan_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity(), "Click!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), CameraScanActivity.class);
+
+                Intent intent = new Intent(getActivity(), ScanAndPayActivity.class);
                 startActivityForResult(intent, REQUEST_SCAN_QR);
             }
         });
@@ -98,7 +90,7 @@ public class ScanFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_SCAN_QR && resultCode == RESULT_OK && data != null) {
-            String contactUid = data.getStringExtra(CameraScanActivity.EXTRA_CONTACT_UID);
+            String contactUid = data.getStringExtra(ScanAndPayActivity.EXTRA_CONTACT_UID);
 
             Intent intent = new Intent(getContext(), TransactionActivity.class);
             intent.putExtra(TransactionActivity.EXTRA_TRANSACTION_SEND_TO, contactUid);

@@ -13,7 +13,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import org.myoralvillage.android.R;
 import org.myoralvillage.android.ui.contacts.phone.AddContactPhoneActivity;
-import org.myoralvillage.android.ui.scan.CameraScanActivity;
+import org.myoralvillage.android.ui.scan.ScanAndPayActivity;
 
 public class AddContactActivity extends AppCompatActivity {
 
@@ -52,7 +52,7 @@ public class AddContactActivity extends AppCompatActivity {
     }
 
     private void onQrButtonClicked() {
-        Intent intent = new Intent(this, CameraScanActivity.class);
+        Intent intent = new Intent(this, ScanAndPayActivity.class);
 
         startActivityForResult(intent, REQUEST_SCAN_QR);
     }
@@ -65,7 +65,7 @@ public class AddContactActivity extends AppCompatActivity {
             }
         } else if(requestCode == REQUEST_SCAN_QR) {
             if(resultCode == RESULT_OK && data != null) {
-                String contactUid = data.getStringExtra(CameraScanActivity.EXTRA_CONTACT_UID);
+                String contactUid = data.getStringExtra(ScanAndPayActivity.EXTRA_CONTACT_UID);
 
                 Intent intent = new Intent(this, AddContactPhoneActivity.class);
                 intent.putExtra(AddContactPhoneActivity.EXTRA_CONTACT_UID, contactUid);
