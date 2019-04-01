@@ -63,9 +63,11 @@ public class TransactionAmountSelectionViewHolder extends RecyclerView.ViewHolde
 
             if(denomination.getType() == MOVCurrencyDenominationType.Coin) {
                 cardViews[i].setCardElevation(0);
+                imageViews[i].setRotation(0);
             } else {
                 cardViews[i].setRadius(0);
                 cardViews[i].setCardElevation(4 * i);
+                imageViews[i].setRotation(90);
             }
         }
 
